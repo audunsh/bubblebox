@@ -103,6 +103,10 @@ def distance_matrix(coords):
     return d
 
 @nb.jit()
+def no_forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pbc_y = True):
+    return 0
+
+@nb.jit()
 def forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pbc_y = True):
     # 2d force vector
     d = np.zeros((2, coords.shape[1]), dtype = np.float_)
@@ -386,94 +390,118 @@ def l_j_pot(coords, species = None):
 
 
 @nb.jit()
-def collisions(coords, vels, screen = 10.0, radius = 1.0, wall = 1.0):
+def collisions(coords, vels, screen = 10.0, radius = -1.0, wall = 1.0, walls_x = True, walls_y = True, masses = None):
     # 2d force vector
     #d = coords*1
     v = vels*1
     r2 = 4*radius**2
     R2 = 2*radius
+    c = 0
     
-    pos_x = np.argsort(coords[0])
-    #pos_x = np.arange(coords.shape[1], dtype = np.int)
+    if radius>0:
+        pos_x = np.argsort(coords[0])
+    #else:
+    #    pos_x = np.arange(coords.shape[1], dtype = np.int)
     
     for ii in range(coords.shape[1]):
-        i = pos_x[ii]
-        
-        for jj in range(ii+1, coords.shape[1]):
-            j = pos_x[jj]
-            
-            dx = coords[0,i] - coords[0,j]
-            if np.abs(dx)<R2:
-            
+        #i = pos_x[ii]
+        if radius>0:
+            i = pos_x[ii]
+            for jj in range(ii+1, coords.shape[1]):
+                j = pos_x[jj]
                 
-                #for i in range(coords.shape[1]):
-                #for j in range(i+1, coords.shape[1]):
-                dy = coords[1,i] - coords[1,j]
-            
+                dx = coords[0,i] - coords[0,j]
+                if np.abs(dx)<R2:
                 
-                #d_ = (dx**2 + dy**2)**-1 #**-.5
-                if dx**2 + dy**2 <r2:
+                    
+                    #for i in range(coords.shape[1]):
+                    #for j in range(i+1, coords.shape[1]):
+                    dy = coords[1,i] - coords[1,j]
                 
-                    #d[0,i] += dx*d_
-                    #d[1,i] += dy*d_
+                    
+                    #d_ = (dx**2 + dy**2)**-1 #**-.5
+                    if dx**2 + dy**2 <r2:
+                    
+                        #d[0,i] += dx*d_
+                        #d[1,i] += dy*d_
 
-                    #d[0,j] -= dx*d_
-                    #d[1,j] -= dy*d_
-                    dij = np.array([dx, dy]) #coords[:, i] - coords[:, j]
-                    #dji = -dij
-                    
-                    
-                    vij = v[:, i] - v[:, j]
-                    
-                    #w = np.dot(dij, vij)/np.dot(vij, vij)
-                    
-                    
-                    #vji = -vij
-                    
-                    #w = (vij[0]*dij[0] + vij[1]*dij[1])/(vij[0]*vij[0] + vij[1]*vij[1])
-                    #w = (vij[0]*dij[0] + vij[1]*dij[1])/(dij[0]*dij[0] + dij[1]*dij[1])
-                    
-                    w_dij = (vij[0]*dij[0] + vij[1]*dij[1])/(dx**2 + dy**2)*dij
-                    #print(w)
-                    #wji = np.dot(-vij, -dij)
-                    #d[:, i] -= 
-                    
-                    df = np.sum(v[:, i]**2 + v[:, j]**2)
-                    
-                    if (dx**2 + dy**2)<1e-7:
-                        print(w_dij, dx**2 + dy**2)
-                    
-                    v[0, i] -= w_dij[0] #*0.01
-                    v[1, i] -= w_dij[1]
-                    v[0, j] += w_dij[0] #*0.01
-                    v[1, j] += w_dij[1]
-                    
-                    df_ = np.sum(v[:, i]**2 + v[:, j]**2)
-                    if np.abs(df_-df)>1e-11:
-                        print(i,j, df, df_)
-                    
-                    
-                    
-                    
-                    #v[0, i] = 0
-                    #v[1, i] = 0
-                    #v[0, j] = 0
-                    #v[1, j] = 0
-                    
-                    
-            else:
-                break
+                        #d[0,j] -= dx*d_
+                        #d[1,j] -= dy*d_
+                        dij = np.array([dx, dy]) #coords[:, i] - coords[:, j]
+                        #dji = -dij
+                        
+                        
+                        vij = v[:, i] - v[:, j]
+                        
+                        #w = np.dot(dij, vij)/np.dot(vij, vij)
+                        
+                        
+                        #vji = -vij
+                        
+                        #w = (vij[0]*dij[0] + vij[1]*dij[1])/(vij[0]*vij[0] + vij[1]*vij[1])
+                        #w = (vij[0]*dij[0] + vij[1]*dij[1])/(dij[0]*dij[0] + dij[1]*dij[1])
+                        
+                        w_dij = (vij[0]*dij[0] + vij[1]*dij[1])/(dx**2 + dy**2)*dij
+                        #print(w)
+                        #wji = np.dot(-vij, -dij)
+                        #d[:, i] -= 
+                        
+                        #df = np.sum(v[:, i]**2 + v[:, j]**2)
+                        
+                        #if (dx**2 + dy**2)<1e-7:
+                        #    print(w_dij, dx**2 + dy**2)
+                        if masses is None:
+                            v[0, i] -= w_dij[0] #*0.01
+                            v[1, i] -= w_dij[1]
+                            v[0, j] += w_dij[0] #*0.01
+                            v[1, j] += w_dij[1]
+                        else:
+                            mi = masses[i]
+                            mj = masses[j]
+                            m1_m2 = mi+mj
+                            wi = 2*mj/m1_m2
+                            wj = 2*mi/m1_m2
+                            
+
+                            v[0, i] -= w_dij[0]*wi #*0.01
+                            v[1, i] -= w_dij[1]*wi
+
+                            v[0, j] += w_dij[0]*wj #*0.01
+                            v[1, j] += w_dij[1]*wj
+
+
+                        
+                        #df_ = np.sum(v[:, i]**2 + v[:, j]**2)
+                        #if np.abs(df_-df)>1e-11:
+                        #    print(i,j, df, df_)
+                        
+                        
+                        
+                        
+                        #v[0, i] = 0
+                        #v[1, i] = 0
+                        #v[0, j] = 0
+                        #v[1, j] = 0
+                        
+                        
+                else:
+                    break
                 
 
         # collision with wall
-        if np.abs(coords[0,i])>wall:
-            #coords[0,i] = wall*np.sign(coords[0,i])
-            v[0,i] *= -1
-        if np.abs(coords[1,i])>wall:
-            #coords[1,i] = wall*np.sign(coords[1,i])
-            v[1,i] *= -1
+        if walls_x:
+            if np.abs(coords[0,ii])>wall:
+                
+                #coords[0,i] = wall*np.sign(coords[0,i])
+                v[0,ii] *= -1
+                c += 1
+        if walls_y:
+            if np.abs(coords[1,ii])>wall:
+                #coords[1,i] = wall*np.sign(coords[1,i])
+                v[1,ii] *= -1
+                c += 1
             
-    return v
+    return v, c
 
 @nb.jit()
 def wall_collisions(coords, vels, screen = 10.0, radius = 1.0, wall = 1.0, walls_x = True, walls_y = True):
@@ -510,9 +538,32 @@ class sample():
     - 
     
     """
-    def __init__(self, N_bubbles = 30, masses = None, v0 = 0.0, L = 20, radius = 1, relax = True):
+    def __init__(self, N_bubbles = 30, masses = None, v0 = 0.0, L = None, radius = -1, relax = True, pbc = False):
         # Initialize gas
-        self.L = L
+
+        # Boundary conditions
+        self.pbc_x = False
+        self.pbc_y = False
+
+        
+
+        if L is None:
+            self.L = 40
+            self.walls_x = False
+            self.walls_y = False
+
+        else:
+            self.L = L
+            if not pbc:
+                self.walls_x = True
+                self.walls_y = True
+            else:
+                self.walls_x = False
+                self.walls_y = False
+                self.pbc_x = True
+                self.pbc_y = True
+
+
         self.radius = radius
 
         if masses is None:
@@ -550,11 +601,8 @@ class sample():
         # Collision counter
         self.col = 0
 
-        # Boundary conditions
-        self.pbc_x = False
-        self.pbc_y = False
-        self.walls_x = True
-        self.walls_y = True
+        
+        
 
         
         # Thermostat / relaxation
@@ -607,7 +655,7 @@ class sample():
 
         for i in range(Nt):
             pos_new = self.pos + np.random.uniform(-1,1, self.pos.shape)*stepsize
-            f1 = np.sum(self.forces(pos_new, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)**2)/self.N_bubbles
+            f1 = np.sum(forces(pos_new, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)**2)/self.N_bubbles
             #if np.any(np.abs(pos_new)>=self.L):
             #    pass
             if np.exp(-(f1-f0)/temp)>0.9:
@@ -668,7 +716,10 @@ class sample():
 
         # impose wall bounary conditions
         if self.walls_x or self.walls_y:
-            self.vel_, self.col = wall_collisions(pos_new, self.vel_, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)
+            #self.vel_, self.col = wall_collisions(pos_new, self.vel_, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)
+            self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y,  masses = self.masses)
+
+        
         
         #update arrays (in order to retain velocity)
         self.vel = (pos_new - self.pos_old)/(2*self.dt)
@@ -711,7 +762,7 @@ class sample():
             
             
     """
-    Visualization tools
+    Visualization tools (some obsolete to be deleted)
     """
     def visualize_state(self, axis = False, figsize = (4,4)):
         col = colorscheme()
@@ -737,8 +788,85 @@ class sample():
         if not axis:
             plt.axis("off")
         plt.show()
+
+    def run(self):
+        run_system = animated_system(system = self)
+        plt.show()
+
+    def run___(self, axis = False, logoscreen = False):
+        #mu = np.unique(self.masses)
+    
+        self.fig, self.ax = plt.subplots()
+        col = colorscheme()
         
-    def run(self, axis = False, logoscreen = False):
+        #cluster = []
+        #for i in np.unique(self.masses): #unique masses
+        #    cluster.append(np.arange(self.masses.shape[0])[self.masses==i])
+        #
+        #Ln_ = []
+        #for i in cluster:
+        #    Ln_.append(plt.plot([], [], 'o', alpha = .4, markersize = 4*np.sqrt(self.masses[i[0]]), color = col.getcol(self.masses[i[0]]/self.masses.max()))[0] )
+            
+
+        #n_c = len(cluster)
+        x,y = self.pos
+        ln = self.ax.scatter(x,y)
+        #ln.set_animated(True)
+
+
+        def init():
+            sv = 1
+            self.ax.set_xlim(-self.L-sv,self.L+sv)
+            self.ax.set_ylim(-self.L-sv,self.L+sv)
+            if self.walls_x:
+                wx1 = plt.plot([-self.L, -self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
+                wx2 = plt.plot([self.L, self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
+
+            if self.walls_y:
+                wx3 = plt.plot([-self.L, self.L], [-self.L, -self.L], color = (0,0,0), linewidth = 2.0)
+                wx4 = plt.plot([-self.L, self.L], [ self.L, self.L], color = (0,0,0), linewidth = 2.0)
+
+            if not axis:
+                self.ax.axis("off")
+            if logoscreen:
+                plt.text(0,-self.L+1, "BubbleBox", fontsize = 35, ha = "center",fontweight="bold", fontname = "Verdana", alpha = 1, color = col.getcol(0.0))
+            plt.xlim(-self.L-1, self.L+1)
+            plt.ylim(-self.L-1, self.L+1)
+            
+            #return Ln_[0],
+            #ln.set_offsets([])
+            return ln,
+
+
+
+        def update(frame):
+            #xdata.append(frame)
+            #ydata.append(np.sin(frame))
+            #c = 0
+            #global U
+            #global nn
+
+            for i in range(10):
+                self.advance(dt = self.dt)
+                c += self.col
+
+
+            #x,y = self.pos
+            #mn.set_data(x,y)
+            #for i in range(n_c):
+            #    ci = cluster[i]
+            #    Ln_[i].set_data(x[ci],y[ci])
+            ln.set_offsets(self.pos)
+            #return ln,
+        
+
+        self.ani = FuncAnimation(self.fig, update, frames=None, 
+                            init_func=init, blit=True, interval = 1)
+
+        
+        plt.show() 
+        
+    def run__(self, axis = False, logoscreen = False):
         mu = np.unique(self.masses)
         if len(mu)==1:
             self.run_(axis = axis)
@@ -877,3 +1005,76 @@ class sample():
         self.ani = FuncAnimation(self.fig, update, frames=np.linspace(0, 1, 1000), 
                             init_func=init, blit=True, interval = 1)
         plt.show() 
+
+
+class animated_system():
+    def __init__(self, system = None):
+        self.system = system
+        
+        self.fig, self.ax = plt.subplots()
+        #self.col = colorscheme()
+
+        self.scatterplot = False
+        self.unique_masses = np.unique(self.system.masses)
+        if len(self.unique_masses)>1:
+            self.scatterplot = True
+        
+
+
+        
+        self.ani = FuncAnimation(self.fig, self.update, interval=1, 
+                                          init_func=self.setup_plot, blit=True)
+
+    def setup_plot(self):
+        """Initial drawing of the scatter plot."""
+        
+        
+        x,y = self.system.pos
+        #s = 10 + 2*self.system.masses
+        
+        #c = (1,0,0)
+        #c = np.random.uniform(0,1,(self.system.N_bubbles, 3))
+        
+        c = colorscheme()
+        
+        L = self.system.L
+        if self.system.walls_x:
+            
+            wx1 = plt.plot([-L, -L], [-L, L], color = (0,0,0), linewidth = 2.0)
+            wx2 = plt.plot([L, L], [-L, L], color = (0,0,0), linewidth = 2.0)
+
+        if self.system.walls_y:
+            wx3 = plt.plot([-L,L], [-L, -L], color = (0,0,0), linewidth = 2.0)
+            wx4 = plt.plot([-L, L], [ L, L], color = (0,0,0), linewidth = 2.0)
+        
+        if self.scatterplot:
+            s = self.system.masses*150/self.system.L
+
+            c = c.getcol(self.system.masses/self.system.masses.max()).T
+            self.bubbles = self.ax.scatter(x, y, c=c, s=s, vmin=0, vmax=1,
+                                        cmap="jet", edgecolor="k", marker = "o")
+        else:
+            self.bubbles = self.ax.plot(x, y, "o", color = c.getcol(.4))[0]
+
+
+
+        self.ax.axis([-self.system.L-1, self.system.L+1, -self.system.L-1, self.system.L+1])
+        
+        return self.bubbles,
+
+
+        
+        
+    #@nb.jit
+    def update(self, i, nsteps_per_vis = 10):
+
+        for i in range(nsteps_per_vis):
+            self.system.advance(dt = self.system.dt)
+
+        if self.scatterplot:
+            self.bubbles.set_offsets(self.system.pos.T)
+        else:
+            x,y = self.system.pos
+            self.bubbles.set_data(x,y)
+
+        return self.bubbles,
