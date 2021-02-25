@@ -48,8 +48,8 @@ class colorscheme():
         return self.c(i)
    
 
-matplotlib.rcParams['figure.figsize'] = (6.4,4.8)
-matplotlib.rcParams['figure.figsize'] = (4.8,4.8)
+#matplotlib.rcParams['figure.figsize'] = (6.4,4.8)
+#matplotlib.rcParams['figure.figsize'] = (4.8,4.8)
 
 @nb.jit()
 def repel(coords, screen = 10, L2 = 1.0):
@@ -103,13 +103,14 @@ def distance_matrix(coords):
     return d
 
 @nb.jit()
-def no_forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pbc_y = True):
+def no_forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
     return 0
 
 @nb.jit()
-def forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pbc_y = True):
+def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
     # 2d force vector
     d = np.zeros((2, coords.shape[1]), dtype = np.float_)
+    Lx, Ly = -L2x/2.0, -L2y/2.0
     
     #u = 0 #pot energy
     
@@ -118,6 +119,7 @@ def forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pb
         
 
     for i in range(coords.shape[1]):
+        cix, ciy = coords[0,i],coords[1,i]
         for j in range(i+1, coords.shape[1]):
             
             
@@ -126,23 +128,26 @@ def forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pb
 
             
             # distance-based interactions
-            dx = coords[0,j] - coords[0,i]
-            dy = coords[1,j] - coords[1,i]
+            #dx, dy = coords[:,j] - ci
+
+            cjx, cjy = coords[0,j], coords[1,j]
+            dx = cjx - cix #coords[0,i]
+            dy = cjy - ciy #coords[1,i]
             
             # PBC
-            if pbc_x:
-                if np.abs(dx)>L2:
+            if L2x<0:
+                if np.abs(dx)>Lx:
                     if dx>0:
-                        dx -= 2*L2
+                        dx += L2x
                     else:
-                        dx += 2*L2
+                        dx -= L2x
                     #dx += np.sign(dx)*L2
-            if pbc_y:
-                if np.abs(dy)>L2:
+            if L2y<0:
+                if np.abs(dy)>Ly:
                     if dy>0:
-                        dy -= 2*L2
+                        dy += L2y
                     else:
-                        dy += 2*L2
+                        dy -= L2y
             
             # Compute distance squared
             rr = dx**2 + dy**2 
@@ -165,109 +170,6 @@ def forces(coords, interactions = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pb
                     d[1,j] -= ljf_y
     return d
 
-@nb.jit()
-def forces_(coords, species = None, L2 = 1.0, r2_cut = 9.0, pbc_x = True, pbc_y = True):
-    # 2d force vector
-    d = np.zeros((2, coords.shape[1]), dtype = np.float_)
-    
-    #u = 0 #pot energy
-    
-    if species is None:
-        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = np.int_)
-        
-    
-    
-    
-    for i in range(coords.shape[1]):
-        for j in range(i+1, coords.shape[1]):
-            
-            sp = species[i,j]
-            
-
-            if sp == 0:
-                # no interaction
-                pass
-            else:
-                # distance-based interactions
-                dx = coords[0,j] - coords[0,i]
-                dy = coords[1,j] - coords[1,i]
-                
-                # PBC
-                
-                if pbc_x:
-                    if np.abs(dx)>L2:
-                        if dx>0:
-                            dx -= 2*L2
-                        else:
-                            dx += 2*L2
-                        #dx += np.sign(dx)*L2
-                if pbc_y:
-                    if np.abs(dy)>L2:
-                        if dy>0:
-                            dy -= 2*L2
-                        else:
-                            dy += 2*L2
-                
-                """
-                if np.abs(dx)>L2:
-                    if dx>0:
-                        dx -= 2*L2
-                    else:
-                        dx += 2*L2
-                    #dx += np.sign(dx)*L2
-                if np.abs(dy)>L2:
-                    if dy>0:
-                        dy -= 2*L2
-                    else:
-                        dy += 2*L2
-                """
-                
-                
-                
-                rr = dx**2 + dy**2
-                if rr<r2_cut:
-
-                    if sp == 2:
-                        
-                        sig = np.sqrt(2)
-                        eps = 1.0
-                        
-                        
-                        
-                        ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4)
-
-                        ljf_x = ljw*dx
-                        ljf_y = ljw*dy
-
-
-                        d[0,i] += ljf_x
-                        d[1,i] += ljf_y
-
-                        d[0,j] -= ljf_x
-                        d[1,j] -= ljf_y
-                        
-                        
-
-                    if sp == 4:
-
-                        ljw   = -12*(rr**-7 - rr**-4)
-                        
-                        
-
-                        ljf_x = ljw*dx
-                        ljf_y = ljw*dy
-
-
-                        d[0,i] += ljf_x
-                        d[1,i] += ljf_y
-
-                        d[0,j] -= ljf_x
-                        d[1,j] -= ljf_y
-
-
-                
-                
-    return d
 
 @nb.jit()
 def lj_pot(coords, species = None, L2 = 1.0, r_cut = 9.0, pbc_x = True, pbc_y = True):
@@ -390,7 +292,7 @@ def l_j_pot(coords, species = None):
 
 
 @nb.jit()
-def collisions(coords, vels, screen = 10.0, radius = -1.0, wall = 1.0, walls_x = True, walls_y = True, masses = None):
+def collisions(coords, vels, screen = 10.0, radius = -1.0, Lx = 0.0, Ly = 0.0, masses = None):
     # 2d force vector
     #d = coords*1
     v = vels*1
@@ -489,48 +391,28 @@ def collisions(coords, vels, screen = 10.0, radius = -1.0, wall = 1.0, walls_x =
                 
 
         # collision with wall
-        if walls_x:
-            if np.abs(coords[0,ii])>wall:
+        if Lx>0:
+            if np.abs(coords[0,ii])>Lx:
                 
                 #coords[0,i] = wall*np.sign(coords[0,i])
                 v[0,ii] *= -1
                 c += 1
-        if walls_y:
-            if np.abs(coords[1,ii])>wall:
+        if Ly>0:
+            if np.abs(coords[1,ii])>Ly:
                 #coords[1,i] = wall*np.sign(coords[1,i])
                 v[1,ii] *= -1
                 c += 1
             
     return v, c
 
-@nb.jit()
-def wall_collisions(coords, vels, screen = 10.0, radius = 1.0, wall = 1.0, walls_x = True, walls_y = True):
-    # 2d force vector
-    #d = coords*1
-    v = vels*1
-    c = 0
-    
-    for i in range(coords.shape[1]):
-        if walls_x:
-            if np.abs(coords[0,i])>wall:
-                
-                #coords[0,i] = wall*np.sign(coords[0,i])
-                v[0,i] *= -1
-                c += 1
-        if walls_y:
-            if np.abs(coords[1,i])>wall:
-                #coords[1,i] = wall*np.sign(coords[1,i])
-                v[1,i] *= -1
-                c += 1
-            
-    return v, c
 
 
 
 
 
 
-class sample():
+
+class box():
     """
     Simple 2D gas simulation
     
@@ -538,55 +420,49 @@ class sample():
     - 
     
     """
-    def __init__(self, N_bubbles = 30, masses = None, v0 = 0.0, L = None, radius = -1, relax = True, pbc = False):
+    def __init__(self, n_bubbles = 100, masses = None, v0 = 0.0, box = (0,0), radius = -1, relax = True, pbc = False):
         # Initialize gas
 
         # Boundary conditions
-        self.pbc_x = False
-        self.pbc_y = False
+        self.Lx = box[0]
+        self.Ly = box[1]
 
-        
+        self.L2x = 2*box[0]
+        self.L2y = 2*box[1]
 
-        if L is None:
-            self.L = 40
-            self.walls_x = False
-            self.walls_y = False
 
-        else:
-            self.L = L
-            if not pbc:
-                self.walls_x = True
-                self.walls_y = True
-            else:
-                self.walls_x = False
-                self.walls_y = False
-                self.pbc_x = True
-                self.pbc_y = True
 
 
         self.radius = radius
 
         if masses is None:
-            self.masses = np.ones(N_bubbles, dtype = np.int_)
-            self.interactions = np.ones((N_bubbles, N_bubbles, 2), dtype = np.float_)
+            self.masses = np.ones(n_bubbles, dtype = np.int_)
+            self.interactions = np.ones((n_bubbles, n_bubbles, 2), dtype = np.float_)
             self.masses_inv = np.array(self.masses, dtype = np.float_)**-1
-            self.N_bubbles = N_bubbles
+            self.n_bubbles = n_bubbles
             
         else:
             self.masses = masses
-            self.N_bubbles = len(masses)
+            self.n_bubbles = len(masses)
             self.set_interactions(self.masses)
             self.masses_inv = np.array(self.masses, dtype = np.float_)**-1
 
 
         # Coordinates - position
-        self.pos = np.random.uniform(-L,L,(2,self.N_bubbles)) #place 
+        self.pos = np.random.uniform(-self.Lx,self.Lx,(2,self.n_bubbles)) #place 
+        self.pos[1,:] = np.random.uniform(-self.Ly,self.Ly,(self.n_bubbles)) 
+        if self.Lx == 0:
+            self.pos = np.random.uniform(-10,10,(2,self.n_bubbles)) #place 
+        if self.Ly == 0:
+            self.pos[1,:] = np.random.uniform(-10,10,(self.n_bubbles)) 
+
         self.pos_old = self.pos*1 # retain previous timesteps to compute velocities
 
         # Coordinates - velocity
-        self.vel = np.random.uniform(-1,1,(2,self.N_bubbles))*v0
-        self.vel_ = self.vel # verlet integrator velocity at previous timestep
+        self.vel = np.random.uniform(-1,1,(2,self.n_bubbles))*v0
         self.vel[:] -= np.mean(self.vel, axis = 1)[:, None]
+        self.vel_ = self.vel # verlet integrator velocity at previous timestep
+        
 
         # Integrator 
         self.advance = self.advance_vverlet
@@ -610,7 +486,7 @@ class sample():
             self.relax_sa(20000)
 
     def set_interactions(self, masses):
-        self.interactions = np.ones((self.N_bubbles, self.N_bubbles, 2), dtype = np.float_)
+        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = np.float_)
 
         # Placeholder for proper parametrization of interactions
         epsilons = np.linspace(.5,10,100)
@@ -618,9 +494,9 @@ class sample():
 
         
 
-        for i in range(self.N_bubbles):
+        for i in range(self.n_bubbles):
             mi = masses[i]
-            for j in range(i+1, self.N_bubbles):
+            for j in range(i+1, self.n_bubbles):
                 
                 mj = masses[j]
 
@@ -634,45 +510,51 @@ class sample():
     def relax_positions(self):
         for i in np.arange(20):
             #self.vel -= .1*repel(self.pos)*dt
-            self.pos -= .1*self.forces(self.pos, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)
+            self.pos -= .1*self.forces(self.pos, self.interactions, self.L2x, self.L2y)
             #outside_x = np.abs(self.pos[0,:])>self.L
             #outside_y = np.abs(self.pos[1,:])>self.L
             
             #PBC
             
-            self.pos[0, :]  = (self.pos[0,:] + self.L) % (2*self.L) - self.L
-            self.pos[1, :]  = (self.pos[1,:] + self.L) % (2*self.L) - self.L
+            self.pos[0, :]  = (self.pos[0,:] + self.Lx) % (2*self.Lx) - self.Lx
+            self.pos[1, :]  = (self.pos[1,:] + self.Ly) % (2*self.Ly) - self.Ly
             
             #self.pos[0, outside_x] = np.random.uniform(-self.L, self.L, np.sum(outside_x))
             #self.pos[1, outside_y] = np.random.uniform(-self.L, self.L, np.sum(outside_y))
         self.pos *= .99
         
-    def relax_sa(self, Nt, stepsize = 0.01):
+    def relax_sa(self, Nt, stepsize = 0.01, pbc = True):
         # simulated annealing thermostat
-        f0 = np.sum(self.forces(self.pos, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)**2)/self.N_bubbles
+        f0 = np.sum(self.forces(self.pos, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles
         temp = 2
         #print("iniial", f0)
 
         for i in range(Nt):
             pos_new = self.pos + np.random.uniform(-1,1, self.pos.shape)*stepsize
-            f1 = np.sum(forces(pos_new, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)**2)/self.N_bubbles
+            f1 = np.sum(forces(pos_new, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles
             #if np.any(np.abs(pos_new)>=self.L):
             #    pass
             if np.exp(-(f1-f0)/temp)>0.9:
                 # accept
                 
+                
+
+                # impose PBC for both walled and periodic conditions, to evenly distribute particles
+                if self.Lx<0:
+                    pos_new[0, :]  = (pos_new[0,:] + self.Lx) % (2*self.Lx) - self.Lx
+                if self.Ly<0:
+                    pos_new[1, :]  = (pos_new[1,:] + self.Ly) % (2*self.Ly) - self.Ly
+
                 self.pos = pos_new*1
                 f0 = f1*1
-                # impose PBC
 
-                if self.pbc_x:
-                    self.pos[0, :]  = (self.pos[0,:] + self.L) % (2*self.L) - self.L
-                if self.pbc_y:
-                    self.pos[1, :]  = (self.pos[1,:] + self.L) % (2*self.L) - self.L
 
-                # impose wall bounary conditions
-                if self.walls_x or self.walls_y:
-                    self.vel, self.col = wall_collisions(pos_new, self.vel, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)
+
+
+                # impose wall boundary conditions
+                #if self.walls_x or self.walls_y:
+                #    self.vel, self.col = wall_collisions(pos_new, self.vel, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)
+
                 
             temp *= 0.99
             if f0<=1:
@@ -695,7 +577,7 @@ class sample():
         velocity-Verlet timestep
         """
         #Fn = self.forces()
-        Fn = self.forces(self.pos, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)
+        Fn = self.forces(self.pos, self.interactions, self.L2x, self.L2y)
         
         #self.pos = 
         #self.pos_old = #
@@ -703,22 +585,19 @@ class sample():
 
         pos_new = self.pos + self.vel_*dt + .5*Fn*dt**2*self.masses_inv
         
-        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y) + Fn)*dt*self.masses_inv
+        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L2x, self.L2y) + Fn)*dt*self.masses_inv
         
         #self.vel, self.col = wall_collisions(self.pos, self.vel, radius = 1.0, wall = self.L)
         #self.pos[0,np.abs(self.pos[0,:])>self.L] 
         
         # impose PBC
-        if self.pbc_x:
-            pos_new[0, :]  = (pos_new[0,:] + self.L) % (2*self.L) - self.L
-        if self.pbc_y:
-            pos_new[1, :]  = (pos_new[1,:] + self.L) % (2*self.L) - self.L
+        if self.Lx<0:
+            pos_new[0, :]  = (pos_new[0,:] + self.Lx) % (2*self.Lx) - self.Lx
+        if self.Ly<0:
+            pos_new[1, :]  = (pos_new[1,:] + self.Ly) % (2*self.Ly) - self.Ly
 
-        # impose wall bounary conditions
-        if self.walls_x or self.walls_y:
-            #self.vel_, self.col = wall_collisions(pos_new, self.vel_, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)
-            self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y,  masses = self.masses)
-
+        # impose wall and collision boundary conditions
+        self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, Lx = self.Lx, Ly = self.Ly, masses = self.masses)
         
         
         #update arrays (in order to retain velocity)
@@ -733,22 +612,28 @@ class sample():
         """
         Explicit Euler timestep
         """
-        self.vel += self.forces(self.pos, self.interactions, self.L, pbc_x = self.pbc_x, pbc_y = self.pbc_y)*dt*self.masses_inv
+        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y)*dt*self.masses_inv
         self.pos += self.vel*dt
         
         # impose PBC
-        if self.pbc_x:
-            self.pos[0, :]  = (self.pos[0,:] + self.L) % (2*self.L) - self.L
-        if self.pbc_y:
-            self.pos[1, :]  = (self.pos[1,:] + self.L) % (2*self.L) - self.L
+        if self.Lx<0:
+            self.pos[0, :]  = (self.pos[0,:] + self.Lx) % (2*self.Lx) - self.Lx
+        if self.Ly<0:
+            self.pos[1, :]  = (self.pos[1,:] + self.Ly) % (2*self.Ly) - self.Ly
 
-        # impose wall bounary conditions
-        if self.walls_x or self.walls_y:
-            self.vel, self.col = wall_collisions(self.pos, self.vel, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)
+        # impose wall and collision bounary conditions
+        self.vel_, self.col = collisions(self.pos, self.vel_, screen = 10.0, radius = self.radius, Lx = self.Lx, Ly = self.Ly, masses = self.masses)
         
             
         # Track time
         self.t += dt
+    def kinetic_energy(self):
+        # Vektorisert funksjon med hensyn på ytelse
+        return .5*np.sum(self.masses*np.sum(self.vel**2, axis = 0))
+    
+    def kinetic_energies(self):
+        # Vektorisert funksjon med hensyn på ytelse
+        return .5*self.masses*np.sum(self.vel**2, axis = 0)
         
     
     
@@ -764,11 +649,20 @@ class sample():
     """
     Visualization tools (some obsolete to be deleted)
     """
-    def visualize_state(self, axis = False, figsize = (4,4)):
+    def visualize_state(self, axis = False, figsize = None):
+        if figsize is None:
+            figsize = (6,6)
+            if self.L2x != 0 and self.L2y != 0:
+                figsize = (4, 4*np.abs(self.L2y/self.L2x))
+        
+            plt.rcParams["figure.figsize"] = figsize
+
+           
+
         col = colorscheme()
         
         plt.figure(figsize = figsize)
-        plt.plot([-self.L, self.L, self.L, -self.L, -self.L],[-self.L, -self.L, self.L, self.L, -self.L], color = (0,0,0), linewidth = 2)
+        plt.plot([-self.Lx, self.Lx, self.Lx, -self.Lx, -self.Lx],[-self.Ly, -self.Ly, self.Ly, self.Ly, -self.Ly], color = (0,0,0), linewidth = 2)
         plt.plot(self.pos[0], self.pos[1], 'o', alpha = .4, markersize = 8*1.8, color = col.getcol(.5))
         plt.plot(self.pos[0], self.pos[1], '.', alpha = 1, markersize = 10, color = (0,0,0))
         
@@ -783,233 +677,32 @@ class sample():
             th = np.arctan2(self.vel[1,i],self.vel[0,i])
             plt.text(self.pos[0,i] + self.vel[0,i],self.pos[1,i] + self.vel[1,i], "▲", rotation = -90+360*th/(2*np.pi),ha = "center", va = "center") #, color = (0,0,0), fontsize = 20, rotation=0, ha = "center", va = "center")
         
-        plt.xlim(-self.L-1, self.L+1)
-        plt.ylim(-self.L-1, self.L+1)
+        plt.xlim(-self.Lx-1, self.Lx+1)
+        if self.Lx == 0:
+            plt.xlim(-11, 11)
+        plt.ylim(-self.Ly-1, self.Ly+1)
+        if self.Ly == 0:
+            plt.ylim(-11, 11)
+
         if not axis:
             plt.axis("off")
         plt.show()
 
-    def run(self):
-        run_system = animated_system(system = self)
+    def run(self, n_steps_per_vis = 5, interval = 1):
+        run_system = animated_system(system = self, n_steps_per_vis=n_steps_per_vis, interval = interval)
         plt.show()
-
-    def run___(self, axis = False, logoscreen = False):
-        #mu = np.unique(self.masses)
-    
-        self.fig, self.ax = plt.subplots()
-        col = colorscheme()
-        
-        #cluster = []
-        #for i in np.unique(self.masses): #unique masses
-        #    cluster.append(np.arange(self.masses.shape[0])[self.masses==i])
-        #
-        #Ln_ = []
-        #for i in cluster:
-        #    Ln_.append(plt.plot([], [], 'o', alpha = .4, markersize = 4*np.sqrt(self.masses[i[0]]), color = col.getcol(self.masses[i[0]]/self.masses.max()))[0] )
-            
-
-        #n_c = len(cluster)
-        x,y = self.pos
-        ln = self.ax.scatter(x,y)
-        #ln.set_animated(True)
-
-
-        def init():
-            sv = 1
-            self.ax.set_xlim(-self.L-sv,self.L+sv)
-            self.ax.set_ylim(-self.L-sv,self.L+sv)
-            if self.walls_x:
-                wx1 = plt.plot([-self.L, -self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
-                wx2 = plt.plot([self.L, self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
-
-            if self.walls_y:
-                wx3 = plt.plot([-self.L, self.L], [-self.L, -self.L], color = (0,0,0), linewidth = 2.0)
-                wx4 = plt.plot([-self.L, self.L], [ self.L, self.L], color = (0,0,0), linewidth = 2.0)
-
-            if not axis:
-                self.ax.axis("off")
-            if logoscreen:
-                plt.text(0,-self.L+1, "BubbleBox", fontsize = 35, ha = "center",fontweight="bold", fontname = "Verdana", alpha = 1, color = col.getcol(0.0))
-            plt.xlim(-self.L-1, self.L+1)
-            plt.ylim(-self.L-1, self.L+1)
-            
-            #return Ln_[0],
-            #ln.set_offsets([])
-            return ln,
-
-
-
-        def update(frame):
-            #xdata.append(frame)
-            #ydata.append(np.sin(frame))
-            #c = 0
-            #global U
-            #global nn
-
-            for i in range(10):
-                self.advance(dt = self.dt)
-                c += self.col
-
-
-            #x,y = self.pos
-            #mn.set_data(x,y)
-            #for i in range(n_c):
-            #    ci = cluster[i]
-            #    Ln_[i].set_data(x[ci],y[ci])
-            ln.set_offsets(self.pos)
-            #return ln,
-        
-
-        self.ani = FuncAnimation(self.fig, update, frames=None, 
-                            init_func=init, blit=True, interval = 1)
-
-        
-        plt.show() 
-        
-    def run__(self, axis = False, logoscreen = False):
-        mu = np.unique(self.masses)
-        if len(mu)==1:
-            self.run_(axis = axis)
-        else:
-            self.fig, self.ax = plt.subplots()
-            col = colorscheme()
-            
-            cluster = []
-            for i in np.unique(self.masses): #unique masses
-                cluster.append(np.arange(self.masses.shape[0])[self.masses==i])
-            
-            Ln_ = []
-            for i in cluster:
-                Ln_.append(plt.plot([], [], 'o', alpha = .4, markersize = 4*np.sqrt(self.masses[i[0]]), color = col.getcol(self.masses[i[0]]/self.masses.max()))[0] )
-                
-
-            n_c = len(cluster)
-
-
-            def init():
-                sv = 1
-                self.ax.set_xlim(-self.L-sv,self.L+sv)
-                self.ax.set_ylim(-self.L-sv,self.L+sv)
-                if self.walls_x:
-                    wx1 = plt.plot([-self.L, -self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
-                    wx2 = plt.plot([self.L, self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
-
-                if self.walls_y:
-                    wx3 = plt.plot([-self.L, self.L], [-self.L, -self.L], color = (0,0,0), linewidth = 2.0)
-                    wx4 = plt.plot([-self.L, self.L], [ self.L, self.L], color = (0,0,0), linewidth = 2.0)
-
-                if not axis:
-                    self.ax.axis("off")
-                if logoscreen:
-                    plt.text(0,-self.L+1, "BubbleBox", fontsize = 35, ha = "center",fontweight="bold", fontname = "Verdana", alpha = 1, color = col.getcol(0.0))
-                plt.xlim(-self.L-1, self.L+1)
-                plt.ylim(-self.L-1, self.L+1)
-                
-                return Ln_[0],
-
-
-
-            def update(frame):
-                #xdata.append(frame)
-                #ydata.append(np.sin(frame))
-                c = 0
-                global U
-                global nn
-
-                for i in range(10):
-                    self.advance(dt = self.dt)
-                    c += self.col
-
-
-                x,y = self.pos
-                #mn.set_data(x,y)
-                for i in range(n_c):
-                    ci = cluster[i]
-                    Ln_[i].set_data(x[ci],y[ci])
-                
-                return Ln_[0],
-            
-
-            self.ani = FuncAnimation(self.fig, update, frames=np.linspace(0, 1, 2), 
-                                init_func=init, blit=True, interval = 1)
-
-            
-            plt.show() 
-
-
-    def run_(self, axis = False):
-        self.fig, self.ax = plt.subplots()
-        col = colorscheme()
-        #xdata, ydata = [], []
-        ln, = plt.plot([], [], 'o', alpha = .4, markersize = 2*1.8, color = col.getcol(.4))
-        mn, = plt.plot([], [], 'o', alpha = .4, markersize = 4*1.8, color = np.random.uniform(0,1,3))
-        tn, = plt.plot([], [], '-', color = (0,0,0), alpha = 1, linewidth = 1.0)
-        un, = plt.plot([], [], '-', color = (0,0,0), alpha = 1, linewidth = 1.0)
-
-        temp = []
-        pot = []
-
-        #tx = plt.text(-self.L,self.L,"$E_K$ = %.2f" % 1.0)
-
-        def init():
-            self.ax.set_xlim(-self.L-1,self.L+1)
-            self.ax.set_ylim(-self.L-1,self.L+1)
-            if self.walls_x:
-                wx1 = plt.plot([-self.L, -self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
-                wx2 = plt.plot([self.L, self.L], [-self.L, self.L], color = (0,0,0), linewidth = 2.0)
-
-            if self.walls_y:
-                wx3 = plt.plot([-self.L, self.L], [-self.L, -self.L], color = (0,0,0), linewidth = 2.0)
-                wx4 = plt.plot([-self.L, self.L], [ self.L, self.L], color = (0,0,0), linewidth = 2.0)
-
-
-            #ax.axis("off")
-            plt.xlim(-self.L-1, self.L+1)
-            plt.ylim(-self.L-1, self.L+1)
-            return ln,
-
-
-
-        def update(frame):
-            #xdata.append(frame)
-            #ydata.append(np.sin(frame))
-            c = 0
-            global U
-            global nn
-
-            for i in range(10):
-                self.advance(dt = self.dt)
-                c += self.col
-
-
-            x,y = self.pos
-            #mn.set_data(x,y)
-            ln.set_data(x,y)
-            #mn.set_data(x[Nd:],y[Nd:])
-            if not axis:
-                self.ax.axis("off")
-
-            #v = .5*np.sum(np.sum(self.vel**2, axis = 0)*self.masses)
-
-            #u = lj_pot(self.pos, self.species, L2 = self.L)
-            #u = 0
-
-
-            #U = (U*(nn-1) + (u+v))/nn
-            #nn += 1
-            #tx.set_text("$E_K$ = %.2f       $U$ = %.2f       %.2f" % (v,u, U))
-
-
-            #return ln,
-        
-        self.ani = FuncAnimation(self.fig, update, frames=np.linspace(0, 1, 1000), 
-                            init_func=init, blit=True, interval = 1)
-        plt.show() 
 
 
 class animated_system():
-    def __init__(self, system = None):
+    def __init__(self, system = None, n_steps_per_vis = 5, interval = 1):
+        self.n_steps_per_vis = n_steps_per_vis
         self.system = system
+        figsize = (6,6)
+        if self.system.L2x != 0 and self.system.L2y != 0:
+            figsize = (4, 4*np.abs(self.system.L2y/self.system.L2x))
+    
+        plt.rcParams["figure.figsize"] = figsize
+
         
         self.fig, self.ax = plt.subplots()
         #self.col = colorscheme()
@@ -1022,7 +715,7 @@ class animated_system():
 
 
         
-        self.ani = FuncAnimation(self.fig, self.update, interval=1, 
+        self.ani = FuncAnimation(self.fig, self.update, interval=interval, 
                                           init_func=self.setup_plot, blit=True)
 
     def setup_plot(self):
@@ -1037,28 +730,40 @@ class animated_system():
         
         c = colorscheme()
         
-        L = self.system.L
-        if self.system.walls_x:
-            
-            wx1 = plt.plot([-L, -L], [-L, L], color = (0,0,0), linewidth = 2.0)
-            wx2 = plt.plot([L, L], [-L, L], color = (0,0,0), linewidth = 2.0)
+        Lx = self.system.Lx
+        Ly = self.system.Ly
 
-        if self.system.walls_y:
-            wx3 = plt.plot([-L,L], [-L, -L], color = (0,0,0), linewidth = 2.0)
-            wx4 = plt.plot([-L, L], [ L, L], color = (0,0,0), linewidth = 2.0)
+        if self.system.Lx>0:
+            
+            wx1 = plt.plot([-Lx, -Lx], [-Ly, Ly], color = (0,0,0), linewidth = 2.0)
+            wx2 = plt.plot([Lx, Lx], [-Ly, Ly], color = (0,0,0), linewidth = 2.0)
+
+        if self.system.Ly>0:
+            wx3 = plt.plot([-Lx,Lx], [-Ly, -Ly], color = (0,0,0), linewidth = 2.0)
+            wx4 = plt.plot([-Lx,Lx], [ Ly,  Ly], color = (0,0,0), linewidth = 2.0)
         
         if self.scatterplot:
-            s = self.system.masses*150/self.system.L
+            s = self.system.masses*10 #/self.system.Lx
 
             c = c.getcol(self.system.masses/self.system.masses.max()).T
-            self.bubbles = self.ax.scatter(x, y, c=c, s=s, vmin=0, vmax=1,
-                                        cmap="jet", edgecolor="k", marker = "o")
+            self.bubbles = self.ax.scatter(x, y, c=c, s=s, edgecolor="k", marker = "8")
+            #self.bubbles = self.ax.scatter(x, y, s= s, edgecolor="k", marker = "8")
         else:
-            self.bubbles = self.ax.plot(x, y, "o", color = c.getcol(.4))[0]
+            self.bubbles = self.ax.plot(x, y, "o", color = c.getcol(.4), markersize = 4)[0]
 
 
 
-        self.ax.axis([-self.system.L-1, self.system.L+1, -self.system.L-1, self.system.L+1])
+        self.ax.axis([-self.system.Lx-1, self.system.Lx+1, -self.system.Ly-1, self.system.Ly+1])
+
+        L05x = self.system.Lx*0.05
+        L05y = self.system.Ly*0.05
+        if self.system.L2x ==0:
+            L05x = np.abs(self.system.pos[0,:]).max()
+        if self.system.L2y == 0:
+            L05y = np.abs(self.system.pos[1,:]).max()
+
+        plt.xlim(-self.system.Lx-L05x, self.system.Lx+L05x)
+        plt.ylim(-self.system.Ly-L05y, self.system.Ly+L05y)
         
         return self.bubbles,
 
@@ -1066,9 +771,9 @@ class animated_system():
         
         
     #@nb.jit
-    def update(self, i, nsteps_per_vis = 10):
+    def update(self, i):
 
-        for i in range(nsteps_per_vis):
+        for i in range(self.n_steps_per_vis):
             self.system.advance(dt = self.system.dt)
 
         if self.scatterplot:
