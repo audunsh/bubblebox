@@ -749,7 +749,8 @@ class box():
         t1 = self.t+t
         while self.t<t1:
             self.advance()
-        self.t += t
+           
+
             
             
             
