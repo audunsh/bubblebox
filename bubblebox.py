@@ -43,6 +43,7 @@ class colorscheme():
         self.CC = np.array([[.1,  .3, .98],
                [.1,  .1, .98],
                [.3,  .1, 1]])
+        self.CC = np.random.uniform(0,1,(3,3))
         self.c = interp1d(np.linspace(0,1,3), self.CC) #(np.linspace(0,1,800)).T
     def getcol(self,i):
         return self.c(i)
@@ -50,6 +51,45 @@ class colorscheme():
 
 #matplotlib.rcParams['figure.figsize'] = (6.4,4.8)
 #matplotlib.rcParams['figure.figsize'] = (4.8,4.8)
+
+@nb.jit
+def distances_reduced(coords, L2x, L2y):
+    Lx = np.abs(L2x/2.0)
+    Ly = np.abs(L2y/2.0)
+    d = np.zeros((coords.shape[1],coords.shape[1]-1), dtype = np.float_)
+    #c = 0
+    for i in range(coords.shape[1]):
+        ix = coords[0,i]
+        iy = coords[1,i]
+
+        for j in range(i+1, coords.shape[1]):
+            dx = ix - coords[0,j]
+            dy = iy - coords[1,j]
+
+
+
+            if np.abs(dx)>Lx:
+                if dx>0:
+                    dx += L2x
+                else:
+                    dx -= L2x
+                #dx += np.sign(dx)*L2
+
+            if np.abs(dy)>Ly:
+                if dy>0:
+                    dy += L2y
+                else:
+                    dy -= L2y
+
+
+
+            d_ = np.sqrt(dx**2 + dy**2)
+            d[i,j-1] = d_#+ (coords[i,2] - coords[j,2])**2 
+            d[j,i] = d_
+            #c += 1
+    return d
+
+
 
 @nb.jit()
 def repel(coords, screen = 10, L2 = 1.0):
@@ -101,6 +141,20 @@ def distance_matrix(coords):
             d[i,j] = d_
             d[j,i] = d_
     return d
+
+@nb.jit
+def distances(coords):
+    d = np.zeros(int((coords.shape[1]-1)*(coords.shape[1])/2), dtype = np.float_)
+    c = 0
+    for i in range(coords.shape[1]):
+        ix = coords[0,i]
+        iy = coords[1,i]
+
+        for j in range(i+1, coords.shape[1]):
+            d[c] = (ix - coords[0,j])**2 + (iy - coords[1,j])**2  #+ (coords[i,2] - coords[j,2])**2 
+            c += 1
+    return d
+
 
 @nb.jit()
 def no_forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
@@ -408,6 +462,28 @@ def collisions(coords, vels, screen = 10.0, radius = -1.0, Lx = 0.0, Ly = 0.0, m
 
 
 
+def arrange_in_grid(pos, Lx, Ly, n_bubbles):
+    
+    a = Ly/Lx
+    nx = np.ceil(np.sqrt(n_bubbles/a))
+    ny = np.ceil(a*nx)
+    
+
+    
+    count = 0
+    dn_x = np.linspace(0, 2*Lx, nx+1)[1]*.5
+    dn_y = np.linspace(0, 2*Ly, ny+1)[1]*.5
+    for i in np.linspace(-Lx, Lx, nx+1)[:-1]:
+        for j in np.linspace(-Ly, Ly, ny+1)[:-1]:
+            pos[:, count] = [i+dn_x,j+dn_y]
+            count += 1
+            if count>=pos.shape[1]:
+                break
+        if count>=pos.shape[1]:
+                break
+
+    return pos
+
 
 
 
@@ -420,7 +496,7 @@ class box():
     - 
     
     """
-    def __init__(self, n_bubbles = 100, masses = None, v0 = 0.0, box = (0,0), radius = -1, relax = True, pbc = False):
+    def __init__(self, n_bubbles = 100, masses = None, pos = None, vel = 0.0, box = (0,0), radius = -1, relax = True, grid = True):
         # Initialize gas
 
         # Boundary conditions
@@ -429,6 +505,9 @@ class box():
 
         self.L2x = 2*box[0]
         self.L2y = 2*box[1]
+
+
+
 
 
 
@@ -447,19 +526,22 @@ class box():
             self.set_interactions(self.masses)
             self.masses_inv = np.array(self.masses, dtype = np.float_)**-1
 
-
+        
         # Coordinates - position
         self.pos = np.random.uniform(-self.Lx,self.Lx,(2,self.n_bubbles)) #place 
         self.pos[1,:] = np.random.uniform(-self.Ly,self.Ly,(self.n_bubbles)) 
+        if grid:
+            self.pos = arrange_in_grid(self.pos, np.abs(self.Lx), np.abs(self.Ly), self.n_bubbles)
         if self.Lx == 0:
             self.pos = np.random.uniform(-10,10,(2,self.n_bubbles)) #place 
         if self.Ly == 0:
             self.pos[1,:] = np.random.uniform(-10,10,(self.n_bubbles)) 
 
         self.pos_old = self.pos*1 # retain previous timesteps to compute velocities
+        self.active = np.ones(self.pos.shape[1], dtype = np.bool)
 
         # Coordinates - velocity
-        self.vel = np.random.uniform(-1,1,(2,self.n_bubbles))*v0
+        self.vel = np.random.uniform(-1,1,(2,self.n_bubbles))*vel
         self.vel[:] -= np.mean(self.vel, axis = 1)[:, None]
         self.vel_ = self.vel # verlet integrator velocity at previous timestep
         
@@ -525,13 +607,34 @@ class box():
         
     def relax_sa(self, Nt, stepsize = 0.01, pbc = True):
         # simulated annealing thermostat
+
+
         f0 = np.sum(self.forces(self.pos, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles
+        
+        #dist = distances(self.pos)
+        #dd = distances_reduced(self.pos, self.L2x, self.L2y)
+        dd = np.min(distances_reduced(self.pos, self.L2x, self.L2y), axis = 1)
+        f0 = -np.sum(dd) + np.sum((dd - np.mean(dd))**2)
+
+
+        #f0 = np.sum((dist - np.mean(dist))**2)
+
+
+        #print(f0)
+
+
         temp = 2
-        #print("iniial", f0)
+        print("initial", f0)
 
         for i in range(Nt):
-            pos_new = self.pos + np.random.uniform(-1,1, self.pos.shape)*stepsize
-            f1 = np.sum(forces(pos_new, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles
+            pos_new = self.pos*1
+            pos_new[:, self.active] += np.random.uniform(-1,1, self.pos[:, self.active].shape)*stepsize
+            #f1 = np.sum(forces(pos_new, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles
+            #f1 = np.sum((self.pos - np.mean(self.pos, axis = 1)[:, None])**2)
+            #dist = distances(pos_new)
+            
+            dd = np.min(distances_reduced(pos_new, self.L2x, self.L2y), axis = 1)
+            f1 = -np.sum(dd) + np.sum((dd - np.mean(dd))**2)
             #if np.any(np.abs(pos_new)>=self.L):
             #    pass
             if np.exp(-(f1-f0)/temp)>0.9:
@@ -557,9 +660,11 @@ class box():
 
                 
             temp *= 0.99
-            if f0<=1:
-                break
-        #print("final", f0)
+            #if f0<=1:
+            #    break
+        dd = np.min(distances_reduced(self.pos, self.L2x, self.L2y), axis = 1)
+        f1 = -np.sum(dd) + np.sum((dd - np.mean(dd))**2)
+        print("final", f0)
         if f0>1:
             print("Warning, system may be in a poor initial state.")
             print("Annealing algorithm reports Force norm per bubble to be", f0)
@@ -572,7 +677,7 @@ class box():
     
     
         
-    def advance_vverlet(self, dt = 0.1):
+    def advance_vverlet(self):
         """
         velocity-Verlet timestep
         """
@@ -583,9 +688,9 @@ class box():
         #self.pos_old = #
 
 
-        pos_new = self.pos + self.vel_*dt + .5*Fn*dt**2*self.masses_inv
+        pos_new = self.pos + self.vel_*self.dt + .5*Fn*self.dt**2*self.masses_inv
         
-        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L2x, self.L2y) + Fn)*dt*self.masses_inv
+        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L2x, self.L2y) + Fn)*self.dt*self.masses_inv
         
         #self.vel, self.col = wall_collisions(self.pos, self.vel, radius = 1.0, wall = self.L)
         #self.pos[0,np.abs(self.pos[0,:])>self.L] 
@@ -599,21 +704,23 @@ class box():
         # impose wall and collision boundary conditions
         self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, Lx = self.Lx, Ly = self.Ly, masses = self.masses)
         
-        
+        #self.vel_*=.999
+
+
         #update arrays (in order to retain velocity)
         self.vel = (pos_new - self.pos_old)/(2*self.dt)
         self.pos_old[:] = self.pos
-        self.pos[:] = pos_new
+        self.pos[:, self.active] = pos_new[:, self.active]
 
         # Track time
-        self.t += dt
+        self.t += self.dt
         
-    def advance_euler(self, dt):
+    def advance_euler(self):
         """
         Explicit Euler timestep
         """
-        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y)*dt*self.masses_inv
-        self.pos += self.vel*dt
+        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y)*self.dt*self.masses_inv
+        self.pos += self.vel*self.dt
         
         # impose PBC
         if self.Lx<0:
@@ -626,7 +733,7 @@ class box():
         
             
         # Track time
-        self.t += dt
+        self.t += self.dt
     def kinetic_energy(self):
         # Vektorisert funksjon med hensyn på ytelse
         return .5*np.sum(self.masses*np.sum(self.vel**2, axis = 0))
@@ -638,10 +745,10 @@ class box():
     
     
     
-    def evolve(self, t = 1.0, dt = 0.1):
+    def evolve(self, t = 1.0):
         t1 = self.t+t
         while self.t<t1:
-            self.advance(dt)
+            self.advance()
         self.t += t
             
             
@@ -716,7 +823,7 @@ class animated_system():
 
         
         self.ani = FuncAnimation(self.fig, self.update, interval=interval, 
-                                          init_func=self.setup_plot, blit=True)
+                                          init_func=self.setup_plot, blit=True,cache_frame_data=True)
 
     def setup_plot(self):
         """Initial drawing of the scatter plot."""
@@ -774,7 +881,7 @@ class animated_system():
     def update(self, i):
 
         for i in range(self.n_steps_per_vis):
-            self.system.advance(dt = self.system.dt)
+            self.system.advance()
 
         if self.scatterplot:
             self.bubbles.set_offsets(self.system.pos.T)
