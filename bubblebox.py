@@ -465,8 +465,8 @@ def collisions(coords, vels, screen = 10.0, radius = -1.0, Lx = 0.0, Ly = 0.0, m
 def arrange_in_grid(pos, Lx, Ly, n_bubbles):
     
     a = Ly/Lx
-    nx = np.ceil(np.sqrt(n_bubbles/a))
-    ny = np.ceil(a*nx)
+    nx = int(np.ceil(np.sqrt(n_bubbles/a)))
+    ny = int(np.ceil(a*nx))
     
 
     
