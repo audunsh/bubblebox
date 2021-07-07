@@ -28,7 +28,7 @@ class lines():
         return Z
         
     def getline(self,Nx):
-        Z = np.zeros(Nx, dtype = np.float)
+        Z = np.zeros(Nx, dtype = float)
         t = np.linspace(0,1,Nx)
         for i in range(10):
             nn = i+3
@@ -43,7 +43,10 @@ class colorscheme():
         self.CC = np.array([[.1,  .3, .98],
                [.1,  .1, .98],
                [.3,  .1, 1]])
-        self.CC = np.random.uniform(0,1,(3,3))
+        self.CC = np.array([[.6,  1, .1],
+               [.1,  .9, .1],
+               [.1,  .5, .1]])
+        #self.CC = np.random.uniform(0,1,(3,3))
         self.c = interp1d(np.linspace(0,1,3), self.CC) #(np.linspace(0,1,800)).T
     def getcol(self,i):
         return self.c(i)
@@ -52,11 +55,42 @@ class colorscheme():
 #matplotlib.rcParams['figure.figsize'] = (6.4,4.8)
 #matplotlib.rcParams['figure.figsize'] = (4.8,4.8)
 
+#@nb.jit()
+def pos2heatmap(pos, masses, Lx, Ly, Nz = 11, col = None):
+    """
+    Create a 2D density array for a set of various bubbles
+    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)
+
+    Keyword arguments:
+    
+    pos              -- array (2,n_particles) containing positions
+    masses           -- array (n_particles) containing masses
+    Lx, Ly           -- box dimensions
+    Nz               -- number of bins in each dimension
+
+    Returns an Nz by Nz by 3 array containing colors according to 
+    bubble density
+    """
+    #Z = np.zeros((Nz,Nz, 4), dtype = nb.float64)
+    Z = np.zeros((Nz,Nz, 4), dtype = float)
+    col = colorscheme()
+    
+    masses_norm = masses/masses.max()
+    for i in range(pos.shape[1]):
+        ix, iy = int( Nz*(pos[0,i] + Lx)/(2*Lx) ), int( Nz*(pos[1,i] + Ly)/(2*Ly) )
+        # Using the mean for N+1 samples here:
+        # mean_{N+1} = (N*mean_N + new_sample)/(N + 1)
+        Z[ix,iy, :3] = (Z[ix,iy, :3]*Z[ix,iy, 3] + col.getcol(masses_norm[i]) ) /(Z[ix,iy, 3]+1)
+        Z[ix,iy, 3] += 1
+
+    return Z[:,:,:3]
+
+
 @nb.jit
 def distances_reduced(coords, L2x, L2y):
     Lx = np.abs(L2x/2.0)
     Ly = np.abs(L2y/2.0)
-    d = np.zeros((coords.shape[1],coords.shape[1]-1), dtype = np.float_)
+    d = np.zeros((coords.shape[1],coords.shape[1]-1), dtype = float)
     #c = 0
     for i in range(coords.shape[1]):
         ix = coords[0,i]
@@ -94,7 +128,7 @@ def distances_reduced(coords, L2x, L2y):
 @nb.jit()
 def repel(coords, screen = 10, L2 = 1.0):
     # 2d force vector
-    d = np.zeros((2, coords.shape[1]), dtype = np.float64)
+    d = np.zeros((2, coords.shape[1]), dtype = float64)
     
     
     for i in range(coords.shape[1]):
@@ -132,19 +166,19 @@ def repel(coords, screen = 10, L2 = 1.0):
                 
     return d
 
-@nb.jit
+@nb.jit(nopython=True)
 def distance_matrix(coords):
-    d = np.zeros((coords.shape[0], coords.shape[0]), dtype = np.float64)
+    d = np.zeros((coords.shape[0], coords.shape[0]), dtype = nb.float64)
     for i in range(coords.shape[0]):
         for j in range(1, coords.shape[0]):
-            d_ = (coords[i,0] - coords[j,0])**2 + (coords[i,1] - coords[j,1])**2  #+ (coords[i,2] - coords[j,2])**2 
+            d_ = ((coords[i,0] - coords[j,0])**2 + (coords[i,1] - coords[j,1])**2)**.5  #+ (coords[i,2] - coords[j,2])**2 
             d[i,j] = d_
             d[j,i] = d_
     return d
 
-@nb.jit
+@nb.jit(nopython=True)
 def distances(coords):
-    d = np.zeros(int((coords.shape[1]-1)*(coords.shape[1])/2), dtype = np.float_)
+    d = np.zeros(int((coords.shape[1]-1)*(coords.shape[1])/2), dtype = nb.float64)
     c = 0
     for i in range(coords.shape[1]):
         ix = coords[0,i]
@@ -160,16 +194,16 @@ def distances(coords):
 def no_forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
     return 0
 
-@nb.jit()
+@nb.jit(nopython=True)
 def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
     # 2d force vector
-    d = np.zeros((2, coords.shape[1]), dtype = np.float_)
+    d = np.zeros((2, coords.shape[1]), dtype = nb.float64)
     Lx, Ly = -L2x/2.0, -L2y/2.0
     
     #u = 0 #pot energy
     
     if interactions is None:
-        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = np.float_)
+        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float64)
         
 
     for i in range(coords.shape[1]):
@@ -228,12 +262,12 @@ def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
 @nb.jit()
 def lj_pot(coords, species = None, L2 = 1.0, r_cut = 9.0, pbc_x = True, pbc_y = True):
     # 2d force vector
-    #d = np.zeros((2, coords.shape[1]), dtype = np.float_)
+    #d = np.zeros((2, coords.shape[1]), dtype = float)
     
     u = 0 #pot energy
     
     if species is None:
-        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = np.int_)
+        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = int)
     
     for i in range(coords.shape[1]):
         for j in range(i+1, coords.shape[1]):
@@ -292,13 +326,14 @@ def lj_pot(coords, species = None, L2 = 1.0, r_cut = 9.0, pbc_x = True, pbc_y = 
                 
     return u
 
+
 #@nb.jit()
 def l_j_pot(coords, species = None):
     # 2d force vector
-    d = np.zeros((2, coords.shape[1]), dtype = np.float_)
+    d = np.zeros((2, coords.shape[1]), dtype = float)
     
     if species is None:
-        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = np.int_)
+        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = int)
     
     
     U = 0
@@ -345,10 +380,33 @@ def l_j_pot(coords, species = None):
     return U
 
 
+
 @nb.jit()
 def collisions(coords, vels, screen = 10.0, radius = -1.0, Lx = 0.0, Ly = 0.0, masses = None):
-    # 2d force vector
-    #d = coords*1
+    """
+    Hard-sphere collision and wall collisions
+    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)
+
+    Keyword arguments:
+    
+    coords           -- array (2,n_particles) containing positions
+    vels             -- array (2,n_particles) containing velocities
+    screen           -- screening distance (particles further away not considered)
+    radius           -- for positive values, particles are considered hard spheres of equial radius
+    Lx, Ly           -- box dimensions, for x:
+                        ( x > 0 , _ ) = closed boundary at x and -x
+                        ( x = 0 , _ ) = no boundary in x-direction
+                        ( x < 0 , _ ) = periodic boundary at x and -x
+    masses           -- array containing particle masses (default None)
+
+    Returns
+    velocities, coordinates
+
+    Note
+    ----
+    This functions utilize numba's just-in-time compilation ( nb.jit() ) 
+    for optimized performance and readability.
+    """
     v = vels*1
     r2 = 4*radius**2
     R2 = 2*radius
@@ -357,7 +415,7 @@ def collisions(coords, vels, screen = 10.0, radius = -1.0, Lx = 0.0, Ly = 0.0, m
     if radius>0:
         pos_x = np.argsort(coords[0])
     #else:
-    #    pos_x = np.arange(coords.shape[1], dtype = np.int)
+    #    pos_x = np.arange(coords.shape[1], dtype = int)
     
     for ii in range(coords.shape[1]):
         #i = pos_x[ii]
@@ -490,13 +548,36 @@ def arrange_in_grid(pos, Lx, Ly, n_bubbles):
 
 class box():
     """
-    Simple 2D gas simulation
+    Simple 2D Lennard-Jones liquid simulation
+
+    Keyword arguments:
     
-    - N particles with equal mass
-    - 
+    box              -- boundary conditions in (x,y) direction:
+                        ( x > 0 , _ ) = closed boundary at x and -x
+                        ( x = 0 , _ ) = no boundary in x-direction
+                        ( x < 0 , _ ) = periodic boundary at x and -x
+    n_bubbles        -- number of bubbles (int, default 100)
+    masses           -- array containing particle masses (default 1)
+    pos              -- array of shape (3, n_bubbles) containing positions
+    vel              -- array of scalars with maximum random velocity
+    radius           -- 
+    relax            -- minimize potential energy on initialization using simulated annealing
+    grid             -- initial spacing in a grid (default True)
+
+    Example usage (in a notebook):
+
+    import hylleraas.bubblebox as bb
+
+    %matplotlib notebook
+
+    system = bb.box(n_bubbles = 100, box = (10,10)) #initialize 10 by 10 closed box containing 100 bubbles
+
+    system.run() #run simulation interactively 
     
+
     """
-    def __init__(self, n_bubbles = 100, masses = None, pos = None, vel = 0.0, box = (0,0), radius = -1, relax = True, grid = True):
+
+    def __init__(self, n_bubbles = 100, masses = None, pos = None, vel = 0.0, box = (0,0), radius = -1, relax = False, grid = True):
         # Initialize gas
 
         # Boundary conditions
@@ -513,35 +594,54 @@ class box():
 
 
         self.radius = radius
+        self.n_bubbles = n_bubbles
+        
+
+        # Coordinates - position
+        if pos is not None:
+            self.pos = np.array(pos)
+            self.n_bubbles = self.pos.shape[1]
+        else:
+            self.pos = np.random.uniform(-self.Lx,self.Lx,(2,self.n_bubbles)) #place 
+            self.pos[1,:] = np.random.uniform(-self.Ly,self.Ly,(self.n_bubbles)) 
+            if self.Lx == 0:
+                self.pos = np.random.uniform(-10,10,(2,self.n_bubbles)) #place 
+            if self.Ly == 0:
+                self.pos[1,:] = np.random.uniform(-10,10,(self.n_bubbles)) 
+            if grid:
+                if np.abs(self.Lx) > 0 and np.abs(self.Ly) > 0:
+                    self.pos = arrange_in_grid(self.pos, np.abs(self.Lx), np.abs(self.Ly), self.n_bubbles)
+                else:
+                    self.pos = arrange_in_grid(self.pos, 1, 1, self.n_bubbles)
+            
+        
 
         if masses is None:
-            self.masses = np.ones(n_bubbles, dtype = np.int_)
-            self.interactions = np.ones((n_bubbles, n_bubbles, 2), dtype = np.float_)
-            self.masses_inv = np.array(self.masses, dtype = np.float_)**-1
-            self.n_bubbles = n_bubbles
+            self.masses = np.ones(self.n_bubbles, dtype = int)
+            self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = float)
+            self.masses_inv = np.array(self.masses, dtype = float)**-1
+            #self.n_bubbles = n_bubbles
             
         else:
             self.masses = masses
             self.n_bubbles = len(masses)
             self.set_interactions(self.masses)
-            self.masses_inv = np.array(self.masses, dtype = np.float_)**-1
+            self.masses_inv = np.array(self.masses, dtype = float)**-1
 
         
-        # Coordinates - position
-        self.pos = np.random.uniform(-self.Lx,self.Lx,(2,self.n_bubbles)) #place 
-        self.pos[1,:] = np.random.uniform(-self.Ly,self.Ly,(self.n_bubbles)) 
-        if grid:
-            self.pos = arrange_in_grid(self.pos, np.abs(self.Lx), np.abs(self.Ly), self.n_bubbles)
-        if self.Lx == 0:
-            self.pos = np.random.uniform(-10,10,(2,self.n_bubbles)) #place 
-        if self.Ly == 0:
-            self.pos[1,:] = np.random.uniform(-10,10,(self.n_bubbles)) 
+        
+        
+
+        
 
         self.pos_old = self.pos*1 # retain previous timesteps to compute velocities
         self.active = np.ones(self.pos.shape[1], dtype = np.bool)
 
         # Coordinates - velocity
-        self.vel = np.random.uniform(-1,1,(2,self.n_bubbles))*vel
+        r, th = np.random.normal(0,vel, self.n_bubbles), np.random.uniform(0,2*np.pi,self.n_bubbles)
+        
+
+        self.vel = np.array([r*np.cos(th), r*np.sin(th)]) #np.random.uniform(-1,1,(2,self.n_bubbles))*vel
         self.vel[:] -= np.mean(self.vel, axis = 1)[:, None]
         self.vel_ = self.vel # verlet integrator velocity at previous timestep
         
@@ -551,6 +651,7 @@ class box():
 
         # Algorithm for force calculation
         self.forces = forces
+        self.r2_cut = 9.0 #distance cutoff squared for force-calculation
         
         # Time and timestep
         self.t = 0
@@ -568,7 +669,7 @@ class box():
             self.relax_sa(20000)
 
     def set_interactions(self, masses):
-        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = np.float_)
+        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = float)
 
         # Placeholder for proper parametrization of interactions
         epsilons = np.linspace(.5,10,100)
@@ -590,6 +691,9 @@ class box():
 
         
     def relax_positions(self):
+        """
+        deterministic relaxation using forces
+        """
         for i in np.arange(20):
             #self.vel -= .1*repel(self.pos)*dt
             self.pos -= .1*self.forces(self.pos, self.interactions, self.L2x, self.L2y)
@@ -606,6 +710,9 @@ class box():
         self.pos *= .99
         
     def relax_sa(self, Nt, stepsize = 0.01, pbc = True):
+        """
+        Simulated annealing relaxation by maximization of the norm of the distance matrix
+        """
         # simulated annealing thermostat
 
 
@@ -682,16 +789,18 @@ class box():
         velocity-Verlet timestep
         """
         #Fn = self.forces()
-        Fn = self.forces(self.pos, self.interactions, self.L2x, self.L2y)
+        Fn = self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.r2_cut)
         
-        #self.pos = 
-        #self.pos_old = #
+        self.d_pos = self.vel_*self.dt + .5*Fn*self.dt**2*self.masses_inv
+        
+        
 
 
-        pos_new = self.pos + self.vel_*self.dt + .5*Fn*self.dt**2*self.masses_inv
+        pos_new = self.pos + self.d_pos
         
-        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L2x, self.L2y) + Fn)*self.dt*self.masses_inv
+        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L2x, self.L2y, self.r2_cut) + Fn)*self.dt*self.masses_inv
         
+
         #self.vel, self.col = wall_collisions(self.pos, self.vel, radius = 1.0, wall = self.L)
         #self.pos[0,np.abs(self.pos[0,:])>self.L] 
         
@@ -719,7 +828,7 @@ class box():
         """
         Explicit Euler timestep
         """
-        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y)*self.dt*self.masses_inv
+        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.r2_cut)*self.dt*self.masses_inv
         self.pos += self.vel*self.dt
         
         # impose PBC
@@ -735,10 +844,16 @@ class box():
         # Track time
         self.t += self.dt
     def kinetic_energy(self):
+        """
+        Compute total kinetic energy in system
+        """
         # Vektorisert funksjon med hensyn på ytelse
         return .5*np.sum(self.masses*np.sum(self.vel**2, axis = 0))
     
     def kinetic_energies(self):
+        """
+        Compute kinetic energy of each bubble
+        """
         # Vektorisert funksjon med hensyn på ytelse
         return .5*self.masses*np.sum(self.vel**2, axis = 0)
         
@@ -746,6 +861,9 @@ class box():
     
     
     def evolve(self, t = 1.0):
+        """
+        Let system evolve in time for t seconds
+        """
         t1 = self.t+t
         while self.t<t1:
             self.advance()
@@ -758,6 +876,9 @@ class box():
     Visualization tools (some obsolete to be deleted)
     """
     def visualize_state(self, axis = False, figsize = None):
+        """
+        Show an image of the current state with positions, velocities (as arrows) and boundaries of the box.
+        """
         if figsize is None:
             figsize = (6,6)
             if self.L2x != 0 and self.L2y != 0:
@@ -808,6 +929,10 @@ class animated_system():
         figsize = (6,6)
         if self.system.L2x != 0 and self.system.L2y != 0:
             figsize = (4, 4*np.abs(self.system.L2y/self.system.L2x))
+            #self.Lx, self.Ly = self.system.Lx, self.system.Ly
+        else:
+            figsize = (4,4)
+
     
         plt.rcParams["figure.figsize"] = figsize
 
@@ -860,15 +985,14 @@ class animated_system():
             self.bubbles = self.ax.plot(x, y, "o", color = c.getcol(.4), markersize = 4)[0]
 
 
-
         self.ax.axis([-self.system.Lx-1, self.system.Lx+1, -self.system.Ly-1, self.system.Ly+1])
 
         L05x = self.system.Lx*0.05
         L05y = self.system.Ly*0.05
         if self.system.L2x ==0:
-            L05x = np.abs(self.system.pos[0,:]).max()
+            L05x = 10*np.abs(self.system.pos[0,:]).max()
         if self.system.L2y == 0:
-            L05y = np.abs(self.system.pos[1,:]).max()
+            L05y = 10*np.abs(self.system.pos[1,:]).max()
 
         plt.xlim(-self.system.Lx-L05x, self.system.Lx+L05x)
         plt.ylim(-self.system.Ly-L05y, self.system.Ly+L05y)
