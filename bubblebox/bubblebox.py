@@ -194,8 +194,23 @@ def distances(coords):
 def no_forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
     return 0
 
+@nb.jit()
+def lj_force(eps, sig, rr):
+    return -24*eps*(2*sig**12*rr**-7 - sig**6*rr**-4)
+
+@nb.jit()
+def coulomb_force(eps, sig, rr):
+    """
+    eps = Q1 (charge of particle 1)
+    sig = Q2 (charge of particle 2)
+    rr  = distance between particles
+    """
+    return -eps*sig*rr**-2
+
+
+
 @nb.jit(nopython=True)
-def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
+def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0, force = lj_force):
     # 2d force vector
     d = np.zeros((2, coords.shape[1]), dtype = nb.float64)
     Lx, Ly = -L2x/2.0, -L2y/2.0
@@ -243,141 +258,83 @@ def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
             if rr<r2_cut: # Screen on distance squared
 
                 eps, sig = interactions[i,j]
-                if eps>0:
-                        
-                    ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+                #if eps>0:
 
-                    ljf_x = ljw*dx # x-component
-                    ljf_y = ljw*dy # y-component
+                ljw = force(eps, sig, rr) 
+                    
+                #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
 
-                    # Sum forces
-                    d[0,i] += ljf_x
-                    d[1,i] += ljf_y
+                ljf_x = ljw*dx # x-component
+                ljf_y = ljw*dy # y-component
 
-                    d[0,j] -= ljf_x
-                    d[1,j] -= ljf_y
+                # Sum forces
+                d[0,i] += ljf_x
+                d[1,i] += ljf_y
+
+                d[0,j] -= ljf_x
+                d[1,j] -= ljf_y
     return d
 
 
-@nb.jit()
-def lj_pot(coords, species = None, L2 = 1.0, r_cut = 9.0, pbc_x = True, pbc_y = True):
-    # 2d force vector
-    #d = np.zeros((2, coords.shape[1]), dtype = float)
+@nb.jit(nopython=True)
+def lj_potential(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0):
+    Lx, Ly, = -L2x/2.0, -L2y/2.0
     
-    u = 0 #pot energy
+    u = 0 #total pot energy
+    r_cut = np.sqrt(r2_cut)
     
-    if species is None:
-        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = int)
-    
+    if interactions is None:
+        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float64)
+        
+
+
     for i in range(coords.shape[1]):
+        cix, ciy = coords[0,i],coords[1,i],
         for j in range(i+1, coords.shape[1]):
             
-            sp = species[i,j]
+            
+            
             
 
-            if sp == 0:
-                # no interaction
-                pass
-            else:
-                # distance-based interactions
-                dx = coords[0,j] - coords[0,i]
-                dy = coords[1,j] - coords[1,i]
-                
-                # PBC
-                
-                if pbc_x:
-                    if np.abs(dx)>L2:
-                        if dx>0:
-                            dx -= 2*L2
-                        else:
-                            dx += 2*L2
-                        #dx += np.sign(dx)*L2
-                if pbc_y:
-                    if np.abs(dy)>L2:
-                        if dy>0:
-                            dy -= 2*L2
-                        else:
-                            dy += 2*L2
-                
-                
-                
-                rr = np.sqrt(dx**2 + dy**2)
-                if rr<r_cut:
+            
+            # distance-based interactions
+            #dx, dy = coords[:,j] - ci
 
-                    if sp == 2:
-                        
-                        eps = 1.0
-                        sig = np.sqrt(2)
-                        
-                        
-                        
-                        u +=  (sig/rr)**12 - 2*(sig/rr)**6
+            cjx, cjy = coords[0,j], coords[1,j]
+            dx = cjx - cix #coords[0,i]
+            dy = cjy - ciy #coords[1,i]
+            
+            
+            # PBC - interact only once with each periodic image
+            if L2x<0:
+                if np.abs(dx)>Lx:
+                    if dx>0:
+                        dx += L2x
+                    else:
+                        dx -= L2x
+                    #dx += np.sign(dx)*L2
+            if L2y<0:
+                if np.abs(dy)>Ly:
+                    if dy>0:
+                        dy += L2y
+                    else:
+                        dy -= L2y
 
-                    if sp == 4:
+            # Compute distance squared
+            rr = dx**2 + dy**2 
 
-                        
-                        
-                        u +=  (1/rr)**12 - 2*(1/rr)**6
+            if rr<r2_cut: # Screen on distance squared
 
-                        
+                eps, sig = interactions[i,j]
 
 
-                
-                
+                shift = 4*eps*((sig/r_cut)**12 - (sig/r_cut)**6)
+                u +=  4*eps*((sig/rr)**12 - (sig/rr)**6)  #- shift
+                    
     return u
 
 
-#@nb.jit()
-def l_j_pot(coords, species = None):
-    # 2d force vector
-    d = np.zeros((2, coords.shape[1]), dtype = float)
-    
-    if species is None:
-        species = np.zeros((coords.shape[1], coords.shape[1]), dtype = int)
-    
-    
-    U = 0
-    
-    for i in range(coords.shape[1]):
-        for j in range(i+1, coords.shape[1]):
-            
-            sp = species[i,j]
-            
-            if sp == 0:
-                # No contribution to potential energy
-                pass
-            
-            else:
-                dx = coords[0,i] - coords[0,j]
-                dy = coords[1,i] - coords[1,j]
-                distance = (dx**2 + dy**2)**-.5 
-                
-                if sp == 1:
-                    # elastic collision
-                    print(" Elastic collision unavailable")
-                    
-                    pass
-                
-                if sp == 2:
-                    # -2r0/r**3 + r0/r**6
-                    
-                    # l-j repulsive force
-                    U +=  4*distance**12
-                    
-                
-                if sp == 3:
-                    # l-j attractive force
-                    U -= 4*distance**6
-                    
-                    
-                    
-                    
-                if sp == 4:
-                    # l-j force
-                    
-                    U += 4*(distance**12 - distance**6)
-                             
-    return U
+
 
 
 
@@ -651,6 +608,7 @@ class box():
 
         # Algorithm for force calculation
         self.forces = forces
+        self.force = lj_force
         self.r2_cut = 9.0 #distance cutoff squared for force-calculation
         
         # Time and timestep
@@ -661,12 +619,21 @@ class box():
         self.col = 0
 
         
-        
+        self.first_iteration = True
 
         
         # Thermostat / relaxation
         if relax:
             self.relax_sa(20000)
+
+    def resize_box(self, box):
+        # New boundary conditions
+        self.Lx = box[0]
+        self.Ly = box[1]
+
+        self.L2x = 2*box[0]
+        self.L2y = 2*box[1]
+
 
     def set_interactions(self, masses):
         self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = float)
@@ -696,7 +663,7 @@ class box():
         """
         for i in np.arange(20):
             #self.vel -= .1*repel(self.pos)*dt
-            self.pos -= .1*self.forces(self.pos, self.interactions, self.L2x, self.L2y)
+            self.pos -= .1*self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.force)
             #outside_x = np.abs(self.pos[0,:])>self.L
             #outside_y = np.abs(self.pos[1,:])>self.L
             
@@ -716,7 +683,7 @@ class box():
         # simulated annealing thermostat
 
 
-        f0 = np.sum(self.forces(self.pos, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles
+        f0 = np.sum(self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.force)**2)/self.n_bubbles
         
         #dist = distances(self.pos)
         #dd = distances_reduced(self.pos, self.L2x, self.L2y)
@@ -781,28 +748,27 @@ class box():
     
     
     
-    
-    
-        
+
     def advance_vverlet(self):
         """
         velocity-Verlet timestep
         """
-        #Fn = self.forces()
-        Fn = self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.r2_cut)
+        if self.first_iteration:
+            self.Fn = self.forces(self.pos, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut, force = self.force)
+            self.first_iteration = False
+
+        Fn = self.Fn
         
         self.d_pos = self.vel_*self.dt + .5*Fn*self.dt**2*self.masses_inv
-        
-        
-
 
         pos_new = self.pos + self.d_pos
         
-        self.vel_ = self.vel_ + .5*(self.forces(pos_new, self.interactions, self.L2x, self.L2y, self.r2_cut) + Fn)*self.dt*self.masses_inv
-        
+        forces_new = self.forces(pos_new, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut, force = self.force)
 
-        #self.vel, self.col = wall_collisions(self.pos, self.vel, radius = 1.0, wall = self.L)
-        #self.pos[0,np.abs(self.pos[0,:])>self.L] 
+        self.vel_ = self.vel_ + .5*(forces_new + Fn)*self.dt*self.masses_inv
+
+        self.Fn = forces_new
+        
         
         # impose PBC
         if self.Lx<0:
@@ -812,8 +778,6 @@ class box():
 
         # impose wall and collision boundary conditions
         self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, Lx = self.Lx, Ly = self.Ly, masses = self.masses)
-        
-        #self.vel_*=.999
 
 
         #update arrays (in order to retain velocity)
@@ -824,12 +788,13 @@ class box():
         # Track time
         self.t += self.dt
         
+        
     def advance_euler(self):
         """
         Explicit Euler timestep
         """
-        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.r2_cut)*self.dt*self.masses_inv
-        self.pos += self.vel*self.dt
+        self.vel += self.forces(self.pos, self.interactions, self.L2x, self.L2y, self.r2_cut, self.force)*self.dt*self.masses_inv
+        self.pos[self.active] += self.vel[self.active]*self.dt
         
         # impose PBC
         if self.Lx<0:
@@ -843,19 +808,28 @@ class box():
             
         # Track time
         self.t += self.dt
+
+
+    def potential_energy(self):
+        """
+        Compute total potential energy in system
+        """
+        return lj_potential(self.pos, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut)
+
+
     def kinetic_energy(self):
         """
         Compute total kinetic energy in system
         """
         # Vektorisert funksjon med hensyn på ytelse
-        return .5*np.sum(self.masses*np.sum(self.vel**2, axis = 0))
+        return .5*np.sum(self.masses*np.sum(self.vel_**2, axis = 0))
     
     def kinetic_energies(self):
         """
         Compute kinetic energy of each bubble
         """
         # Vektorisert funksjon med hensyn på ytelse
-        return .5*self.masses*np.sum(self.vel**2, axis = 0)
+        return .5*self.masses*np.sum(self.vel_**2, axis = 0)
         
     
     
@@ -867,6 +841,14 @@ class box():
         t1 = self.t+t
         while self.t<t1:
             self.advance()
+
+
+    def set_charges(self, charges):
+        # for coulomb interactions
+        assert(len(charges) == self.n_bubbles), "Number of charges must equal number of bubbles (%i)." %self.n_bubbles
+        for i in range(self.n_bubbles):
+            for j in range(self.n_bubbles):
+                self.interactions[i,j] = np.array([charges[i],charges[j]])
            
 
             
@@ -986,13 +968,14 @@ class animated_system():
 
 
         self.ax.axis([-self.system.Lx-1, self.system.Lx+1, -self.system.Ly-1, self.system.Ly+1])
-
-        L05x = self.system.Lx*0.05
-        L05y = self.system.Ly*0.05
+        L05x = 0.1
+    
+        L05x = max(1, self.system.Lx*0.05)
+        L05y = max(1, self.system.Ly*0.05)
         if self.system.L2x ==0:
-            L05x = 10*np.abs(self.system.pos[0,:]).max()
+            L05x = max(L05x, 10*np.abs(self.system.pos[0,:]).max())
         if self.system.L2y == 0:
-            L05y = 10*np.abs(self.system.pos[1,:]).max()
+            L05y = max(L05y, 10*np.abs(self.system.pos[1,:]).max())
 
         plt.xlim(-self.system.Lx-L05x, self.system.Lx+L05x)
         plt.ylim(-self.system.Ly-L05y, self.system.Ly+L05y)
