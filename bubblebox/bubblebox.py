@@ -635,6 +635,11 @@ class box():
         self.L2y = 2*box[1]
 
 
+    def set_masses(self, masses):
+        self.masses = masses
+        self.masses_inv = np.array(self.masses, dtype = float)**-1
+
+
     def set_interactions(self, masses):
         self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = float)
 
@@ -958,7 +963,7 @@ class animated_system():
             wx4 = plt.plot([-Lx,Lx], [ Ly,  Ly], color = (0,0,0), linewidth = 2.0)
         
         if self.scatterplot:
-            s = self.system.masses*10 #/self.system.Lx
+            s = np.sqrt(self.system.masses)*10 #/self.system.Lx
 
             c = c.getcol(self.system.masses/self.system.masses.max()).T
             self.bubbles = self.ax.scatter(x, y, c=c, s=s, edgecolor="k", marker = "8")
@@ -996,5 +1001,5 @@ class animated_system():
         else:
             x,y = self.system.pos
             self.bubbles.set_data(x,y)
-
+            
         return self.bubbles,

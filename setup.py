@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
      name='BubbleBox',  
-     version='0.1.02',
+     version='0.1.3',
      author="Audun Skau Hansen",
      author_email="a.s.hansen@kjemi.uio.no",
      description="A molecular dynamics educational tool for Jupyter Notebooks",
