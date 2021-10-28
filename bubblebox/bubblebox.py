@@ -210,33 +210,33 @@ def coulomb_force(eps, sig, rr):
 
 
 @nb.jit(nopython=True)
-def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0, force = lj_force):
-    # 2d force vector
-    d = np.zeros((2, coords.shape[1]), dtype = nb.float64)
-    Lx, Ly = -L2x/2.0, -L2y/2.0
-    
-    #u = 0 #pot energy
-    
-    if interactions is None:
-        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float64)
-        
-
+def compute_pair_list_old(coords, r2_cut):
+    pair_list = []
     for i in range(coords.shape[1]):
+        pli = []
         cix, ciy = coords[0,i],coords[1,i]
         for j in range(i+1, coords.shape[1]):
-            
-            
-            
-            
-
-            
-            # distance-based interactions
-            #dx, dy = coords[:,j] - ci
-
             cjx, cjy = coords[0,j], coords[1,j]
             dx = cjx - cix #coords[0,i]
             dy = cjy - ciy #coords[1,i]
+            if dx**2 + dy**2 < r2_cut:
+                pli.append(j)
+        pair_list.append(pli)
+    return pair_list
+
+@nb.jit(nopython=True)
+def compute_pair_list(coords, r2_cut, L2x=0.0, L2y=0.0):
+    pair_list = np.zeros(( coords.shape[1], coords.shape[1]), dtype = np.int32)
+    Lx, Ly = -L2x/2.0, -L2y/2.0
+    for i in range(coords.shape[1]):
+        pair_list[i] = i
+        c = 0
+        cix, ciy = coords[0,i],coords[1,i]
+        for j in range(i+1, coords.shape[1]):
             
+            cjx, cjy = coords[0,j], coords[1,j]
+            dx = cjx - cix #coords[0,i]
+            dy = cjy - ciy #coords[1,i]
             # PBC
             if L2x<0:
                 if np.abs(dx)>Lx:
@@ -251,28 +251,130 @@ def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0, forc
                         dy += L2y
                     else:
                         dy -= L2y
-            
-            # Compute distance squared
-            rr = dx**2 + dy**2 
+            if dx**2 + dy**2 < r2_cut:
+                pair_list[i, c] = j
+                c += 1
+        
+    return pair_list
 
-            if rr<r2_cut: # Screen on distance squared
+@nb.jit(nopython=True)
+def forces(coords, interactions = None, L2x = 0.0, L2y = 0.0, r2_cut = 9.0, force = lj_force, pair_list = None):
+    # 2d force vector
+    d = np.zeros((2, coords.shape[1]), dtype = nb.float64)
+    Lx, Ly = -L2x/2.0, -L2y/2.0
+    
+    #u = 0 #pot energy
+    
+    if interactions is None:
+        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float64)
+        
 
-                eps, sig = interactions[i,j]
-                #if eps>0:
+    for i in range(coords.shape[1]):
+        cix, ciy = coords[0,i],coords[1,i]
 
-                ljw = force(eps, sig, rr) 
-                    
-                #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+        if pair_list is not None:
+            for j in pair_list[i]:
+                if j==i:
+                    break
+                
+                
+                
 
-                ljf_x = ljw*dx # x-component
-                ljf_y = ljw*dy # y-component
+                
+                # distance-based interactions
+                #dx, dy = coords[:,j] - ci
 
-                # Sum forces
-                d[0,i] += ljf_x
-                d[1,i] += ljf_y
+                cjx, cjy = coords[0,j], coords[1,j]
+                dx = cjx - cix #coords[0,i]
+                dy = cjy - ciy #coords[1,i]
+                
+                # PBC
+                if L2x<0:
+                    if np.abs(dx)>Lx:
+                        if dx>0:
+                            dx += L2x
+                        else:
+                            dx -= L2x
+                        #dx += np.sign(dx)*L2
+                if L2y<0:
+                    if np.abs(dy)>Ly:
+                        if dy>0:
+                            dy += L2y
+                        else:
+                            dy -= L2y
+                
+                # Compute distance squared
+                rr = dx**2 + dy**2 
 
-                d[0,j] -= ljf_x
-                d[1,j] -= ljf_y
+                if rr<r2_cut: # Screen on distance squared
+
+                    eps, sig = interactions[i,j]
+                    #if eps>0:
+
+                    ljw = force(eps, sig, rr) 
+                        
+                    #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+
+                    ljf_x = ljw*dx # x-component
+                    ljf_y = ljw*dy # y-component
+
+                    # Sum forces
+                    d[0,i] += ljf_x
+                    d[1,i] += ljf_y
+
+                    d[0,j] -= ljf_x
+                    d[1,j] -= ljf_y
+        else:
+            for j in range(i+1, coords.shape[1]):
+                
+                
+                
+                
+
+                
+                # distance-based interactions
+                #dx, dy = coords[:,j] - ci
+
+                cjx, cjy = coords[0,j], coords[1,j]
+                dx = cjx - cix #coords[0,i]
+                dy = cjy - ciy #coords[1,i]
+                
+                # PBC
+                if L2x<0:
+                    if np.abs(dx)>Lx:
+                        if dx>0:
+                            dx += L2x
+                        else:
+                            dx -= L2x
+                        #dx += np.sign(dx)*L2
+                if L2y<0:
+                    if np.abs(dy)>Ly:
+                        if dy>0:
+                            dy += L2y
+                        else:
+                            dy -= L2y
+                
+                # Compute distance squared
+                rr = dx**2 + dy**2 
+
+                if rr<r2_cut: # Screen on distance squared
+
+                    eps, sig = interactions[i,j]
+                    #if eps>0:
+
+                    ljw = force(eps, sig, rr) 
+                        
+                    #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+
+                    ljf_x = ljw*dx # x-component
+                    ljf_y = ljw*dy # y-component
+
+                    # Sum forces
+                    d[0,i] += ljf_x
+                    d[1,i] += ljf_y
+
+                    d[0,j] -= ljf_x
+                    d[1,j] -= ljf_y
     return d
 
 
@@ -534,7 +636,7 @@ class box():
 
     """
 
-    def __init__(self, n_bubbles = 100, masses = None, pos = None, vel = 0.0, box = (0,0), radius = -1, relax = False, grid = True):
+    def __init__(self, n_bubbles = 100, masses = None, pos = None, vel = 0.0, box = (0,0), radius = -1, relax = False, grid = True, pair_list = True):
         # Initialize gas
 
         # Boundary conditions
@@ -618,8 +720,14 @@ class box():
         # Collision counter
         self.col = 0
 
-        
         self.first_iteration = True
+        self.iteration = 0
+
+        self.pair_list = None
+        if pair_list:
+            self.pair_list_update_frequency = 10
+            self.pair_list_buffer = 1.2
+            self.pair_list = compute_pair_list(self.pos, self.r2_cut*self.pair_list_buffer, self.L2x, self.L2y)
 
         
         # Thermostat / relaxation
@@ -759,8 +867,12 @@ class box():
         velocity-Verlet timestep
         """
         if self.first_iteration:
-            self.Fn = self.forces(self.pos, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut, force = self.force)
+            self.Fn = self.forces(self.pos, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut, force = self.force, pair_list = self.pair_list)
             self.first_iteration = False
+        if self.pair_list is not None:
+            if self.iteration % self.pair_list_update_frequency == 0:
+                self.pair_list = compute_pair_list(self.pos, self.r2_cut*self.pair_list_buffer, self.L2x, self.L2y)
+
 
         Fn = self.Fn
         
@@ -768,7 +880,7 @@ class box():
 
         pos_new = self.pos + self.d_pos
         
-        forces_new = self.forces(pos_new, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut, force = self.force)
+        forces_new = self.forces(pos_new, self.interactions, L2x = self.L2x, L2y = self.L2y, r2_cut = self.r2_cut, force = self.force, pair_list = self.pair_list)
 
         self.vel_ = self.vel_ + .5*(forces_new + Fn)*self.dt*self.masses_inv
 
@@ -792,6 +904,7 @@ class box():
 
         # Track time
         self.t += self.dt
+        self.iteration += 1
         
         
     def advance_euler(self):
