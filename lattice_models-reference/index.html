@@ -1,0 +1,1917 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>lattice_models - BubbleBox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#795649">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="brown" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#lattice-models-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BubbleBox" class="md-header__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BubbleBox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              lattice_models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BubbleBox" class="md-nav__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    BubbleBox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Code Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bubblebox-reference/" class="md-nav__link">
+        bubblebox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mdbox-reference/" class="md-nav__link">
+        mdbox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ising-reference/" class="md-nav__link">
+        ising
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          lattice_models
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        lattice_models
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models" class="md-nav__link">
+    bubblebox.lattice_models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice" class="md-nav__link">
+    lattice
+  </a>
+  
+    <nav class="md-nav" aria-label="lattice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.energy" class="md-nav__link">
+    energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.find_all_possible_placements" class="md-nav__link">
+    find_all_possible_placements()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.place_polymer_at" class="md-nav__link">
+    place_polymer_at()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.validate_placement" class="md-nav__link">
+    validate_placement()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox" class="md-nav__link">
+    latticebox
+  </a>
+  
+    <nav class="md-nav" aria-label="latticebox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.advance" class="md-nav__link">
+    advance()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.advance_detailed" class="md-nav__link">
+    advance_detailed()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.energy" class="md-nav__link">
+    energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.energy_at_site" class="md-nav__link">
+    energy_at_site()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.sample" class="md-nav__link">
+    sample()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.polymer" class="md-nav__link">
+    polymer
+  </a>
+  
+    <nav class="md-nav" aria-label="polymer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.polymer.advance_conformation" class="md-nav__link">
+    advance_conformation()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.polymer.determine_conformations" class="md-nav__link">
+    determine_conformations()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.equilibrate" class="md-nav__link">
+    equilibrate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.order_2d" class="md-nav__link">
+    order_2d()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.order_nd" class="md-nav__link">
+    order_nd()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.remove_rotational_redundance" class="md-nav__link">
+    remove_rotational_redundance()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.show_conformations" class="md-nav__link">
+    show_conformations()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.show_lattice_placement" class="md-nav__link">
+    show_lattice_placement()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binding_models-reference/" class="md-nav__link">
+        binding_models
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models" class="md-nav__link">
+    bubblebox.lattice_models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice" class="md-nav__link">
+    lattice
+  </a>
+  
+    <nav class="md-nav" aria-label="lattice">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.energy" class="md-nav__link">
+    energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.find_all_possible_placements" class="md-nav__link">
+    find_all_possible_placements()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.place_polymer_at" class="md-nav__link">
+    place_polymer_at()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.lattice.validate_placement" class="md-nav__link">
+    validate_placement()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox" class="md-nav__link">
+    latticebox
+  </a>
+  
+    <nav class="md-nav" aria-label="latticebox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.advance" class="md-nav__link">
+    advance()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.advance_detailed" class="md-nav__link">
+    advance_detailed()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.energy" class="md-nav__link">
+    energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.energy_at_site" class="md-nav__link">
+    energy_at_site()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.latticebox.sample" class="md-nav__link">
+    sample()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.polymer" class="md-nav__link">
+    polymer
+  </a>
+  
+    <nav class="md-nav" aria-label="polymer">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.polymer.advance_conformation" class="md-nav__link">
+    advance_conformation()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.polymer.determine_conformations" class="md-nav__link">
+    determine_conformations()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.equilibrate" class="md-nav__link">
+    equilibrate()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.order_2d" class="md-nav__link">
+    order_2d()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.order_nd" class="md-nav__link">
+    order_nd()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.remove_rotational_redundance" class="md-nav__link">
+    remove_rotational_redundance()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.show_conformations" class="md-nav__link">
+    show_conformations()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.lattice_models.show_lattice_placement" class="md-nav__link">
+    show_lattice_placement()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="lattice-models-module">Lattice models module</h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="bubblebox.lattice_models"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.lattice">
+        <code>
+lattice        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.lattice.energy">
+<code class="highlight language-python"><span class="n">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Computes the energy of the lattice 
+(if no lattice provided, the energy of self.lattice is computed)</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Computes the energy of the lattice </span>
+<span class="sd">    (if no lattice provided, the energy of self.lattice is computed)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">lattice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c1">#for i in range(lattice.shape[0]-1):</span>
+    <span class="c1">#    for j in range(lattice.shape[1]-1):</span>
+    <span class="c1">#        if np.abs(lattice[i,j] - lattice[i,j+1]) == 1:</span>
+    <span class="c1">#            energy += 1</span>
+    <span class="c1">#        if np.abs(lattice[i,j] - lattice[i+1,j]) == 1:</span>
+    <span class="c1">#            energy += 1</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lattice</span><span class="p">[</span><span class="mi">1</span><span class="p">:,:]</span>  <span class="o">-</span> <span class="n">lattice</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:])</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">lattice</span><span class="p">[:,</span> <span class="mi">1</span><span class="p">:]</span>  <span class="o">-</span> <span class="n">lattice</span><span class="p">[:,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">==</span><span class="mi">1</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.lattice.find_all_possible_placements">
+<code class="highlight language-python"><span class="n">find_all_possible_placements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polym</span><span class="p">,</span> <span class="n">uniques</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Returns all (unique) possible conformations of polym
+that fit in the lattice</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">find_all_possible_placements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">polym</span><span class="p">,</span> <span class="n">uniques</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns all (unique) possible conformations of polym</span>
+<span class="sd">    that fit in the lattice</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">]</span>
+
+    <span class="n">valid_conformations</span> <span class="o">=</span> <span class="p">[]</span> 
+
+    <span class="n">unique_lattices</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">ci</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">)):</span>
+                    <span class="n">c</span> <span class="o">=</span> <span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">[</span><span class="n">ci</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_placement</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">c</span><span class="p">):</span>
+                        <span class="n">conf</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">])]</span> <span class="o">+</span> <span class="n">c</span>
+                        <span class="n">conf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">conf</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+
+                        <span class="c1"># determine if conformation is unique                            </span>
+                        <span class="n">conf_unique</span> <span class="o">=</span> <span class="kc">True</span>
+                        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">valid_conformations</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">k</span><span class="o">-</span><span class="n">conf</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+                                <span class="n">conf_unique</span> <span class="o">=</span> <span class="kc">False</span>
+
+                        <span class="k">if</span> <span class="n">conf_unique</span><span class="p">:</span>
+                            <span class="n">valid_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conf</span><span class="p">)</span> <span class="c1">#, self.place_polymer_at(i,j,polym, c)])</span>
+                            <span class="c1">#unique_lattices.append(lat)</span>
+    <span class="k">return</span> <span class="n">valid_conformations</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.lattice.place_polymer_at">
+<code class="highlight language-python"><span class="n">place_polymer_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">polym</span><span class="p">,</span> <span class="n">conformation</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Returns a lattice where polymer is placed
+at coordinates i,j in lattice
+If no conformation is specified the function
+will chose the first available conformation
+which fits.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">place_polymer_at</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">polym</span><span class="p">,</span> <span class="n">conformation</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Returns a lattice where polymer is placed</span>
+<span class="sd">    at coordinates i,j in lattice</span>
+<span class="sd">    If no conformation is specified the function</span>
+<span class="sd">    will chose the first available conformation</span>
+<span class="sd">    which fits.</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">i</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="s2">&quot;invalid placement&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="n">j</span><span class="o">&lt;</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="s2">&quot;invalid placement&quot;</span>
+
+    <span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">]</span>
+
+    <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">*</span><span class="mi">1</span>
+
+    <span class="k">if</span> <span class="n">conformation</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">placed</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">)):</span>
+            <span class="n">pc</span> <span class="o">=</span> <span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_placement</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">pc</span><span class="p">):</span>
+                <span class="n">placed</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">pc</span><span class="p">)</span>
+                <span class="c1"># place polymer</span>
+                <span class="n">di</span><span class="p">,</span><span class="n">dj</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
+                <span class="n">lattice</span><span class="p">[</span><span class="n">di</span><span class="p">,</span><span class="n">dj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+                <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">[</span><span class="n">c</span><span class="p">])):</span>
+                    <span class="n">di</span> <span class="o">+=</span> <span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                    <span class="n">dj</span> <span class="o">+=</span> <span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">[</span><span class="n">c</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                    <span class="n">lattice</span><span class="p">[</span><span class="n">di</span><span class="p">,</span><span class="n">dj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">placed</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Unable to fit polymer in lattice&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate_placement</span><span class="p">(</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">conformation</span><span class="p">):</span>
+            <span class="n">di</span><span class="p">,</span><span class="n">dj</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
+            <span class="n">lattice</span><span class="p">[</span><span class="n">di</span><span class="p">,</span><span class="n">dj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">conformation</span><span class="p">)):</span>
+                <span class="n">di</span> <span class="o">+=</span> <span class="n">conformation</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="n">dj</span> <span class="o">+=</span> <span class="n">conformation</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">lattice</span><span class="p">[</span><span class="n">di</span><span class="p">,</span><span class="n">dj</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">[</span><span class="n">k</span><span class="o">+</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Conformation does not fit in lattice&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">lattice</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.lattice.validate_placement">
+<code class="highlight language-python"><span class="n">validate_placement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">conf</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Only sites with water are replaced</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">validate_placement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">,</span><span class="n">conf</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Only sites with water are replaced</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">!=-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="kc">False</span>
+    <span class="n">di</span><span class="p">,</span><span class="n">dj</span> <span class="o">=</span> <span class="n">i</span><span class="p">,</span><span class="n">j</span>
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">:</span>
+        <span class="n">di</span><span class="p">,</span> <span class="n">dj</span> <span class="o">=</span> <span class="n">di</span><span class="o">+</span><span class="n">c</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dj</span><span class="o">+</span><span class="n">c</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">di</span><span class="p">,</span><span class="n">dj</span><span class="p">]</span><span class="o">!=-</span><span class="mi">1</span> <span class="ow">or</span> <span class="n">di</span><span class="o">&lt;</span><span class="mi">0</span> <span class="ow">or</span> <span class="n">dj</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="k">return</span> <span class="kc">True</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.latticebox">
+        <code>
+latticebox        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Lattice model</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.latticebox.advance">
+<code class="highlight language-python"><span class="n">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>One Metropolis-Hastings step</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One Metropolis-Hastings step</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># pick some pairs at random</span>
+    <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">new_lattice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">)</span>
+    <span class="n">new_lattice</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:]</span>
+
+    <span class="c1">#perform swap</span>
+    <span class="n">new_lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+    <span class="n">new_lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+
+    <span class="n">E</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">new_lattice</span><span class="p">)</span>
+
+    <span class="n">dE</span> <span class="o">=</span> <span class="n">E</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">E</span>
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dE</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">kT</span><span class="p">)</span><span class="o">&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+        <span class="c1"># accept move</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">new_lattice</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">E</span> <span class="o">=</span> <span class="n">E</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.latticebox.advance_detailed">
+<code class="highlight language-python"><span class="n">advance_detailed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>One Metropolis-Hastings step</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance_detailed</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    One Metropolis-Hastings step</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+    <span class="c1"># if only neighbors are allowed to swap</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">neighbor_swap</span><span class="p">:</span>
+        <span class="n">i</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="n">ir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+        <span class="n">jr</span> <span class="o">=</span> <span class="p">(</span><span class="n">ir</span> <span class="o">+</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">)])</span><span class="o">.</span><span class="n">T</span><span class="p">)</span><span class="o">%</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:,</span><span class="kc">None</span><span class="p">]</span>
+
+        <span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel_multi_index</span><span class="p">(</span><span class="n">jr</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+
+
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="c1"># pick self.n_swaps_per_advance number of pairs</span>
+        <span class="n">i</span><span class="p">,</span><span class="n">j</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+
+    <span class="n">li</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="n">lj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+
+    <span class="c1"># remove all cases where li == lj</span>
+
+
+
+    <span class="c1"># local energies before and after swaps</span>
+    <span class="n">energies</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">))</span>
+
+
+
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">li</span><span class="o">!=</span><span class="n">lj</span><span class="p">):</span>
+        <span class="n">ir</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+        <span class="n">jr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span> <span class="n">np</span><span class="o">.</span><span class="n">unravel_index</span><span class="p">(</span><span class="n">j</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span> <span class="p">)</span>
+
+        <span class="n">ax</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+        <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+        <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)):</span>
+            <span class="c1"># current energy in i-points</span>
+            <span class="n">dr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">ax</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">neighbors_plus</span> <span class="o">=</span> <span class="p">(</span><span class="n">ir</span> <span class="o">+</span> <span class="n">dr</span><span class="p">)</span><span class="o">%</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">neighbors_min</span>  <span class="o">=</span> <span class="p">(</span><span class="n">ir</span> <span class="o">-</span> <span class="n">dr</span><span class="p">)</span><span class="o">%</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+
+            <span class="n">p_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">neighbors_plus</span><span class="p">)]</span>
+            <span class="n">m_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">neighbors_min</span><span class="p">)]</span>
+
+            <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">li</span><span class="p">,</span> <span class="n">p_p</span> <span class="p">]</span>
+            <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">li</span><span class="p">,</span> <span class="n">m_p</span> <span class="p">]</span>
+
+            <span class="c1">#swapped energy in i-points</span>
+            <span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">lj</span><span class="p">,</span> <span class="n">p_p</span> <span class="p">]</span>
+            <span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">lj</span><span class="p">,</span> <span class="n">m_p</span> <span class="p">]</span>
+
+            <span class="c1"># current energy in j-points</span>
+            <span class="n">neighbors_plus</span> <span class="o">=</span> <span class="p">(</span><span class="n">jr</span> <span class="o">+</span> <span class="n">dr</span><span class="p">)</span><span class="o">%</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">neighbors_min</span>  <span class="o">=</span> <span class="p">(</span><span class="n">jr</span> <span class="o">-</span> <span class="n">dr</span><span class="p">)</span><span class="o">%</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)[:,</span> <span class="kc">None</span><span class="p">]</span>
+            <span class="n">p_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">neighbors_plus</span><span class="p">)]</span>
+            <span class="n">m_p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">neighbors_min</span><span class="p">)]</span>
+
+            <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">lj</span><span class="p">,</span> <span class="n">p_p</span> <span class="p">]</span>
+            <span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">lj</span><span class="p">,</span> <span class="n">m_p</span> <span class="p">]</span>
+
+            <span class="c1">#swapped energy in j-points</span>
+            <span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">li</span><span class="p">,</span> <span class="n">p_p</span> <span class="p">]</span>
+            <span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+=</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">li</span><span class="p">,</span> <span class="n">m_p</span> <span class="p">]</span>
+
+
+        <span class="c1"># allow swaps depending on energy difference</span>
+
+
+        <span class="n">dE</span> <span class="o">=</span> <span class="n">energies</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">energies</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+
+        <span class="c1"># if energy change is negative, accept move</span>
+        <span class="c1">#swaps_for_sure = dE&lt;0</span>
+        <span class="c1">#self.lattice.flat[i[swaps_for_sure]] = lj[swaps_for_sure]</span>
+        <span class="c1">#self.lattice.flat[j[swaps_for_sure]] = li[swaps_for_sure]</span>
+
+
+        <span class="c1"># if not, accept with a probability depending on the energy difference</span>
+        <span class="n">swaps</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">dE</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">kT</span><span class="p">)</span><span class="o">&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">)</span>
+
+        <span class="n">swaps</span><span class="p">[</span><span class="n">li</span> <span class="o">==</span> <span class="n">lj</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1">#print(dE[li == lj])</span>
+        <span class="c1">#print(dE[li != lj])</span>
+        <span class="c1">#print(np.exp(-dE/self.kT))</span>
+        <span class="c1">#swaps[swaps_for_sure] = False #these have already been swapped</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="n">swaps</span><span class="p">]]</span> <span class="o">=</span> <span class="n">lj</span><span class="p">[</span><span class="n">swaps</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">flat</span><span class="p">[</span><span class="n">j</span><span class="p">[</span><span class="n">swaps</span><span class="p">]]</span> <span class="o">=</span> <span class="n">li</span><span class="p">[</span><span class="n">swaps</span><span class="p">]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">iterations</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.latticebox.energy">
+<code class="highlight language-python"><span class="n">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>compute the energy of the entire lattice</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lattice</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    compute the energy of the entire lattice</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">lattice</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span>
+    <span class="n">energy</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)):</span>
+        <span class="n">energy</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">i</span><span class="p">)</span><span class="o">.</span><span class="n">ravel</span><span class="p">(),</span> <span class="n">lattice</span><span class="o">.</span><span class="n">ravel</span><span class="p">()]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">energy</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.latticebox.energy_at_site">
+<code class="highlight language-python"><span class="n">energy_at_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">li</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute energy at site</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">energy_at_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">li</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute energy at site</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">dl</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="n">dl</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+
+    <span class="n">energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="mi">2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_swaps_per_advance</span><span class="p">))</span>
+
+
+    <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)):</span>
+        <span class="c1">#print(self.lattice[tuple(i)], i)</span>
+        <span class="k">if</span> <span class="n">li</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">li</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">(</span><span class="n">i</span><span class="p">)]</span>
+        <span class="c1">#print(&quot;li:&quot;, li)</span>
+        <span class="c1">#print(&quot;i :&quot;, i)</span>
+        <span class="c1">#print(self.interaction[[self.lattice[tuple(i)], li], self.lattice[tuple((i+np.roll(dl, m))%self.lattice.shape)]])</span>
+        <span class="c1">#print(&quot;e:&quot;, i, li)</span>
+        <span class="c1">#energy += self.interaction[[self.lattice[tuple(i)], li], self.lattice[tuple((i+np.roll(dl, m))%self.lattice.shape)]]</span>
+        <span class="c1">#energy += self.interaction[[self.lattice[tuple(i)], li], self.lattice[tuple((i-np.roll(dl, m))%self.lattice.shape)]]</span>
+
+        <span class="c1">#print(self.interaction[[self.lattice[i], li], self.lattice[tuple((i+np.roll(dl, m))%self.lattice.shape)]])</span>
+        <span class="n">energy</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">li</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">((</span><span class="n">i</span><span class="o">+</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)]]</span>
+        <span class="n">energy</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interaction</span><span class="p">[[</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">li</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="nb">tuple</span><span class="p">((</span><span class="n">i</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">dl</span><span class="p">,</span> <span class="n">m</span><span class="p">))</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)]]</span>
+
+
+    <span class="k">return</span> <span class="n">energy</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.latticebox.sample">
+<code class="highlight language-python"><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>update measurements</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;update measurements&quot;&quot;&quot;</span>
+
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">s_energy</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">s_energy</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span><span class="p">())</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">samples</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.polymer">
+        <code>
+polymer        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.polymer.advance_conformation">
+<code class="highlight language-python"><span class="n">advance_conformation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conformation</span><span class="p">,</span> <span class="n">points</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Recurrent function for discovering 
+possible conformations.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance_conformation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conformation</span><span class="p">,</span> <span class="n">points</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Recurrent function for discovering </span>
+<span class="sd">    possible conformations.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">conformation</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conformations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">conformation</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">basis</span><span class="p">:</span>
+            <span class="c1">#if not np.all(i == -1*conformation[-1]):</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">i</span> <span class="o">+</span> <span class="n">conformation</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">new_point</span> <span class="o">=</span> <span class="n">points</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">new_point</span> <span class="o">-</span> <span class="n">points</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span><span class="o">==</span><span class="mi">0</span><span class="p">):</span> <span class="c1"># and np.sum(new_point**2)&gt;0:</span>
+                    <span class="n">new_points</span> <span class="o">=</span> <span class="n">points</span> <span class="o">+</span> <span class="p">[</span><span class="n">new_point</span><span class="p">]</span>
+                    <span class="n">new_conformation</span> <span class="o">=</span> <span class="n">conformation</span> <span class="o">+</span> <span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">advance_conformation</span><span class="p">(</span><span class="n">new_conformation</span><span class="p">,</span> <span class="n">new_points</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.lattice_models.polymer.determine_conformations">
+<code class="highlight language-python"><span class="n">determine_conformations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Explore and determine possible conformations</p>
+<p><strong>Note</strong> The generated conformations contain a lot of 
+         redundancy due to symmetries.
+         However, we simply want a set which is compact 
+         enough for a somewhat efficient exploration of
+         small polymers.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">determine_conformations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Explore and determine possible conformations</span>
+
+<span class="sd">    **Note** The generated conformations contain a lot of </span>
+<span class="sd">             redundancy due to symmetries.</span>
+<span class="sd">             However, we simply want a set which is compact </span>
+<span class="sd">             enough for a somewhat efficient exploration of</span>
+<span class="sd">             small polymers.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">advance_conformation</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])])</span>
+
+    <span class="c1"># generate transformed conformations</span>
+    <span class="n">transformed_conformations</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">conformations</span><span class="p">:</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>  <span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+        <span class="n">transformed_conformations</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="o">-</span><span class="n">j</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">i</span><span class="p">])</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">conformations</span> <span class="o">=</span> <span class="n">transformed_conformations</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.equilibrate">
+<code class="highlight language-python"><span class="n">equilibrate</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n_thresh</span><span class="o">=</span><span class="mf">100000.0</span><span class="p">,</span> <span class="n">dn</span><span class="o">=</span><span class="mi">2000</span><span class="p">,</span> <span class="n">thresh</span><span class="o">=</span><span class="mf">2e-05</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Equilibrate a lattice system</p>
+<p>Aaguments
+n_thresh = number of iterations before we start
+           accumulating energy
+dn       = number of iterations between each sample
+thresh   = assume equilibrated when relative change in energy
+           falls below this threshold</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">equilibrate</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">n_thresh</span> <span class="o">=</span> <span class="mf">1e5</span><span class="p">,</span> <span class="n">dn</span> <span class="o">=</span> <span class="mi">2000</span><span class="p">,</span> <span class="n">thresh</span> <span class="o">=</span> <span class="mf">2e-5</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Equilibrate a lattice system</span>
+
+<span class="sd">    Aaguments</span>
+<span class="sd">    n_thresh = number of iterations before we start</span>
+<span class="sd">               accumulating energy</span>
+<span class="sd">    dn       = number of iterations between each sample</span>
+<span class="sd">    thresh   = assume equilibrated when relative change in energy</span>
+<span class="sd">               falls below this threshold</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># first, move system towards equilibrium </span>
+    <span class="c1"># before we start sampling</span>
+    <span class="n">l</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">n_thresh</span><span class="p">))</span>
+
+    <span class="c1"># then start sampling the energy</span>
+    <span class="n">n_samples</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">#number of samples</span>
+    <span class="n">energy_ac</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">#accumulated energy</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">200</span><span class="p">):</span>
+        <span class="n">l</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">dn</span><span class="p">)</span>
+        <span class="n">ei</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span><span class="o">/</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">size</span> <span class="c1">#compute the lattice energy per particle</span>
+
+        <span class="n">energy_ac_prev</span> <span class="o">=</span> <span class="n">energy_ac</span> <span class="c1">#retain previous energy</span>
+        <span class="n">energy_ac</span> <span class="o">=</span> <span class="p">(</span><span class="n">energy_ac</span><span class="o">*</span><span class="n">n_samples</span> <span class="o">+</span> <span class="n">ei</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">n_samples</span> <span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="c1">#update accumulated mean energy</span>
+        <span class="n">n_samples</span> <span class="o">+=</span> <span class="mi">1</span> <span class="c1">#update number of samples</span>
+
+        <span class="c1"># compute relative change</span>
+        <span class="n">relative_change_in_energy</span> <span class="o">=</span> <span class="p">(</span><span class="n">energy_ac</span><span class="o">-</span><span class="n">energy_ac_prev</span><span class="p">)</span><span class="o">/</span><span class="n">energy_ac</span> 
+
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">relative_change_in_energy</span><span class="p">)</span><span class="o">&lt;</span><span class="n">thresh</span><span class="p">:</span>
+            <span class="c1"># if relative change in energy is below thresh, </span>
+            <span class="c1"># return the equilibrated lattice</span>
+            <span class="c1">#print(&quot;Equilibrated lattice with %i samples, final relative change in energy: %.10e&quot; % (n_samples, relative_change_in_energy))</span>
+            <span class="k">return</span> <span class="n">l</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Failed to equilibrate&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">l</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.order_2d">
+<code class="highlight language-python"><span class="n">order_2d</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>for each site on the lattice,
+measure the number of differing neighbors</p>
+<p>should be used after equilibration</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">order_2d</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    for each site on the lattice,</span>
+<span class="sd">    measure the number of differing neighbors</span>
+
+<span class="sd">    should be used after equilibration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># compute absolute differences between neighboring sites</span>
+    <span class="n">lnn</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">lnn</span><span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span>
+    <span class="n">lnn</span><span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+    <span class="n">lnn</span><span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># for species A</span>
+    <span class="n">lnn_A</span> <span class="o">=</span> <span class="n">lnn</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">==</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">lnn_A_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">lnn_A</span><span class="p">)</span>
+    <span class="c1"># should be 1 if A perfectly separated</span>
+    <span class="c1"># should be 0.5 if perfectly mixed</span>
+
+
+    <span class="c1"># for species B</span>
+    <span class="n">lnn_B</span> <span class="o">=</span> <span class="n">lnn</span><span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">==</span><span class="mi">1</span><span class="p">]</span>
+    <span class="n">lnn_B_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">lnn_B</span><span class="p">)</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    #summarize results</span>
+<span class="sd">    for i in range(len(lnn_A_bins)):</span>
+<span class="sd">        print(&quot;A fraction of %.3f of species A have %i neighbors different than itself &quot; % (lnn_A_bins[i]/l.number_of_species[0], i))</span>
+
+<span class="sd">    print(&quot; &quot;)</span>
+
+<span class="sd">    for i in range(len(lnn_B_bins)):</span>
+<span class="sd">        print(&quot;A fraction of %.3f of species B have %i neighbors different than itself &quot; % (lnn_B_bins[i]/l.number_of_species[1], i))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># if we only count sites surrounded by at least three molecules </span>
+    <span class="c1"># identical to the one occupying the site as being in phase A or B, </span>
+    <span class="c1"># and the remaining ones in liquid phase, we can return the following estimates</span>
+    <span class="c1"># notice, however, that this is a matter of interpretation</span>
+    <span class="n">n_in_phase_A</span> <span class="o">=</span> <span class="n">lnn_A_bins</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">n_in_phase_B</span> <span class="o">=</span> <span class="n">lnn_B_bins</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">n_in_mixed_phase</span> <span class="o">=</span> <span class="n">lnn_A_bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">+</span> <span class="n">lnn_B_bins</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">lnn_A</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">/</span><span class="mf">4.0</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.order_nd">
+<code class="highlight language-python"><span class="n">order_nd</span><span class="p">(</span><span class="n">l</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>for each site on the lattice,
+measure the number of differing neighbors</p>
+<p>should be used after equilibration</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">order_nd</span><span class="p">(</span><span class="n">l</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    for each site on the lattice,</span>
+<span class="sd">    measure the number of differing neighbors</span>
+
+<span class="sd">    should be used after equilibration</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># compute absolute differences between neighboring sites</span>
+    <span class="n">lnn</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">)):</span>
+        <span class="n">lnn</span><span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span>  <span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">i</span><span class="p">))</span>
+        <span class="n">lnn</span><span class="o">+=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="n">i</span><span class="p">))</span>
+
+
+    <span class="c1"># for species A</span>
+    <span class="n">lnn_A</span> <span class="o">=</span> <span class="n">lnn</span> <span class="c1">#[l.lattice==0]</span>
+    <span class="n">lnn_A_bins</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">lnn_A</span><span class="o">.</span><span class="n">ravel</span><span class="p">())</span>
+
+    <span class="c1">#print(lnn_A_bins/np.sum(l.lattice==0))</span>
+    <span class="c1"># should be 1 if A perfectly separated</span>
+    <span class="c1"># should be 0.5 if perfectly mixed</span>
+
+    <span class="c1">#return lnn_A.mean()/(2*nd)</span>
+    <span class="k">return</span> <span class="n">lnn_A_bins</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lnn_A_bins</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lnn</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.remove_rotational_redundance">
+<code class="highlight language-python"><span class="n">remove_rotational_redundance</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">remove_reversed</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Remove rotational redundancies from the set of conformations conf</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">remove_rotational_redundance</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">remove_reversed</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Remove rotational redundancies from the set of conformations conf</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">nonredundant_set</span> <span class="o">=</span> <span class="p">[]</span>  <span class="c1">#nonredundant conformations to be added here</span>
+
+    <span class="k">for</span> <span class="n">c</span> <span class="ow">in</span> <span class="n">conf</span><span class="p">:</span>
+        <span class="n">nonredundant</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># if nonredundant, add to nonredundant_set</span>
+        <span class="n">cc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+
+        <span class="c1"># check for redundancies</span>
+        <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">nonredundant_set</span><span class="p">:</span>
+            <span class="n">mc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mc</span><span class="o">-</span><span class="n">cc</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+                    <span class="n">nonredundant</span> <span class="o">=</span> <span class="kc">False</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]))</span> <span class="c1">#rotate polymer 90 degrees</span>
+
+            <span class="k">if</span> <span class="n">remove_reversed</span><span class="p">:</span>
+                <span class="n">cc</span> <span class="o">=</span> <span class="n">cc</span><span class="p">[::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="c1"># reverse polymer</span>
+                <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">4</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">mc</span><span class="o">-</span><span class="n">cc</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">1e-10</span><span class="p">:</span>
+                        <span class="n">nonredundant</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="n">cc</span> <span class="o">=</span> <span class="n">cc</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]))</span>
+
+
+        <span class="k">if</span> <span class="n">nonredundant</span><span class="p">:</span>
+            <span class="n">nonredundant_set</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">nonredundant_set</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.show_conformations">
+<code class="highlight language-python"><span class="n">show_conformations</span><span class="p">(</span><span class="n">polym</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Show all possible conformations of polym(er)</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">show_conformations</span><span class="p">(</span><span class="n">polym</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show all possible conformations of polym(er)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">))</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">sep</span> <span class="o">=</span> <span class="mf">6.5</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lp</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">)</span>
+    <span class="n">hi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">])</span><span class="o">==</span><span class="s2">&quot;H&quot;</span>
+    <span class="n">pi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">polym</span><span class="o">.</span><span class="n">config</span><span class="p">])</span><span class="o">==</span><span class="s2">&quot;P&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">c</span><span class="o">&lt;</span><span class="n">lp</span><span class="p">:</span>
+                <span class="n">conf</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">])]</span> <span class="o">+</span> <span class="n">polym</span><span class="o">.</span><span class="n">conformations</span><span class="p">[</span><span class="n">c</span><span class="p">]</span>
+                <span class="n">conf</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">cumsum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">conf</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+
+                <span class="n">conf</span> <span class="o">=</span> <span class="n">conf</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">conf</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)[</span><span class="kc">None</span><span class="p">,</span> <span class="p">:]</span>
+
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">conf</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">sep</span><span class="p">,</span> <span class="n">conf</span><span class="p">[:,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="o">*</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="n">hi</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">sep</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="n">hi</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="o">*</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">.8</span><span class="p">,</span><span class="mf">.3</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">conf</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="n">sep</span><span class="p">,</span> <span class="n">conf</span><span class="p">[</span><span class="n">pi</span><span class="p">,</span><span class="mi">1</span><span class="p">]</span><span class="o">-</span><span class="n">j</span><span class="o">*</span><span class="n">sep</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span> <span class="p">,</span><span class="mf">.3</span><span class="p">,</span><span class="mf">.8</span><span class="p">),</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+                <span class="n">c</span> <span class="o">+=</span><span class="mi">1</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="n">sep</span><span class="p">,</span> <span class="n">sep</span><span class="o">*</span><span class="n">n</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="n">sep</span><span class="o">*</span><span class="n">n</span><span class="p">,</span> <span class="n">sep</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.lattice_models.show_lattice_placement">
+<code class="highlight language-python"><span class="n">show_lattice_placement</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Show how the lattice l looks when polymer p is placed 
+as defined by positions c</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/lattice_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">show_lattice_placement</span><span class="p">(</span><span class="n">l</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">c</span><span class="p">):</span>
+
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show how the lattice l looks when polymer p is placed </span>
+<span class="sd">    as defined by positions c</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+
+
+    <span class="k">if</span> <span class="nb">type</span><span class="p">(</span><span class="n">c</span><span class="p">)</span> <span class="ow">is</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">c</span><span class="p">]</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">))</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">counter</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">2</span><span class="o">*</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]))</span>
+
+    <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span><span class="p">,</span> <span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="mi">3</span>
+
+    <span class="n">unique_lattices</span> <span class="o">=</span> <span class="p">[]</span> <span class="c1">#list to hold unique lattice configurations</span>
+
+
+
+
+
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">counter</span><span class="o">&lt;</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">):</span>
+
+                <span class="c1">#compute energy of polymer</span>
+                <span class="n">energy_polymer</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span>
+
+                <span class="c1">#compute energy of empty cavity</span>
+                <span class="n">energy_cavity</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">energy</span><span class="p">()</span> 
+
+
+                <span class="n">pts</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">+</span><span class="n">dx</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">+</span><span class="n">dy</span><span class="o">*</span><span class="n">j</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+                <span class="n">lat</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">lattice</span><span class="o">*</span><span class="mi">1</span>
+
+                <span class="n">config</span> <span class="o">=</span> <span class="p">[</span><span class="n">l</span><span class="o">.</span><span class="n">_edict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">p</span><span class="o">.</span><span class="n">config</span><span class="p">]</span>
+
+                <span class="n">lat</span><span class="p">[</span><span class="n">c</span><span class="p">[</span><span class="n">counter</span><span class="p">][:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">c</span><span class="p">[</span><span class="n">counter</span><span class="p">][:,</span> <span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">config</span>
+
+                <span class="c1"># compute energy of filled cavity</span>
+                <span class="n">energy_filled</span> <span class="o">=</span> <span class="n">l</span><span class="o">.</span><span class="n">energy</span><span class="p">(</span><span class="n">lat</span><span class="p">)</span>
+
+                <span class="n">lat</span> <span class="o">=</span> <span class="n">lat</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+
+                <span class="n">lw</span> <span class="o">=</span> <span class="n">lat</span><span class="o">==-</span><span class="mi">1</span>
+                <span class="n">lh</span> <span class="o">=</span> <span class="n">lat</span><span class="o">==</span> <span class="mi">0</span>
+                <span class="n">lp</span> <span class="o">=</span> <span class="n">lat</span><span class="o">==</span> <span class="mi">1</span>
+
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">lw</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">lw</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">.3</span><span class="p">,</span><span class="mf">.3</span><span class="p">,</span><span class="mf">.8</span><span class="p">))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">lh</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">lh</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">.9</span><span class="p">,</span><span class="mf">.9</span><span class="p">,</span><span class="mf">.3</span><span class="p">))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">lp</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">lp</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">5</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mf">.8</span><span class="p">,</span><span class="mf">.4</span><span class="p">,</span><span class="mf">.3</span><span class="p">))</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">lw</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">lw</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">zorder</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">lh</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">lh</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">zorder</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">pts</span><span class="p">[</span><span class="n">lp</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">pts</span><span class="p">[</span><span class="n">lp</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">7</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">zorder</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">c</span><span class="p">[</span><span class="n">counter</span><span class="p">][:,</span><span class="mi">0</span><span class="p">]</span><span class="o">+</span><span class="n">dy</span><span class="o">*</span><span class="n">j</span><span class="p">,</span> <span class="n">c</span><span class="p">[</span><span class="n">counter</span><span class="p">][:,</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">dx</span><span class="o">*</span><span class="n">i</span><span class="p">,</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">zorder</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+
+
+                <span class="c1">#print(&quot;Polymer self-energy    :&quot;, energy_polymer)</span>
+                <span class="c1">#print(&quot;Energy of empty cavity :&quot;, energy_cavity)</span>
+                <span class="c1">#print(&quot;Energy of filled cavity:&quot;, energy_filled)</span>
+                <span class="c1">#print(&quot;Total energy.          :&quot;, energy_filled - energy_cavity - energy_polymer)</span>
+                <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">dy</span><span class="o">*</span><span class="p">(</span><span class="n">j</span><span class="o">+</span><span class="mf">.25</span><span class="p">),</span> <span class="n">dx</span><span class="o">*</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="s2">&quot;$\epsilon$ = </span><span class="si">%i</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">energy_filled</span> <span class="o">-</span> <span class="n">energy_cavity</span> <span class="o">-</span> <span class="n">energy_polymer</span><span class="p">),</span> <span class="n">ha</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">fontsize</span> <span class="o">=</span> <span class="mi">8</span><span class="p">)</span>
+                <span class="n">counter</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../ising-reference/" class="md-footer__link md-footer__link--prev" aria-label="Previous: ising" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              ising
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../binding_models-reference/" class="md-footer__link md-footer__link--next" aria-label="Next: binding_models" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              binding_models
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

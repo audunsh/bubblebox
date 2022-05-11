@@ -1,0 +1,1745 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>mdbox - BubbleBox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#795649">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="brown" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#mdbox-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BubbleBox" class="md-header__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BubbleBox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              mdbox
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BubbleBox" class="md-nav__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    BubbleBox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Code Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bubblebox-reference/" class="md-nav__link">
+        bubblebox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          mdbox
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        mdbox
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox" class="md-nav__link">
+    bubblebox.mdbox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.animated_system" class="md-nav__link">
+    animated_system
+  </a>
+  
+    <nav class="md-nav" aria-label="animated_system">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.animated_system.setup_plot" class="md-nav__link">
+    setup_plot()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox" class="md-nav__link">
+    mdbox
+  </a>
+  
+    <nav class="md-nav" aria-label="mdbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.advance_euler" class="md-nav__link">
+    advance_euler()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.advance_vverlet" class="md-nav__link">
+    advance_vverlet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.evolve" class="md-nav__link">
+    evolve()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.kinetic_energies" class="md-nav__link">
+    kinetic_energies()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.kinetic_energy" class="md-nav__link">
+    kinetic_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.potential_energy" class="md-nav__link">
+    potential_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.relax_positions" class="md-nav__link">
+    relax_positions()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.relax_sa" class="md-nav__link">
+    relax_sa()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.visualize_state" class="md-nav__link">
+    visualize_state()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.arrange_in_grid" class="md-nav__link">
+    arrange_in_grid()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.collisions" class="md-nav__link">
+    collisions()
+  </a>
+  
+    <nav class="md-nav" aria-label="collisions()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.collisions--note" class="md-nav__link">
+    Note
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.coulomb_force" class="md-nav__link">
+    coulomb_force()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.hook_force" class="md-nav__link">
+    hook_force()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.pos2heatmap" class="md-nav__link">
+    pos2heatmap()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ising-reference/" class="md-nav__link">
+        ising
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lattice_models-reference/" class="md-nav__link">
+        lattice_models
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binding_models-reference/" class="md-nav__link">
+        binding_models
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox" class="md-nav__link">
+    bubblebox.mdbox
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.animated_system" class="md-nav__link">
+    animated_system
+  </a>
+  
+    <nav class="md-nav" aria-label="animated_system">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.animated_system.setup_plot" class="md-nav__link">
+    setup_plot()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox" class="md-nav__link">
+    mdbox
+  </a>
+  
+    <nav class="md-nav" aria-label="mdbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.advance_euler" class="md-nav__link">
+    advance_euler()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.advance_vverlet" class="md-nav__link">
+    advance_vverlet()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.evolve" class="md-nav__link">
+    evolve()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.kinetic_energies" class="md-nav__link">
+    kinetic_energies()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.kinetic_energy" class="md-nav__link">
+    kinetic_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.potential_energy" class="md-nav__link">
+    potential_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.relax_positions" class="md-nav__link">
+    relax_positions()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.relax_sa" class="md-nav__link">
+    relax_sa()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.mdbox.visualize_state" class="md-nav__link">
+    visualize_state()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.arrange_in_grid" class="md-nav__link">
+    arrange_in_grid()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.collisions" class="md-nav__link">
+    collisions()
+  </a>
+  
+    <nav class="md-nav" aria-label="collisions()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.collisions--note" class="md-nav__link">
+    Note
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.coulomb_force" class="md-nav__link">
+    coulomb_force()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.hook_force" class="md-nav__link">
+    hook_force()
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.mdbox.pos2heatmap" class="md-nav__link">
+    pos2heatmap()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="mdbox-module">MDBox module</h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="bubblebox.mdbox"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.animated_system">
+        <code>
+animated_system        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.animated_system.setup_plot">
+<code class="highlight language-python"><span class="n">setup_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initial drawing of the scatter plot.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">setup_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initial drawing of the scatter plot.&quot;&quot;&quot;</span>
+
+
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">pos</span>
+    <span class="c1">#s = 10 + 2*self.system.masses</span>
+
+    <span class="c1">#c = (1,0,0)</span>
+    <span class="c1">#c = np.random.uniform(0,1,(self.system.N_bubbles, 3))</span>
+
+    <span class="n">c</span> <span class="o">=</span> <span class="n">colorscheme</span><span class="p">()</span>
+
+    <span class="n">Lx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span>
+    <span class="n">Ly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+
+        <span class="n">wx1</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">Lx</span><span class="p">,</span> <span class="o">-</span><span class="n">Lx</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">Ly</span><span class="p">,</span> <span class="n">Ly</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">wx2</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Lx</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">Ly</span><span class="p">,</span> <span class="n">Ly</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">wx3</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">Lx</span><span class="p">,</span><span class="n">Lx</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="n">Ly</span><span class="p">,</span> <span class="o">-</span><span class="n">Ly</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span>
+        <span class="n">wx4</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">Lx</span><span class="p">,</span><span class="n">Lx</span><span class="p">],</span> <span class="p">[</span> <span class="n">Ly</span><span class="p">,</span>  <span class="n">Ly</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">scatterplot</span><span class="p">:</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">masses</span><span class="p">)</span><span class="o">*</span><span class="mi">10</span> <span class="c1">#/self.system.Lx</span>
+
+        <span class="n">c</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">getcol</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">masses</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">masses</span><span class="o">.</span><span class="n">max</span><span class="p">())</span><span class="o">.</span><span class="n">T</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bubbles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">c</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="n">s</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">marker</span> <span class="o">=</span> <span class="s2">&quot;8&quot;</span><span class="p">)</span>
+        <span class="c1">#self.bubbles = self.ax.scatter(x, y, s= s, edgecolor=&quot;k&quot;, marker = &quot;8&quot;)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">bubbles</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="s2">&quot;o&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">c</span><span class="o">.</span><span class="n">getcol</span><span class="p">(</span><span class="mf">.4</span><span class="p">),</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">4</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">ax</span><span class="o">.</span><span class="n">axis</span><span class="p">([</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span><span class="o">+</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">L05x</span> <span class="o">=</span> <span class="mf">0.1</span>
+
+    <span class="n">L05x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span><span class="o">*</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="n">L05y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span><span class="o">*</span><span class="mf">0.05</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">L2x</span> <span class="o">==</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">L05x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">L05x</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,:])</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">L2y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">L05y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">L05y</span><span class="p">,</span> <span class="mi">10</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,:])</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span><span class="o">-</span><span class="n">L05x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Lx</span><span class="o">+</span><span class="n">L05x</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span><span class="o">-</span><span class="n">L05y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">Ly</span><span class="o">+</span><span class="n">L05y</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bubbles</span><span class="p">,</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.mdbox">
+        <code>
+mdbox        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Simple 2D Lennard-Jones liquid simulation</p>
+      <p>box              -- boundary conditions in (x,y) direction:
+                    ( x &gt; 0 , _ ) = closed boundary at x and -x
+                    ( x = 0 , _ ) = no boundary in x-direction
+                    ( x &lt; 0 , _ ) = periodic boundary at x and -x
+n_bubbles        -- number of bubbles (int, default 100)
+masses           -- array containing particle masses (default 1)
+pos              -- array of shape (3, n_bubbles) containing positions
+vel              -- array of scalars with maximum random velocity
+radius           -- 
+relax            -- minimize potential energy on initialization using simulated annealing
+grid             -- initial spacing in a grid (default True)</p>
+<p>Example usage (in a notebook):</p>
+<p>import hylleraas.bubblebox as bb</p>
+<p>%matplotlib notebook</p>
+<p>system = mdbox(n_bubbles = 100, size = (10,10)) #initialize 10 by 10 closed box containing 100 bubbles</p>
+<p>system.run() #run simulation interactively </p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.advance_euler">
+<code class="highlight language-python"><span class="n">advance_euler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Advance one step in time according to the explicit Euler algorithm</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance_euler</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Advance one step in time according to the explicit Euler algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2_cut</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">masses_inv</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+
+    <span class="c1"># impose PBC</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span>
+
+    <span class="c1"># impose wall and collision bounary conditions</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">collisions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="p">,</span> <span class="n">screen</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">Lx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="n">masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="p">)</span>
+
+
+    <span class="c1"># Track time</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.advance_vverlet">
+<code class="highlight language-python"><span class="n">advance_vverlet</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Advance one step in time according to the Velocity-Verlet algorithm</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance_vverlet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Advance one step in time according to the Velocity-Verlet algorithm</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">first_iteration</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">,</span> <span class="n">L2x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="n">L2y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">,</span> <span class="n">r2_cut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2_cut</span><span class="p">,</span> <span class="n">force</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">,</span> <span class="n">pair_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pair_list</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">first_iteration</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pair_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">iteration</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">pair_list_update_frequency</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pair_list</span> <span class="o">=</span> <span class="n">compute_pair_list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2_cut</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">pair_list_buffer</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">)</span>
+
+
+    <span class="n">Fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Fn</span>
+
+    <span class="c1"># field</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">fields</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">,</span> <span class="n">dv</span> <span class="o">=</span> <span class="n">gen_field</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbins</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+        <span class="c1">#self.vel_ = .99*self.vel_ + .01*dv.T</span>
+        <span class="n">Fn</span> <span class="o">+=</span> <span class="mf">.1</span><span class="o">*</span><span class="n">dv</span><span class="o">.</span><span class="n">T</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">d_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span> <span class="o">+</span> <span class="mf">.5</span><span class="o">*</span><span class="n">Fn</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">masses_inv</span>
+
+    <span class="n">pos_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">d_pos</span>
+
+    <span class="n">forces_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">(</span><span class="n">pos_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">,</span> <span class="n">L2x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="n">L2y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">,</span> <span class="n">r2_cut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2_cut</span><span class="p">,</span> <span class="n">force</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">,</span> <span class="n">pair_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pair_list</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span> <span class="o">+</span> <span class="mf">.5</span><span class="o">*</span><span class="p">(</span><span class="n">forces_new</span> <span class="o">+</span> <span class="n">Fn</span><span class="p">)</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">masses_inv</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">Fn</span> <span class="o">=</span> <span class="n">forces_new</span>
+
+
+    <span class="c1"># impose PBC</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">pos_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">pos_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">pos_new</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">pos_new</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span>
+
+    <span class="c1"># impose wall and collision boundary conditions</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">col</span> <span class="o">=</span> <span class="n">collisions</span><span class="p">(</span><span class="n">pos_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="p">,</span> <span class="n">screen</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">radius</span><span class="p">,</span> <span class="n">Lx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="n">masses</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="p">)</span>
+
+    <span class="c1">#update arrays (in order to retain velocity)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">vel</span> <span class="o">=</span> <span class="p">(</span><span class="n">pos_new</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos_old</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">dt</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pos_old</span><span class="p">[:]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span> <span class="o">=</span> <span class="n">pos_new</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span>
+
+    <span class="c1"># Track time</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dt</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">iteration</span> <span class="o">+=</span> <span class="mi">1</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.evolve">
+<code class="highlight language-python"><span class="n">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Let system evolve in time for t seconds</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Let system evolve in time for t seconds</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">t1</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">+</span><span class="n">t</span>
+    <span class="k">while</span> <span class="bp">self</span><span class="o">.</span><span class="n">t</span><span class="o">&lt;</span><span class="n">t1</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.kinetic_energies">
+<code class="highlight language-python"><span class="n">kinetic_energies</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute kinetic energy of each bubble</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">kinetic_energies</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute kinetic energy of each bubble</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Vektorisert funksjon med hensyn på ytelse</span>
+    <span class="k">return</span> <span class="mf">.5</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.kinetic_energy">
+<code class="highlight language-python"><span class="n">kinetic_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute total kinetic energy in system</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">kinetic_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute total kinetic energy in system</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Vektorisert funksjon med hensyn på ytelse</span>
+    <span class="k">return</span> <span class="mf">.5</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">masses</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel_</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.potential_energy">
+<code class="highlight language-python"><span class="n">potential_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute total potential energy in system</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">potential_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute total potential energy in system</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">lj_potential</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">,</span> <span class="n">L2x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="n">L2y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">,</span> <span class="n">r2_cut</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">r2_cut</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.relax_positions">
+<code class="highlight language-python"><span class="n">relax_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>deterministic relaxation using forces</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">relax_positions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    deterministic relaxation using forces</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">20</span><span class="p">):</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">-=</span> <span class="mf">.1</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span>
+        <span class="c1">#PBC</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">*=</span> <span class="mf">.99</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.relax_sa">
+<code class="highlight language-python"><span class="n">relax_sa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nt</span><span class="p">,</span> <span class="n">stepsize</span><span class="o">=</span><span class="mf">0.01</span><span class="p">,</span> <span class="n">pbc</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Simulated annealing relaxation by maximization of the norm of the distance matrix</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">relax_sa</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nt</span><span class="p">,</span> <span class="n">stepsize</span> <span class="o">=</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">pbc</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Simulated annealing relaxation by maximization of the norm of the distance matrix</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># simulated annealing thermostat</span>
+
+
+    <span class="n">f0</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">forces</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">interactions</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">force</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">n_bubbles</span>
+
+    <span class="c1">#dist = distances(self.pos)</span>
+    <span class="c1">#dd = distances_reduced(self.pos, self.L2x, self.L2y)</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distances_reduced</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">f0</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">dd</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dd</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+
+
+    <span class="c1">#f0 = np.sum((dist - np.mean(dist))**2)</span>
+
+
+    <span class="c1">#print(f0)</span>
+
+
+    <span class="n">temp</span> <span class="o">=</span> <span class="mi">2</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;initial&quot;</span><span class="p">,</span> <span class="n">f0</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Nt</span><span class="p">):</span>
+        <span class="n">pos_new</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">*</span><span class="mi">1</span>
+        <span class="n">pos_new</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[:,</span> <span class="bp">self</span><span class="o">.</span><span class="n">active</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="o">*</span><span class="n">stepsize</span>
+        <span class="c1">#f1 = np.sum(forces(pos_new, self.interactions, self.L2x, self.L2y)**2)/self.n_bubbles</span>
+        <span class="c1">#f1 = np.sum((self.pos - np.mean(self.pos, axis = 1)[:, None])**2)</span>
+        <span class="c1">#dist = distances(pos_new)</span>
+
+        <span class="n">dd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distances_reduced</span><span class="p">(</span><span class="n">pos_new</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">dd</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dd</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="c1">#if np.any(np.abs(pos_new)&gt;=self.L):</span>
+        <span class="c1">#    pass</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">f1</span><span class="o">-</span><span class="n">f0</span><span class="p">)</span><span class="o">/</span><span class="n">temp</span><span class="p">)</span><span class="o">&gt;</span><span class="mf">0.9</span><span class="p">:</span>
+            <span class="c1"># accept</span>
+
+
+
+            <span class="c1"># impose PBC for both walled and periodic conditions, to evenly distribute particles</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">pos_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">pos_new</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="o">&lt;</span><span class="mi">0</span><span class="p">:</span>
+                <span class="n">pos_new</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="p">:]</span>  <span class="o">=</span> <span class="p">(</span><span class="n">pos_new</span><span class="p">[</span><span class="mi">1</span><span class="p">,:]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">%</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">pos</span> <span class="o">=</span> <span class="n">pos_new</span><span class="o">*</span><span class="mi">1</span>
+            <span class="n">f0</span> <span class="o">=</span> <span class="n">f1</span><span class="o">*</span><span class="mi">1</span>
+
+
+
+
+            <span class="c1"># impose wall boundary conditions</span>
+            <span class="c1">#if self.walls_x or self.walls_y:</span>
+            <span class="c1">#    self.vel, self.col = wall_collisions(pos_new, self.vel, wall = self.L, walls_x = self.walls_x, walls_y = self.walls_y)</span>
+
+
+        <span class="n">temp</span> <span class="o">*=</span> <span class="mf">0.99</span>
+        <span class="c1">#if f0&lt;=1:</span>
+        <span class="c1">#    break</span>
+    <span class="n">dd</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">distances_reduced</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="p">),</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dd</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">dd</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">dd</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;final&quot;</span><span class="p">,</span> <span class="n">f0</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">f0</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Warning, system may be in a poor initial state.&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Annealing algorithm reports Force norm per bubble to be&quot;</span><span class="p">,</span> <span class="n">f0</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">pos_old</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="o">*</span><span class="mi">1</span> <span class="c1"># retain previous timesteps to compute velocities</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.mdbox.mdbox.visualize_state">
+<code class="highlight language-python"><span class="n">visualize_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Show an image of the current state with positions, velocities (as arrows) and boundaries of the box.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">visualize_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">figsize</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Show an image of the current state with positions, velocities (as arrows) and boundaries of the box.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">figsize</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2x</span> <span class="o">!=</span> <span class="mi">0</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">L2y</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">figsize</span> <span class="o">=</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">L2y</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">L2x</span><span class="p">))</span>
+
+        <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;figure.figsize&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">figsize</span>
+
+
+
+    <span class="n">col</span> <span class="o">=</span> <span class="n">colorscheme</span><span class="p">()</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span> <span class="o">=</span> <span class="n">figsize</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="p">],[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">,</span> <span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="p">],</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">),</span> <span class="n">linewidth</span> <span class="o">=</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mf">.4</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">8</span><span class="o">*</span><span class="mf">1.8</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">col</span><span class="o">.</span><span class="n">getcol</span><span class="p">(</span><span class="mf">.5</span><span class="p">))</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">markersize</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">0</span><span class="p">])):</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]],[</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]],</span> <span class="s2">&quot;-&quot;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">))</span>
+
+        <span class="n">th</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arctan2</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">])</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">],</span><span class="bp">self</span><span class="o">.</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">vel</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">],</span> <span class="s2">&quot;▲&quot;</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="o">-</span><span class="mi">90</span><span class="o">+</span><span class="mi">360</span><span class="o">*</span><span class="n">th</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">),</span><span class="n">ha</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">,</span> <span class="n">va</span> <span class="o">=</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span> <span class="c1">#, color = (0,0,0), fontsize = 20, rotation=0, ha = &quot;center&quot;, va = &quot;center&quot;)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Lx</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">Ly</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">11</span><span class="p">,</span> <span class="mi">11</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">axis</span><span class="p">:</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">axis</span><span class="p">(</span><span class="s2">&quot;off&quot;</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.arrange_in_grid">
+<code class="highlight language-python"><span class="n">arrange_in_grid</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">n_bubbles</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Place n_bubbles in a grid on a Lx by Ly area</p>
+      <p>pos        -- position vector
+Lx, Ly     -- dimensions of box
+n_bubbles  -- number of bubbles</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">arrange_in_grid</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">n_bubbles</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Place n_bubbles in a grid on a Lx by Ly area</span>
+
+<span class="sd">    Keyword arguments:</span>
+<span class="sd">    pos        -- position vector</span>
+<span class="sd">    Lx, Ly     -- dimensions of box</span>
+<span class="sd">    n_bubbles  -- number of bubbles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">a</span> <span class="o">=</span> <span class="n">Ly</span><span class="o">/</span><span class="n">Lx</span>
+    <span class="n">nx</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">n_bubbles</span><span class="o">/</span><span class="n">a</span><span class="p">)))</span>
+    <span class="n">ny</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">nx</span><span class="p">))</span>
+
+
+
+    <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">dn_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Lx</span><span class="p">,</span> <span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">.5</span>
+    <span class="n">dn_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">Ly</span><span class="p">,</span> <span class="n">ny</span><span class="o">+</span><span class="mi">1</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mf">.5</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">Lx</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">nx</span><span class="o">+</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="n">Ly</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">ny</span><span class="o">+</span><span class="mi">1</span><span class="p">)[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+            <span class="n">pos</span><span class="p">[:,</span> <span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">dn_x</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="n">dn_y</span><span class="p">]</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">count</span><span class="o">&gt;=</span><span class="n">pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">break</span>
+        <span class="k">if</span> <span class="n">count</span><span class="o">&gt;=</span><span class="n">pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+                <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">pos</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.collisions">
+<code class="highlight language-python"><span class="n">collisions</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">vels</span><span class="p">,</span> <span class="n">screen</span><span class="o">=</span><span class="mf">10.0</span><span class="p">,</span> <span class="n">radius</span><span class="o">=-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Lx</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">Ly</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">masses</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Hard-sphere collision and wall collisions
+Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)</p>
+      <p>coords           -- array (2,n_particles) containing positions
+vels             -- array (2,n_particles) containing velocities
+screen           -- screening distance (particles further away not considered)
+radius           -- for positive values, particles are considered hard spheres of equial radius
+Lx, Ly           -- box dimensions, for x:
+                    ( x &gt; 0 , _ ) = closed boundary at x and -x
+                    ( x = 0 , _ ) = no boundary in x-direction
+                    ( x &lt; 0 , _ ) = periodic boundary at x and -x
+masses           -- array containing particle masses (default None)</p>
+<p>Returns
+velocities, coordinates</p>
+<h4 id="bubblebox.mdbox.collisions--note">Note</h4>
+<p>This functions utilize numba's just-in-time compilation ( nb.jit() ) 
+for optimized performance and readability.</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">collisions</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="n">vels</span><span class="p">,</span> <span class="n">screen</span> <span class="o">=</span> <span class="mf">10.0</span><span class="p">,</span> <span class="n">radius</span> <span class="o">=</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">Lx</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">Ly</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">masses</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Hard-sphere collision and wall collisions</span>
+<span class="sd">    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)</span>
+
+<span class="sd">    Keyword arguments:</span>
+
+<span class="sd">    coords           -- array (2,n_particles) containing positions</span>
+<span class="sd">    vels             -- array (2,n_particles) containing velocities</span>
+<span class="sd">    screen           -- screening distance (particles further away not considered)</span>
+<span class="sd">    radius           -- for positive values, particles are considered hard spheres of equial radius</span>
+<span class="sd">    Lx, Ly           -- box dimensions, for x:</span>
+<span class="sd">                        ( x &gt; 0 , _ ) = closed boundary at x and -x</span>
+<span class="sd">                        ( x = 0 , _ ) = no boundary in x-direction</span>
+<span class="sd">                        ( x &lt; 0 , _ ) = periodic boundary at x and -x</span>
+<span class="sd">    masses           -- array containing particle masses (default None)</span>
+
+<span class="sd">    Returns</span>
+<span class="sd">    velocities, coordinates</span>
+
+<span class="sd">    Note</span>
+<span class="sd">    ----</span>
+<span class="sd">    This functions utilize numba&#39;s just-in-time compilation ( nb.jit() ) </span>
+<span class="sd">    for optimized performance and readability.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">vels</span><span class="o">*</span><span class="mi">1</span>
+    <span class="n">r2</span> <span class="o">=</span> <span class="mi">4</span><span class="o">*</span><span class="n">radius</span><span class="o">**</span><span class="mi">2</span>
+    <span class="n">R2</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">radius</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="mi">0</span>
+
+    <span class="k">if</span> <span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+        <span class="n">pos_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argsort</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="c1">#else:</span>
+    <span class="c1">#    pos_x = np.arange(coords.shape[1], dtype = int)</span>
+
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="c1">#i = pos_x[ii]</span>
+        <span class="k">if</span> <span class="n">radius</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="n">i</span> <span class="o">=</span> <span class="n">pos_x</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+                <span class="n">j</span> <span class="o">=</span> <span class="n">pos_x</span><span class="p">[</span><span class="n">jj</span><span class="p">]</span>
+
+                <span class="n">dx</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span><span class="o">&lt;</span><span class="n">R2</span><span class="p">:</span>
+
+
+                    <span class="c1">#for i in range(coords.shape[1]):</span>
+                    <span class="c1">#for j in range(i+1, coords.shape[1]):</span>
+                    <span class="n">dy</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+
+
+                    <span class="c1">#d_ = (dx**2 + dy**2)**-1 #**-.5</span>
+                    <span class="k">if</span> <span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span> <span class="o">&lt;</span><span class="n">r2</span><span class="p">:</span>
+
+                        <span class="c1">#d[0,i] += dx*d_</span>
+                        <span class="c1">#d[1,i] += dy*d_</span>
+
+                        <span class="c1">#d[0,j] -= dx*d_</span>
+                        <span class="c1">#d[1,j] -= dy*d_</span>
+                        <span class="n">dij</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">])</span> <span class="c1">#coords[:, i] - coords[:, j]</span>
+                        <span class="c1">#dji = -dij</span>
+
+
+                        <span class="n">vij</span> <span class="o">=</span> <span class="n">v</span><span class="p">[:,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">v</span><span class="p">[:,</span> <span class="n">j</span><span class="p">]</span>
+
+                        <span class="c1">#w = np.dot(dij, vij)/np.dot(vij, vij)</span>
+
+
+                        <span class="c1">#vji = -vij</span>
+
+                        <span class="c1">#w = (vij[0]*dij[0] + vij[1]*dij[1])/(vij[0]*vij[0] + vij[1]*vij[1])</span>
+                        <span class="c1">#w = (vij[0]*dij[0] + vij[1]*dij[1])/(dij[0]*dij[0] + dij[1]*dij[1])</span>
+
+                        <span class="n">w_dij</span> <span class="o">=</span> <span class="p">(</span><span class="n">vij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">dij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">vij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">dij</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span><span class="o">/</span><span class="p">(</span><span class="n">dx</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">dy</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">dij</span>
+                        <span class="c1">#print(w)</span>
+                        <span class="c1">#wji = np.dot(-vij, -dij)</span>
+                        <span class="c1">#d[:, i] -= </span>
+
+                        <span class="c1">#df = np.sum(v[:, i]**2 + v[:, j]**2)</span>
+
+                        <span class="c1">#if (dx**2 + dy**2)&lt;1e-7:</span>
+                        <span class="c1">#    print(w_dij, dx**2 + dy**2)</span>
+                        <span class="k">if</span> <span class="n">masses</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#*0.01</span>
+                            <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                            <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c1">#*0.01</span>
+                            <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">mi</span> <span class="o">=</span> <span class="n">masses</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+                            <span class="n">mj</span> <span class="o">=</span> <span class="n">masses</span><span class="p">[</span><span class="n">j</span><span class="p">]</span>
+                            <span class="n">m1_m2</span> <span class="o">=</span> <span class="n">mi</span><span class="o">+</span><span class="n">mj</span>
+                            <span class="n">wi</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">mj</span><span class="o">/</span><span class="n">m1_m2</span>
+                            <span class="n">wj</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">mi</span><span class="o">/</span><span class="n">m1_m2</span>
+
+
+                            <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">wi</span> <span class="c1">#*0.01</span>
+                            <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">-=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">wi</span>
+
+                            <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">wj</span> <span class="c1">#*0.01</span>
+                            <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="n">j</span><span class="p">]</span> <span class="o">+=</span> <span class="n">w_dij</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">wj</span>
+
+
+
+                        <span class="c1">#df_ = np.sum(v[:, i]**2 + v[:, j]**2)</span>
+                        <span class="c1">#if np.abs(df_-df)&gt;1e-11:</span>
+                        <span class="c1">#    print(i,j, df, df_)</span>
+
+
+
+
+                        <span class="c1">#v[0, i] = 0</span>
+                        <span class="c1">#v[1, i] = 0</span>
+                        <span class="c1">#v[0, j] = 0</span>
+                        <span class="c1">#v[1, j] = 0</span>
+
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+
+        <span class="c1"># collision with wall</span>
+        <span class="k">if</span> <span class="n">Lx</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">ii</span><span class="p">])</span><span class="o">&gt;</span><span class="n">Lx</span><span class="p">:</span>
+
+                <span class="c1">#coords[0,i] = wall*np.sign(coords[0,i])</span>
+                <span class="n">v</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="n">Ly</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">coords</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">ii</span><span class="p">])</span><span class="o">&gt;</span><span class="n">Ly</span><span class="p">:</span>
+                <span class="c1">#coords[1,i] = wall*np.sign(coords[1,i])</span>
+                <span class="n">v</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">ii</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>
+                <span class="n">c</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">v</span><span class="p">,</span> <span class="n">c</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.coulomb_force">
+<code class="highlight language-python"><span class="n">coulomb_force</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">rr</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>eps = Q1 (charge of particle 1)
+sig = Q2 (charge of particle 2)
+rr  = distance between particles</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">coulomb_force</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">rr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    eps = Q1 (charge of particle 1)</span>
+<span class="sd">    sig = Q2 (charge of particle 2)</span>
+<span class="sd">    rr  = distance between particles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="o">-</span><span class="n">eps</span><span class="o">*</span><span class="n">sig</span><span class="o">*</span><span class="n">rr</span><span class="o">**-</span><span class="mi">2</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.hook_force">
+<code class="highlight language-python"><span class="n">hook_force</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">rr</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>eps = Q1 (charge of particle 1)
+sig = Q2 (charge of particle 2)
+rr  = distance between particles</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="nd">@nb</span><span class="o">.</span><span class="n">jit</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">hook_force</span><span class="p">(</span><span class="n">eps</span><span class="p">,</span> <span class="n">sig</span><span class="p">,</span> <span class="n">rr</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    eps = Q1 (charge of particle 1)</span>
+<span class="sd">    sig = Q2 (charge of particle 2)</span>
+<span class="sd">    rr  = distance between particles</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">eps</span><span class="o">*</span><span class="p">(</span><span class="n">rr</span><span class="o">-</span><span class="n">sig</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.mdbox.pos2heatmap">
+<code class="highlight language-python"><span class="n">pos2heatmap</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">masses</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Nz</span><span class="o">=</span><span class="mi">11</span><span class="p">,</span> <span class="n">col</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Create a 2D density array for a set of various bubbles
+Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)</p>
+      <p>pos              -- array (2,n_particles) containing positions
+masses           -- array (n_particles) containing masses
+Lx, Ly           -- box dimensions
+Nz               -- number of bins in each dimension</p>
+<p>Returns an Nz by Nz by 3 array containing colors according to 
+bubble density</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/mdbox.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">pos2heatmap</span><span class="p">(</span><span class="n">pos</span><span class="p">,</span> <span class="n">masses</span><span class="p">,</span> <span class="n">Lx</span><span class="p">,</span> <span class="n">Ly</span><span class="p">,</span> <span class="n">Nz</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span> <span class="n">col</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a 2D density array for a set of various bubbles</span>
+<span class="sd">    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)</span>
+
+<span class="sd">    Keyword arguments:</span>
+
+<span class="sd">    pos              -- array (2,n_particles) containing positions</span>
+<span class="sd">    masses           -- array (n_particles) containing masses</span>
+<span class="sd">    Lx, Ly           -- box dimensions</span>
+<span class="sd">    Nz               -- number of bins in each dimension</span>
+
+<span class="sd">    Returns an Nz by Nz by 3 array containing colors according to </span>
+<span class="sd">    bubble density</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#Z = np.zeros((Nz,Nz, 4), dtype = nb.float64)</span>
+    <span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">((</span><span class="n">Nz</span><span class="p">,</span><span class="n">Nz</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+    <span class="n">col</span> <span class="o">=</span> <span class="n">colorscheme</span><span class="p">()</span>
+
+    <span class="n">masses_norm</span> <span class="o">=</span> <span class="n">masses</span><span class="o">/</span><span class="n">masses</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">pos</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]):</span>
+        <span class="n">ix</span><span class="p">,</span> <span class="n">iy</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span> <span class="n">Nz</span><span class="o">*</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Lx</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Lx</span><span class="p">)</span> <span class="p">),</span> <span class="nb">int</span><span class="p">(</span> <span class="n">Nz</span><span class="o">*</span><span class="p">(</span><span class="n">pos</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="n">i</span><span class="p">]</span> <span class="o">+</span> <span class="n">Ly</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">Ly</span><span class="p">)</span> <span class="p">)</span>
+        <span class="c1"># Using the mean for N+1 samples here:</span>
+        <span class="c1"># mean_{N+1} = (N*mean_N + new_sample)/(N + 1)</span>
+        <span class="n">Z</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span> <span class="p">:</span><span class="mi">3</span><span class="p">]</span><span class="o">*</span><span class="n">Z</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">col</span><span class="o">.</span><span class="n">getcol</span><span class="p">(</span><span class="n">masses_norm</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="p">)</span> <span class="o">/</span><span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">Z</span><span class="p">[</span><span class="n">ix</span><span class="p">,</span><span class="n">iy</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+
+    <span class="k">return</span> <span class="n">Z</span><span class="p">[:,:,:</span><span class="mi">3</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../bubblebox-reference/" class="md-footer__link md-footer__link--prev" aria-label="Previous: bubblebox" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              bubblebox
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../ising-reference/" class="md-footer__link md-footer__link--next" aria-label="Next: ising" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              ising
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

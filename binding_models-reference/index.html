@@ -1,0 +1,1061 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>binding_models - BubbleBox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#795649">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="brown" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#binding-models-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BubbleBox" class="md-header__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BubbleBox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              binding_models
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BubbleBox" class="md-nav__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    BubbleBox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Code Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bubblebox-reference/" class="md-nav__link">
+        bubblebox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mdbox-reference/" class="md-nav__link">
+        mdbox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ising-reference/" class="md-nav__link">
+        ising
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lattice_models-reference/" class="md-nav__link">
+        lattice_models
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          binding_models
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        binding_models
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.binding_models" class="md-nav__link">
+    bubblebox.binding_models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox" class="md-nav__link">
+    bindingbox
+  </a>
+  
+    <nav class="md-nav" aria-label="bindingbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.advance" class="md-nav__link">
+    advance()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_average_populations" class="md-nav__link">
+    compute_average_populations()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_energy" class="md-nav__link">
+    compute_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_energy_" class="md-nav__link">
+    compute_energy_()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_occupation" class="md-nav__link">
+    compute_occupation()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_sitewise_occupation" class="md-nav__link">
+    compute_sitewise_occupation()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.evolve" class="md-nav__link">
+    evolve()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.fit_langmuir_model" class="md-nav__link">
+    fit_langmuir_model()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.binding_models" class="md-nav__link">
+    bubblebox.binding_models
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox" class="md-nav__link">
+    bindingbox
+  </a>
+  
+    <nav class="md-nav" aria-label="bindingbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.advance" class="md-nav__link">
+    advance()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_average_populations" class="md-nav__link">
+    compute_average_populations()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_energy" class="md-nav__link">
+    compute_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_energy_" class="md-nav__link">
+    compute_energy_()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_occupation" class="md-nav__link">
+    compute_occupation()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.compute_sitewise_occupation" class="md-nav__link">
+    compute_sitewise_occupation()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.bindingbox.evolve" class="md-nav__link">
+    evolve()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.binding_models.fit_langmuir_model" class="md-nav__link">
+    fit_langmuir_model()
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="binding-models-module">Binding models module</h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="bubblebox.binding_models"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.binding_models.bindingbox">
+        <code>
+bindingbox        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_polymers</span><span class="p">,</span> <span class="n">n_polymer_sites</span><span class="p">,</span> <span class="n">number_of_ligands</span><span class="p">,</span> <span class="n">number_of_solvent_molecules</span><span class="p">,</span> <span class="n">interaction_matrix</span><span class="p">,</span> <span class="n">initialize_in_ground_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">kT</span><span class="o">=</span><span class="mf">0.4</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Initialize model</p>
+<ul>
+<li>explain how to initialize energy</li>
+</ul>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_of_polymers</span><span class="p">,</span> <span class="n">n_polymer_sites</span><span class="p">,</span> <span class="n">number_of_ligands</span><span class="p">,</span> <span class="n">number_of_solvent_molecules</span><span class="p">,</span> <span class="n">interaction_matrix</span><span class="p">,</span> <span class="n">initialize_in_ground_state</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">kT</span> <span class="o">=</span> <span class="mf">0.4</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Initialize model</span>
+
+<span class="sd">    - explain how to initialize energy</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">nl</span> <span class="o">=</span> <span class="n">number_of_ligands</span> 
+    <span class="bp">self</span><span class="o">.</span><span class="n">np</span> <span class="o">=</span> <span class="n">number_of_polymers</span> <span class="c1"># number of polymers</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lp</span> <span class="o">=</span> <span class="n">n_polymer_sites</span> <span class="c1"># number of binding sites at each polymer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">interaction_matrix</span> <span class="o">=</span> <span class="n">interaction_matrix</span> <span class="c1"># interaction matrix for each polymer</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lattice_size</span> <span class="o">=</span> <span class="n">number_of_ligands</span><span class="o">+</span><span class="n">number_of_polymers</span><span class="o">*</span><span class="n">n_polymer_sites</span><span class="o">+</span><span class="n">number_of_solvent_molecules</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">lp</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">particle_partition</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span> <span class="o">+</span> <span class="n">number_of_ligands</span> 
+
+
+    <span class="c1"># Temperature</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="n">kT</span>
+
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">nl</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">bool</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">True</span> <span class="c1"># free ligands</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span> <span class="c1"># a spot reserved for the solvent</span>
+
+    <span class="k">if</span> <span class="n">initialize_in_ground_state</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">nl</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">n_bound_ligands</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_partition</span><span class="o">-</span><span class="n">n_bound_ligands</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_partition</span><span class="o">-</span><span class="n">n_bound_ligands</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.advance">
+<code class="highlight language-python"><span class="n">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Do one Monte Carlo step</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Do one Monte Carlo step</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="c1"># pick to random different sites </span>
+    <span class="c1">#P = np.random.choice(self.lattice_size, 2, replace = False)</span>
+    <span class="n">P</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice_size</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+    <span class="n">P</span><span class="p">[</span><span class="n">P</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="k">if</span> <span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">!=</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="c1">#print(P)</span>
+
+        <span class="c1"># all </span>
+
+
+        <span class="c1">#print(P, self.lattice)</span>
+
+        <span class="c1"># check if sites are occupied</span>
+        <span class="n">P0_occupied</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">P1_occupied</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+
+        <span class="k">if</span> <span class="n">P0_occupied</span><span class="o">!=</span><span class="n">P1_occupied</span><span class="p">:</span>
+            <span class="c1"># if swap involves state change, perform swap</span>
+
+            <span class="c1"># set occupation following change</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">P1_occupied</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">P0_occupied</span>
+
+
+
+
+            <span class="c1"># compute new energy, and energy difference</span>
+            <span class="n">new_energy</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+
+            <span class="n">energy_change</span> <span class="o">=</span> <span class="n">new_energy</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy</span>
+
+            <span class="c1"># Monte Carlo step </span>
+            <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">energy_change</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">kT</span><span class="p">)</span><span class="o">&gt;</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">):</span>
+                <span class="c1"># accept move</span>
+
+                <span class="c1"># update energy</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">energy</span> <span class="o">=</span> <span class="n">new_energy</span><span class="o">*</span><span class="mi">1</span>
+
+                <span class="c1"># resolve number of bound ligands</span>
+                <span class="n">n_bound_ligands</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">])</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">:</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_partition</span><span class="o">-</span><span class="n">n_bound_ligands</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">particle_partition</span><span class="o">-</span><span class="n">n_bound_ligands</span><span class="p">:]</span> <span class="o">=</span> <span class="kc">False</span>
+
+
+
+
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># reject step and revert changes</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">P0_occupied</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[</span><span class="n">P</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span> <span class="o">=</span> <span class="n">P1_occupied</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.compute_average_populations">
+<code class="highlight language-python"><span class="n">compute_average_populations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_average_populations</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp</span><span class="p">)</span>
+    <span class="n">occupancy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">oc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">bincount</span><span class="p">(</span><span class="n">occupancy</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span>
+    <span class="n">occu</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">occu</span><span class="p">[:</span><span class="nb">len</span><span class="p">(</span><span class="n">oc</span><span class="p">)]</span> <span class="o">=</span> <span class="n">oc</span>
+
+    <span class="k">return</span> <span class="n">occu</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.compute_energy">
+<code class="highlight language-python"><span class="n">compute_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute energy of lattice</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute energy of lattice</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+        <span class="n">ei</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+        <span class="n">ni</span> <span class="o">=</span> <span class="n">ei</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1">#print(self.interaction_matrix[i][None, :-i+1])</span>
+        <span class="c1">#print(np.sum((lattice*np.roll(lattice, i, axis = 0))[:-i+1]))</span>
+        <span class="c1">#print(self.interaction_matrix[i][None,:-i])</span>
+
+
+        <span class="n">e</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">lattice</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))[:,</span><span class="n">i</span><span class="p">:</span><span class="n">ni</span><span class="p">]</span><span class="o">*</span><span class="n">ei</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span><span class="n">i</span><span class="p">:</span><span class="n">ni</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">e</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.compute_energy_">
+<code class="highlight language-python"><span class="n">compute_energy_</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute energy of lattice</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_energy_</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute energy of lattice</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">e</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+
+        <span class="n">e</span> <span class="o">+=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lattice</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">))</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">interaction_matrix</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">e</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.compute_occupation">
+<code class="highlight language-python"><span class="n">compute_occupation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute mean nuumber of occupied sites
+per polymer</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_occupation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute mean nuumber of occupied sites</span>
+<span class="sd">    per polymer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">1</span><span class="p">))</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.compute_sitewise_occupation">
+<code class="highlight language-python"><span class="n">compute_sitewise_occupation</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute mean nuumber of occupied sites
+per polymer</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_sitewise_occupation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute mean nuumber of occupied sites</span>
+<span class="sd">    per polymer</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">lattice</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lattice</span><span class="p">[:</span><span class="bp">self</span><span class="o">.</span><span class="n">polymer_partition</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">np</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lp</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">lattice</span><span class="p">,</span> <span class="n">axis</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.binding_models.bindingbox.evolve">
+<code class="highlight language-python"><span class="n">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nt</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Perform Nt Monte Carlo steps</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Nt</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Perform Nt Monte Carlo steps</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">Nt</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+  <div class="doc doc-object doc-function">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.binding_models.fit_langmuir_model">
+<code class="highlight language-python"><span class="n">fit_langmuir_model</span><span class="p">(</span><span class="n">concentration</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">A</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span></code>
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>fit to a Langmuir adsorption model</p>
+<p>egin{equation}
+            heta(X) = A * rac{KX}{1 + KX},
+\end{equation}</p>
+<p>where X is consentration and K is the equilibrium constant</p>
+<p>function returns K</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/binding_models.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">fit_langmuir_model</span><span class="p">(</span><span class="n">concentration</span><span class="p">,</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">A</span> <span class="o">=</span> <span class="mi">2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    fit to a Langmuir adsorption model</span>
+
+<span class="sd">    \begin{equation}</span>
+<span class="sd">        \theta(X) = A * \frac{KX}{1 + KX},</span>
+<span class="sd">    \end{equation}</span>
+
+<span class="sd">    where X is consentration and K is the equilibrium constant</span>
+
+<span class="sd">    function returns K</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">R</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">k</span><span class="p">,</span> <span class="n">c</span><span class="o">=</span><span class="n">concentration</span><span class="p">,</span> <span class="n">o</span> <span class="o">=</span> <span class="n">occupancy</span><span class="p">,</span> <span class="n">A</span> <span class="o">=</span> <span class="n">A</span> <span class="p">:</span> <span class="p">(</span><span class="n">A</span><span class="o">*</span><span class="n">k</span><span class="o">*</span><span class="n">c</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span><span class="o">+</span><span class="n">k</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="o">-</span> <span class="n">o</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> <span class="c1">#residual function</span>
+
+    <span class="c1">#extract and return K</span>
+    <span class="k">return</span> <span class="n">least_squares</span><span class="p">(</span><span class="n">R</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">])</span> <span class="p">)</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../lattice_models-reference/" class="md-footer__link md-footer__link--prev" aria-label="Previous: lattice_models" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              lattice_models
+            </div>
+          </div>
+        </a>
+      
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>

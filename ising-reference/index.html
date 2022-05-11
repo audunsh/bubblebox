@@ -1,0 +1,1278 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.2.2, mkdocs-material-7.2.3">
+    
+    
+      
+        <title>ising - BubbleBox</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.f7f47774.min.css">
+      
+        
+        <link rel="stylesheet" href="../assets/stylesheets/palette.3f5d1f46.min.css">
+        
+          
+          
+          <meta name="theme-color" content="#795649">
+        
+      
+    
+    
+    
+      
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400i,700%7CRoboto+Mono&display=fallback">
+        <style>:root{--md-text-font-family:"Roboto";--md-code-font-family:"Roboto Mono"}</style>
+      
+    
+    
+    
+      <link rel="stylesheet" href="../assets/_mkdocstrings.css">
+    
+    
+      
+
+
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="" data-md-color-primary="brown" data-md-color-accent="">
+  
+    
+    <script>function __prefix(e){return new URL("..",location).pathname+"."+e}function __get(e,t=localStorage){return JSON.parse(t.getItem(__prefix(e)))}</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#ising-module" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="BubbleBox" class="md-header__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            BubbleBox
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              ising
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+      </label>
+      
+<div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+  </nav>
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="BubbleBox" class="md-nav__button md-logo" aria-label="BubbleBox" data-md-component="logo">
+      
+  <img src="https://raw.githubusercontent.com/audunsh/bubblebox/master/graphics/bubblebox_logo16.png" alt="logo">
+
+    </a>
+    BubbleBox
+  </label>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../installation/" class="md-nav__link">
+        Installation
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_3" type="checkbox" id="__nav_3" checked>
+      
+      <label class="md-nav__link" for="__nav_3">
+        Code Reference
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Code Reference" data-md-level="1">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          Code Reference
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bubblebox-reference/" class="md-nav__link">
+        bubblebox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mdbox-reference/" class="md-nav__link">
+        mdbox
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          ising
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        ising
+      </a>
+      
+        
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.ising" class="md-nav__link">
+    bubblebox.ising
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.ising.animated_system" class="md-nav__link">
+    animated_system
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox" class="md-nav__link">
+    isingbox
+  </a>
+  
+    <nav class="md-nav" aria-label="isingbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+    <nav class="md-nav" aria-label="__init__()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__--arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__--methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__--example-usage" class="md-nav__link">
+    Example usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.advance" class="md-nav__link">
+    advance()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.compute_energy" class="md-nav__link">
+    compute_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.compute_magnetization" class="md-nav__link">
+    compute_magnetization()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.energy_env_torus" class="md-nav__link">
+    energy_env_torus()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.energy_per_site" class="md-nav__link">
+    energy_per_site()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.evolve" class="md-nav__link">
+    evolve()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.log_uniform" class="md-nav__link">
+    log_uniform()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.reset" class="md-nav__link">
+    reset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.run" class="md-nav__link">
+    run()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.sample" class="md-nav__link">
+    sample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.update_env" class="md-nav__link">
+    update_env()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../lattice_models-reference/" class="md-nav__link">
+        lattice_models
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../binding_models-reference/" class="md-nav__link">
+        binding_models
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.ising" class="md-nav__link">
+    bubblebox.ising
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.ising.animated_system" class="md-nav__link">
+    animated_system
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox" class="md-nav__link">
+    isingbox
+  </a>
+  
+    <nav class="md-nav" aria-label="isingbox">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__" class="md-nav__link">
+    __init__()
+  </a>
+  
+    <nav class="md-nav" aria-label="__init__()">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__--arguments" class="md-nav__link">
+    Arguments
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__--methods" class="md-nav__link">
+    Methods
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.__init__--example-usage" class="md-nav__link">
+    Example usage
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.advance" class="md-nav__link">
+    advance()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.compute_energy" class="md-nav__link">
+    compute_energy()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.compute_magnetization" class="md-nav__link">
+    compute_magnetization()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.energy_env_torus" class="md-nav__link">
+    energy_env_torus()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.energy_per_site" class="md-nav__link">
+    energy_per_site()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.evolve" class="md-nav__link">
+    evolve()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.log_uniform" class="md-nav__link">
+    log_uniform()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.reset" class="md-nav__link">
+    reset()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.run" class="md-nav__link">
+    run()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.sample" class="md-nav__link">
+    sample()
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bubblebox.ising.isingbox.update_env" class="md-nav__link">
+    update_env()
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          <div class="md-content" data-md-component="content">
+            <article class="md-content__inner md-typeset">
+              
+                
+                
+                <h1 id="ising-module">Ising module</h1>
+
+
+  <div class="doc doc-object doc-module">
+
+<a id="bubblebox.ising"></a>
+    <div class="doc doc-contents first">
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.ising.animated_system">
+        <code>
+animated_system        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+      <p>Support class for animations</p>
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-class">
+
+
+
+<h2 class="doc doc-heading" id="bubblebox.ising.isingbox">
+        <code>
+isingbox        </code>
+
+
+
+</h2>
+
+    <div class="doc doc-contents ">
+
+
+
+
+
+  <div class="doc doc-children">
+
+
+
+
+
+
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.__init__">
+<code class="highlight language-python"><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kT</span><span class="p">,</span> <span class="n">flipratio</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span></code>
+
+  <span class="doc doc-properties">
+      <small class="doc doc-property doc-property-special"><code>special</code></small>
+  </span>
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>A 2D (N by N) Ising model</p>
+<h5 id="bubblebox.ising.isingbox.__init__--arguments">Arguments</h5>
+<p>N          Lattice dimensions
+kT         Boltsmann factor times the temperature 
+flipratio  The ratio of spins to flip at each iteration</p>
+<h5 id="bubblebox.ising.isingbox.__init__--methods">Methods</h5>
+<p>reset(kT)          reset the lattice to all spins aligned, and set kT
+energy_per_site()  compute the energy per site</p>
+<h5 id="bubblebox.ising.isingbox.__init__--example-usage">Example usage</h5>
+<p>I = ising(10, kT = 1.0) # an Ising lattice with 10x10 spins, kT = 1.0</p>
+<p>I.advance() # do one Monte Carlo integration</p>
+<p>I.evolve(10) # do 10 Monte Carlo integrations</p>
+<p>energy = I.compute_energy() # compute energy</p>
+<p>mangetization = I.compute_magnetization() # compute magnetization</p>
+<p>energy, magnetization = I.sample(100, 1000) # collect 100 samples, separated by 1000 MC-iterations</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">N</span><span class="p">,</span> <span class="n">kT</span><span class="p">,</span> <span class="n">flipratio</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A 2D (N by N) Ising model</span>
+
+<span class="sd">    Arguments</span>
+<span class="sd">    ---</span>
+<span class="sd">    N          Lattice dimensions</span>
+<span class="sd">    kT         Boltsmann factor times the temperature </span>
+<span class="sd">    flipratio  The ratio of spins to flip at each iteration</span>
+
+<span class="sd">    Methods</span>
+<span class="sd">    ---</span>
+<span class="sd">    reset(kT)          reset the lattice to all spins aligned, and set kT</span>
+<span class="sd">    energy_per_site()  compute the energy per site</span>
+
+
+<span class="sd">    Example usage</span>
+<span class="sd">    ---</span>
+
+<span class="sd">    I = ising(10, kT = 1.0) # an Ising lattice with 10x10 spins, kT = 1.0</span>
+
+<span class="sd">    I.advance() # do one Monte Carlo integration</span>
+
+<span class="sd">    I.evolve(10) # do 10 Monte Carlo integrations</span>
+
+<span class="sd">    energy = I.compute_energy() # compute energy</span>
+
+<span class="sd">    mangetization = I.compute_magnetization() # compute magnetization</span>
+
+<span class="sd">    energy, magnetization = I.sample(100, 1000) # collect 100 samples, separated by 1000 MC-iterations</span>
+
+
+
+
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="n">kT</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">N</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">N2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1">#perhaps not start out in this state?</span>
+    <span class="c1">#self.Z[np.random.choice(self.N2, int(self.N2/2), replace = False)] = -1</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">Z_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">flipratio</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">flipratio</span> <span class="o">=</span> <span class="n">flipratio</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_env_torus</span><span class="p">()</span> <span class="c1">#_torus(arange(self.N2))</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">n_logdist</span> <span class="o">=</span> <span class="mi">1000000</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">logdist</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">kT</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_logdist</span><span class="p">))</span><span class="o">/</span><span class="mf">2.0</span>
+
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">t</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">float</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.advance">
+<code class="highlight language-python"><span class="n">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Do one Monte Carlo step</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">advance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do one Monte Carlo step&quot;&quot;&quot;</span>
+
+    <span class="n">sel</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">,</span> <span class="n">replace</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="c1">#bottleneck</span>
+
+
+    <span class="n">dz</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+    <span class="n">denv</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span>
+
+    <span class="n">dE</span> <span class="o">=</span> <span class="n">dz</span><span class="o">*</span><span class="n">denv</span>
+
+    <span class="n">flips</span> <span class="o">=</span> <span class="o">-</span><span class="n">dE</span><span class="o">&gt;</span><span class="bp">self</span><span class="o">.</span><span class="n">log_uniform</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="n">dz</span><span class="p">[</span><span class="n">flips</span><span class="p">]</span> <span class="o">*=</span> <span class="o">-</span><span class="mi">1</span>            
+    <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">[</span><span class="n">sel</span><span class="p">]</span> <span class="o">=</span> <span class="n">dz</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">update_env</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">dz</span><span class="p">[</span><span class="n">flips</span><span class="p">],</span> <span class="n">sel</span><span class="p">[</span><span class="n">flips</span><span class="p">])</span> <span class="c1">#bottleneck</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.compute_energy">
+<code class="highlight language-python"><span class="n">compute_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute total energy</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_energy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute total energy&quot;&quot;&quot;</span> 
+    <span class="k">return</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">)</span><span class="o">/</span><span class="mf">2.0</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.compute_magnetization">
+<code class="highlight language-python"><span class="n">compute_magnetization</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute magnetization</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">compute_magnetization</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute magnetization&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="p">)</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.energy_env_torus">
+<code class="highlight language-python"><span class="n">energy_env_torus</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute energy per site for torus PBC</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">energy_env_torus</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute energy per site for torus PBC&quot;&quot;&quot;</span>
+    <span class="n">z</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Z</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">))</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">z</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">roll</span><span class="p">(</span><span class="n">z</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">ravel</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.energy_per_site">
+<code class="highlight language-python"><span class="n">energy_per_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Compute sitewise energy (returns a lattice)</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">energy_per_site</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">Z</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Compute sitewise energy (returns a lattice)&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Z</span><span class="p">[</span><span class="mi">2</span><span class="p">:,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">+</span><span class="n">Z</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span><span class="n">Z</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">:]</span><span class="o">+</span><span class="n">Z</span><span class="p">[</span><span class="mi">1</span><span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">,:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="c1">#[1:-1,1:-1]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.evolve">
+<code class="highlight language-python"><span class="n">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Do n_steps Monte Carlo steps</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">evolve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Do n_steps Monte Carlo steps&quot;&quot;&quot;</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">advance</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.log_uniform">
+<code class="highlight language-python"><span class="n">log_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>A logarithmic random distribution</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">log_uniform</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A logarithmic random distribution&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">logdist</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="bp">self</span><span class="o">.</span><span class="n">n_logdist</span><span class="p">,</span><span class="n">n</span><span class="p">)]</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.reset">
+<code class="highlight language-python"><span class="n">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kT</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Reset the system to a non-magnetized state ( |M| = 0 )</p>
+<p>and set kT to the specified value</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">reset</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">kT</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Reset the system to a non-magnetized state ( |M| = 0 )</span>
+
+<span class="sd">    and set kT to the specified value</span>
+
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">kT</span> <span class="o">=</span> <span class="n">kT</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">dtype</span> <span class="o">=</span> <span class="nb">int</span><span class="p">)</span>
+    <span class="c1">#self.Z[np.random.choice(int(self.N2), int(self.N2/2), replace = False)] = -1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">Z_ind</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flipratio</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">env</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">energy_env_torus</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.run">
+<code class="highlight language-python"><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase_color</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">n_steps_per_vis</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Run simulation interactively</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">phase_color</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">n_steps_per_vis</span> <span class="o">=</span> <span class="mi">100</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Run simulation interactively&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">run_system</span> <span class="o">=</span> <span class="n">animated_system</span><span class="p">(</span><span class="n">system</span> <span class="o">=</span> <span class="bp">self</span><span class="p">,</span> <span class="n">n_steps_per_vis</span><span class="o">=</span><span class="n">n_steps_per_vis</span><span class="p">,</span> <span class="n">interval</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">phase_color</span> <span class="o">=</span> <span class="n">phase_color</span><span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.sample">
+<code class="highlight language-python"><span class="n">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_separations</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>Collect n_samples separated by n_separations Monte Carlo steps</p>
+<p>Returns 
+energies_per_site, specific heat, absolute_magnetization_per_site</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">sample</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">,</span> <span class="n">n_separations</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Collect n_samples separated by n_separations Monte Carlo steps</span>
+
+<span class="sd">    Returns </span>
+<span class="sd">    energies_per_site, specific heat, absolute_magnetization_per_site</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">energy</span>        <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+    <span class="n">magnetization</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n_samples</span><span class="p">)</span>
+
+    <span class="n">energy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+    <span class="n">magnetization</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_magnetization</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">n_samples</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">evolve</span><span class="p">(</span><span class="n">n_separations</span><span class="p">)</span>
+
+        <span class="n">energy</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_energy</span><span class="p">()</span>
+        <span class="n">magnetization</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_magnetization</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">var</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">kT</span><span class="o">**</span><span class="mi">2</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">magnetization</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+  <div class="doc doc-object doc-method">
+
+
+
+<h3 class="doc doc-heading" id="bubblebox.ising.isingbox.update_env">
+<code class="highlight language-python"><span class="n">update_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signs</span><span class="p">,</span> <span class="n">z_ind</span><span class="p">)</span></code>
+
+
+</h3>
+
+    <div class="doc doc-contents ">
+
+      <p>update energy environment with a change in Z[z_ind]</p>
+
+        <details class="quote">
+          <summary>Source code in <code>bubblebox/ising.py</code></summary>
+          <div class="highlight"><pre><span></span><code><span class="k">def</span> <span class="nf">update_env</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">signs</span><span class="p">,</span> <span class="n">z_ind</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;update energy environment with a change in Z[z_ind]&quot;&quot;&quot;</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">z_ind</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">signs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[(</span><span class="n">z_ind</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">signs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[</span><span class="n">z_ind</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">]</span> <span class="o">+=</span> <span class="n">signs</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">env</span><span class="p">[(</span><span class="n">z_ind</span><span class="o">+</span><span class="bp">self</span><span class="o">.</span><span class="n">N</span><span class="p">)</span><span class="o">%</span><span class="bp">self</span><span class="o">.</span><span class="n">N2</span><span class="p">]</span> <span class="o">+=</span> <span class="n">signs</span>
+</code></pre></div>
+        </details>
+    </div>
+
+  </div>
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+
+
+
+
+
+
+
+  </div>
+
+    </div>
+
+  </div>
+                
+              
+              
+                
+
+
+              
+            </article>
+          </div>
+        </div>
+        
+      </main>
+      
+        
+<footer class="md-footer">
+  
+    <nav class="md-footer__inner md-grid" aria-label="Footer">
+      
+        
+        <a href="../mdbox-reference/" class="md-footer__link md-footer__link--prev" aria-label="Previous: mdbox" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              mdbox
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="../lattice_models-reference/" class="md-footer__link md-footer__link--next" aria-label="Next: lattice_models" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              lattice_models
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-footer-copyright">
+        
+        Made with
+        <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+          Material for MkDocs
+        </a>
+        
+      </div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "translations": {"clipboard.copy": "Copy to clipboard", "clipboard.copied": "Copied to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.placeholder": "Type to start searching", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "search": "../assets/javascripts/workers/search.709b4209.min.js", "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.29db7785.min.js"></script>
+      
+        <script src="../javascripts/mathjax.js"></script>
+      
+        <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+      
+        <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      
+    
+  </body>
+</html>
