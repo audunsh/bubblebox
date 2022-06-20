@@ -8,6 +8,8 @@ It's main purpose is to allow students to build intuition and understanding of c
 
 BubbleBox is being developed by Audun Skau Hansen (a.s.hansen@kjemi.uio.no) at the Department of Chemistry, Hylleraas Centre for Quantum Molecular Sciences, University of Oslo. BubbleBox is part of the <a href="https://hylleraas.readthedocs.io/en/latest/">Hylleraas Software Platform</a>.
 
+<a href="https://audunsh.github.io/bubblebox/">Please visit the project homepage for more information.</a>
+
 ## Installation
 
 Install BubbleBox with <code>pip install bubblebox</code> from your terminal.
