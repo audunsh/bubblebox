@@ -3,6 +3,7 @@ import matplotlib
 from matplotlib.animation import FuncAnimation
 import numpy as np
 import numba as nb
+import evince as ev
 import time
 from scipy.interpolate import interp1d
 
@@ -149,6 +150,40 @@ def distances_reduced(coords, L2x, L2y):
             #c += 1
     return d
 
+def fcc(L = 1, Nc = 3, vel = 0):
+    """
+    Generate a FCC setup
+
+    Keyword arguments:
+    
+    L              -- lattice constant
+    Nc             -- half the number of cells in the simulation box
+
+    Returns an fcc simulation box containing 4*Nc**3 particles, 
+    with a total volume of (L*Nc)**3.
+    """
+    Lc = L*Nc
+    
+    coords = []
+    for i in range(-Nc, Nc):
+        for j in range(-Nc, Nc):
+            for k in range(-Nc, Nc):
+                coords.append([i,j,k])
+
+                coords.append([i+.5,j+.5,k])
+                coords.append([i+.5,j,k+.5])
+                coords.append([i,j+.5,k+.5])
+
+    coords = np.array(coords)
+
+    coords = Lc*(coords+.5)/Nc
+    coords -= np.mean(coords, axis = 0)[None,:]
+
+    
+    
+    return coords
+
+
 
 
 @nb.jit()
@@ -220,12 +255,25 @@ def distances(coords):
 def no_forces(coords, size2, interactions = None, r2_cut = 9.0, force = None, pair_list = None):
     return 0
 
-@nb.jit(nopython=True)
-def lj_force(eps, sig, rr):
-    return -24*eps*(2*sig**12*rr**-7 - sig**6*rr**-4)
+
+# force mapping and calculations
 
 @nb.jit(nopython=True)
-def coulomb_force(eps, sig, rr):
+def compute_no_force(eps, sig, rr):
+    return 0
+
+def no_force():
+    return 0
+
+@nb.jit(nopython=True)
+def compute_lj_force(eps, sig, rr):
+    return -24*eps*(2*sig**12*rr**-7 - sig**6*rr**-4)
+
+def lj_force():
+    return 1
+
+@nb.jit(nopython=True)
+def compute_coulomb_force(eps, sig, rr):
     """
     eps = Q1 (charge of particle 1)
     sig = Q2 (charge of particle 2)
@@ -233,14 +281,44 @@ def coulomb_force(eps, sig, rr):
     """
     return -eps*sig*rr**-2
 
+def coulomb_force():
+    return 3
+
 @nb.jit(nopython=True)
-def hook_force(eps, sig, rr):
+def compute_hook_force(eps, sig, rr):
     """
     eps = Q1 (charge of particle 1)
     sig = Q2 (charge of particle 2)
     rr  = distance between particles
     """
     return eps*(rr-sig)
+
+def hook_force():
+    return 2
+
+@nb.jit(nopython=True)
+def compute_custom_force(eps, sig, rr):
+    return 0
+
+def custom_force():
+    return 4
+
+
+
+@nb.jit(nopython=True)
+def compute_force(force_id, eps, sig, rr):
+    if force_id==0:
+        return 0 #no force
+    if force_id==1:
+        return compute_lj_force(eps, sig, rr)
+    if force_id==2:
+        return compute_hook_force(eps, sig, rr)
+    if force_id==3:
+        return compute_coulomb_force(eps, sig, rr)
+    if force_id==4:
+        return compute_custom_force(eps, sig, rr)
+    
+
 
 
 
@@ -281,7 +359,7 @@ def compute_pair_list(coords, r2_cut, size2):
     return pair_list
 
 @nb.jit(nopython=True)
-def forces(coords, size2, interactions = None, r2_cut = 9.0, force = lj_force, pair_list = None):
+def forces(coords, size2, interactions, r2_cut = 9.0, pair_list = None):
     # 2d force vector
     d = np.zeros((size2.shape[0], coords.shape[1]), dtype = nb.float64)
     #Lx, Ly = -L2x/2.0, -L2y/2.0
@@ -289,63 +367,59 @@ def forces(coords, size2, interactions = None, r2_cut = 9.0, force = lj_force, p
     size_a = np.abs(size)
     #u = 0 #pot energy
     
-    if interactions is None:
-        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float64)
+    #if interactions is None:
+    #    interactions = np.ones((coords.shape[1], coords.shape[1], 3), dtype = nb.float64)
         
 
     for i in range(coords.shape[1]):
         #cix, ciy = coords[0,i],coords[1,i]
         ci = coords[:, i]
 
-        if pair_list is not None:
-            for j in pair_list[i]:
-                if j==i:
-                    break
-                
-                
-                
+        #if pair_list is not None:
+        for j in pair_list[i]:
+            if j==i:
+                break
 
-                
-                # distance-based interactions
-                #dx, dy = coords[:,j] - ci
 
-                #cjx, cjy = coords[0,j], coords[1,j]
-                cj = coords[:, j]
-                dij = cj - ci
-                
-                #dx = cjx - cix #coords[0,i]
-                #dy = cjy - ciy #coords[1,i]
-                for k in range(size.shape[0]):
-                    if size[k]<0:
-                        if np.abs(dij[k])>size_a[k]:
-                            if dij[k]>0:
-                                dij[k] += size2[k]
-                            else:
-                                dij[k] -= size2[k]
-                
-                
-                # Compute distance squared
-                #rr = dx**2 + dy**2 
-                rr = np.sum(dij**2)
 
-                
-                if rr<r2_cut: # Screen on distance squared
 
-                    eps, sig = interactions[i,j]
-                    #if eps>0:
 
-                    ljw = force(eps, sig, rr) 
-                        
-                    #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
-                    
-                    ljf = dij*ljw
+            # distance-based interactions
 
-                    #ljf_x = ljw*dx # x-component
-                    #ljf_y = ljw*dy # y-component
+            cj = coords[:, j]
+            dij = cj - ci
 
-                    # Sum forces
-                    d[:,i] += ljf
-                    d[:,j] -= ljf
+
+            for k in range(size.shape[0]):
+                if size[k]<0:
+                    if np.abs(dij[k])>size_a[k]:
+                        if dij[k]>0:
+                            dij[k] += size2[k]
+                        else:
+                            dij[k] -= size2[k]
+
+
+            # Compute distance squared
+            rr = np.sum(dij**2)
+
+
+            if rr<r2_cut: # Screen on distance squared
+
+                force_i, eps, sig = interactions[i,j]
+                #if eps>0:
+
+                ljw = compute_force(force_i, eps, sig, rr) 
+
+                #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+
+                ljf = dij*ljw
+
+                #ljf_x = ljw*dx # x-component
+                #ljf_y = ljw*dy # y-component
+
+                # Sum forces
+                d[:,i] += ljf
+                d[:,j] -= ljf
         
     return d
 
@@ -410,7 +484,7 @@ def lj_potential(coords, size2, interactions = None, r2_cut = 9.0, force = lj_fo
 
 
 @nb.jit()
-def collisions(coords, vels, screen = 10.0, radius = -1.0, size2=0, masses = None,pair_list = None):
+def collisions(coords, vels, screen = 10.0, radius = -1.0, size2=0, masses = None,pair_list = None, sphere_collisions = False):
     """
     Hard-sphere collision and wall collisions
     Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)
@@ -449,59 +523,60 @@ def collisions(coords, vels, screen = 10.0, radius = -1.0, size2=0, masses = Non
         #cix, ciy = coords[0,i],coords[1,i]
         ci = coords[:, i]
 
-        if pair_list is not None:
-            for j in pair_list[i]:
-                if j==i:
-                    break
-                
-                
-                
-
-                
-                # distance-based interactions
-                #dx, dy = coords[:,j] - ci
-
-                #cjx, cjy = coords[0,j], coords[1,j]
-                cj = coords[:, j]
-                dij = cj - ci
-                
-                #dx = cjx - cix #coords[0,i]
-                #dy = cjy - ciy #coords[1,i]
-                for k in range(size.shape[0]):
-                    if size[k]<0:
-                        if np.abs(dij[k])>size_a[k]:
-                            if dij[k]>0:
-                                dij[k] += size2[k]
-                            else:
-                                dij[k] -= size2[k]
-                
-                
-                # Compute distance squared
-                rr = np.sum(dij**2)
-                
-                if rr<r2:
-                    #collision detected
-                    c += 1
+        if sphere_collisions:
+            if pair_list is not None:
+                for j in pair_list[i]:
+                    if j==i:
+                        break
                     
-                    # velocities
-                    vij = vels[:, i] - vels[:, j]
                     
-                    # weight
-                    w_dij = np.dot(vij, dij)/rr*dij
                     
-                    if masses is None:
-                        v[:, i] -= w_dij
-                        v[:, j] += w_dij
-                    else:
-                        mi = masses[i]
-                        mj = masses[j]
-                        m1_m2 = mi+mj
-                        wi = 2*mj/m1_m2
-                        wj = 2*mi/m1_m2
 
-                        v[:,i] -=  w_dij*wi
-                        v[:,j] +=  w_dij*wi
-                            
+                    
+                    # distance-based interactions
+                    #dx, dy = coords[:,j] - ci
+
+                    #cjx, cjy = coords[0,j], coords[1,j]
+                    cj = coords[:, j]
+                    dij = cj - ci
+                    
+                    #dx = cjx - cix #coords[0,i]
+                    #dy = cjy - ciy #coords[1,i]
+                    for k in range(size.shape[0]):
+                        if size[k]<0:
+                            if np.abs(dij[k])>size_a[k]:
+                                if dij[k]>0:
+                                    dij[k] += size2[k]
+                                else:
+                                    dij[k] -= size2[k]
+                    
+                    
+                    # Compute distance squared
+                    rr = np.sum(dij**2)
+                    
+                    if rr<r2:
+                        #collision detected
+                        c += 1
+                        
+                        # velocities
+                        vij = vels[:, i] - vels[:, j]
+                        
+                        # weight
+                        w_dij = np.dot(vij, dij)/rr*dij
+                        
+                        if masses is None:
+                            v[:, i] -= w_dij
+                            v[:, j] += w_dij
+                        else:
+                            mi = masses[i]
+                            mj = masses[j]
+                            m1_m2 = mi+mj
+                            wi = 2*mj/m1_m2
+                            wj = 2*mi/m1_m2
+
+                            v[:,i] -=  w_dij*wi
+                            v[:,j] +=  w_dij*wi
+                                
         # collision with wall
         for k in range(size.shape[0]):
             if size[k]>0:
@@ -585,9 +660,9 @@ class mdbox():
 
     """
 
-    def __init__(self, n_bubbles = 100, masses = None, vel = 0.0, size = (0,0), grid = True, pair_list = True, fields = False):
-        # Initialize gas
-        
+    def __init__(self, n_bubbles = 100, masses = None, vel = 0.0, size = (0,0), grid = True, pair_list = True, fields = False, sphere_collisions = False):
+        # Initialize system
+        self.sphere_collisions = sphere_collisions
         
 
         # Boundary conditions
@@ -596,12 +671,17 @@ class mdbox():
         self.size2 = np.array(size)*2
         self.ndim = len(size)
 
-
-
+        # obsolete parameter for hard-sphere collisions
         self.radius = .1
         self.n_bubbles = n_bubbles
         
-
+        # list to hold force algorithms 
+        self.force_stack = (no_force, lj_force)
+        
+        # array to keep track of forces and interaction parameters
+        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 3), dtype = float)
+        
+        # array to keep track of the positions of the bubbles
         self.pos = np.zeros((self.ndim,self.n_bubbles), dtype = float)
         
         # arrange bubbles in grid
@@ -611,14 +691,16 @@ class mdbox():
             grid_axes.append(np.linspace(-self.size[i], self.size[i], n_bubbles_axis+1)[:-1])
             
         self.pos = np.array(np.meshgrid(*grid_axes)).reshape(self.ndim, int(n_bubbles_axis**self.ndim))[:,:self.n_bubbles]
-        # move to center
         
+        # move to center
         self.pos = self.pos - np.mean(self.pos, axis = 1)[:, None]
+
+        
         
 
         if masses is None:
             self.masses = np.ones(self.n_bubbles, dtype = int)
-            self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = float)
+            
             self.masses_inv = np.array(self.masses, dtype = float)**-1
             #self.n_bubbles = n_bubbles
             
@@ -635,16 +717,15 @@ class mdbox():
         
 
         self.pos_old = self.pos*1 # retain previous timesteps to compute velocities
+        
+        # all bubbles active by default
         self.active = np.ones(self.pos.shape[1], dtype = bool)
 
-        # Coordinates - velocity
-        #r, th = np.random.normal(0,vel, self.n_bubbles), np.random.uniform(0,2*np.pi,self.n_bubbles)
-        #self.vel = np.array([r*np.cos(th), r*np.sin(th)]) #np.random.uniform(-1,1,(2,self.n_bubbles))*vel
         
-        self.vel = np.random.multivariate_normal(np.zeros(self.ndim), np.eye(self.ndim), self.n_bubbles).T
+        # Set velocities (and half-step velocity for v-verlet iterations)
+        self.vel = np.random.multivariate_normal(np.zeros(self.ndim), vel*np.eye(self.ndim), self.n_bubbles).T
         self.vel[:] -= np.mean(self.vel, axis = 1)[:, None]
         self.vel_ = self.vel # verlet integrator velocity at previous timestep
-        
 
         # Integrator 
         self.advance = self.advance_vverlet
@@ -661,9 +742,11 @@ class mdbox():
         # Collision counter
         self.col = 0
 
+        # Prime for special first iteration
         self.first_iteration = True
         self.iteration = 0
 
+        # Pair list for efficient force-calculation
         self.pair_list = None
         if pair_list:
             self.pair_list_update_frequency = 10
@@ -676,10 +759,6 @@ class mdbox():
             self.nbins, self.Z = 20, np.zeros((20,20,2), dtype = float)
  
 
-        
-        # Thermostat / relaxation
-        #if relax:
-        #    self.relax_sa(20000)
 
     def resize_box(self, size):
         # New boundary conditions
@@ -693,31 +772,7 @@ class mdbox():
         self.size2 = np.array(size)*2
 
 
-    def set_masses(self, masses):
-        self.masses = masses
-        self.masses_inv = np.array(self.masses, dtype = float)**-1
-
-
-    def set_interactions(self, masses):
-        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 2), dtype = float)
-
-        # Placeholder for proper parametrization of interactions
-        epsilons = np.linspace(.5,10,100)
-        sigmas   = np.linspace(1,np.sqrt(2), 100)
-
-        
-
-        for i in range(self.n_bubbles):
-            mi = masses[i]
-            for j in range(i+1, self.n_bubbles):
-                
-                mj = masses[j]
-
-                eps = np.sqrt(epsilons[mi]*epsilons[mj])
-                sig = sigmas[mi] + sigmas[mj]
-
-
-                self.interactions[i,j] = [eps, sig]
+    
 
     
     
@@ -727,7 +782,7 @@ class mdbox():
         Advance one step in time according to the Velocity-Verlet algorithm
         """
         if self.first_iteration:
-            self.Fn = self.forces(self.pos, self.size2, self.interactions, r2_cut = self.r2_cut, force = self.force, pair_list = self.pair_list)
+            self.Fn = self.forces(self.pos, self.size2, self.interactions, r2_cut = self.r2_cut, pair_list = self.pair_list)
             self.first_iteration = False
         if self.pair_list is not None:
             if self.iteration % self.pair_list_update_frequency == 0:
@@ -746,7 +801,7 @@ class mdbox():
 
         pos_new = self.pos + self.d_pos
         
-        forces_new = self.forces(pos_new, self.size2, self.interactions, r2_cut = self.r2_cut, force = self.force, pair_list = self.pair_list)
+        forces_new = self.forces(pos_new, self.size2, self.interactions, r2_cut = self.r2_cut, pair_list = self.pair_list)
 
         self.vel_ = self.vel_ + .5*(forces_new + Fn)*self.dt*self.masses_inv
 
@@ -760,7 +815,7 @@ class mdbox():
         
 
         # impose wall and collision boundary conditions
-        self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, size2 = self.size2, masses = self.masses, pair_list = self.pair_list)
+        self.vel_, self.col = collisions(pos_new, self.vel_, screen = 10.0, radius = self.radius, size2 = self.size2, masses = self.masses, pair_list = self.pair_list, sphere_collisions = self.sphere_collisions)
 
         #update arrays (in order to retain velocity)
         self.vel = (pos_new - self.pos_old)/(2*self.dt)
@@ -829,16 +884,98 @@ class mdbox():
         t1 = self.t+t
         while self.t<t1:
             self.advance()
+            
+    """
+    Setters
+    """
 
 
     def set_charges(self, charges):
-        # for coulomb interactions
+        """
+        Set charges for Coulomb interactions
+        
+        Arguments
+        ===
+        - charges: a numpy.ndarray (or list) containing float or integer charges for all particles
+        
+        """
         assert(len(charges) == self.n_bubbles), "Number of charges must equal number of bubbles (%i)." %self.n_bubbles
         for i in range(self.n_bubbles):
             for j in range(self.n_bubbles):
                 self.interactions[i,j] = np.array([charges[i],charges[j]])
            
+    def set_masses(self, masses, bubbles = None):
+        """
+        Set masses 
+        
+        Arguments
+        ===
+        - masses: a numpy.ndarray (or list) containing float or integer charges for all particles
+        
+        """
+        if bubbles is None:
+            self.masses[:] = masses
+        else:
+            self.masses[bubbles] = masses
+        
+        self.masses_inv = np.array(self.masses, dtype = float)**-1
+            
+        
+    def set_forces(self, force, force_params, bubbles_a = None, bubbles_b = None):
+        """
+        Set the force acting between bubbles_a and bubbles_b (or all)
+        """
+        
+        #self.force_stack.append(force)
+        
+        if bubbles_a is None:
+            bubbles_a, bubbles_b = np.arange(self.n_bubbles),np.arange(self.n_bubbles)
 
+        nx, ny = np.meshgrid(bubbles_a,bubbles_b)
+        
+        # set pointer to the force function in the force stack
+        self.interactions[nx,ny,:] = force()
+        
+        # set parameters to use for the specific pairs of particles
+        self.interactions[nx,ny,1] = force_params[0]
+        self.interactions[nx,ny,2] = force_params[1]
+    def set_vel(self, vel):
+        """
+        set manually the velocities of the system
+        """
+        assert(np.all(vel.shape==self.vel.shape)), "Wrong shape of velocities"
+        self.vel = vel
+        self.vel_ = self.vel # verlet integrator velocity at previous timestep
+
+        
+        
+        
+        
+
+
+    def set_interactions(self, masses):
+        """
+        Placeholder for proper parametrization of LJ-interactions
+        """
+        #self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 3), dtype = float)
+
+        
+        epsilons = np.linspace(.5,10,100)
+        sigmas   = np.linspace(1,np.sqrt(2), 100)
+
+        
+
+        for i in range(self.n_bubbles):
+            mi = int(masses[i])
+            for j in range(i+1, self.n_bubbles):
+                
+                mj = int(masses[j])
+
+                eps = np.sqrt(epsilons[mi]*epsilons[mj])
+                sig = sigmas[mi] + sigmas[mj]
+
+
+                self.interactions[i,j] = [1, eps, sig]
             
             
             
@@ -883,9 +1020,32 @@ class mdbox():
             plt.axis("off")
         plt.show()
 
-    def run(self, n_steps_per_vis = 5, interval = 1):
-        run_system = animated_system(system = self, n_steps_per_vis=n_steps_per_vis, interval = interval)
-        plt.show()
+    #def run(self, n_steps_per_vis = 5, interval = 1):
+    #    run_system = animated_system(system = self, n_steps_per_vis=n_steps_per_vis, interval = interval)
+    #    plt.show()
+
+    def run(self, nsteps, n_iterations_per_step = 1):
+        for i in range(nsteps):
+            for j in range(n_iterations_per_step):
+                self.advance()
+            self.update_view()
+
+    def view(self):
+        self.mview = ev.MDView(self)
+        return self.mview
+    
+    def update_view(self):
+        self.mview.pos = self.pos.T.tolist()
+
+
+    # "algebra"
+
+    def __add__(self, other):
+        ret_n_bubbles = self.n_bubbles + other.n_bubbles
+        ret_pos = np.concatenate(self.pos, other.pos, axis = 1)
+        ret_vel = np.concatenate(self.vel, other.vel, axis = 1)
+        ret_interactions = 0
+
 
 class box(mdbox):
     """
@@ -992,4 +1152,3 @@ class animated_system():
             self.bubbles.set_data(x,y)
             
         return self.bubbles,
-        

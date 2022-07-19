@@ -7,6 +7,8 @@ from matplotlib.animation import FuncAnimation
 from scipy.interpolate import interp1d
 import time
 
+import evince as ev
+
 square_lattice_basis = np.array([[ 1, 0],
                                  [-1, 0],
                                  [ 0, 1],
@@ -386,7 +388,7 @@ class animated_system():
         
         
         
-        self.color = interp1d(np.linspace(0,len(self.system.number_of_species), 5), cc)
+        self.color = interp1d(np.linspace(0,len(self.system.n_bubbles), 5), cc)
 
 
         
@@ -443,22 +445,54 @@ class animated_system():
     
 class latticebox():
     """
-    Lattice model
+    ## Latticebox
+
+    The latticebox extension models a lattice of monomers where the only interactions occur between neighboring sites. The Hamiltonian of the system is
+
+    \begin{equation}
+    H = \frac{1}{2}\sum_{I \in \Omega} \Big{(} \sum_{J \in \Omega_I} w_{\sigma(I)\sigma(J)} \Big{)},
+    \end{equation}
+
+    where $I$ are sites on the lattice $\Omega$, $J$ are sites in the neighborhood of $I$ ( $\Omega_I$ ), $\sigma(I) \in \{A,B,...\}$ yields the species occupying site $I$ and the matrix $w$ contains the interaction parameters $w_{AA}, w_{AB}, w_{BB}$ and so on.
+
     """
     
-    def __init__(self, dim, number_of_species, interaction, T = 1.0, randomize = True, n_swaps_per_advance = 1, neighbor_swap = False):
+    def __init__(self, n_bubbles, size, interaction, T = 1.0, randomize = True, n_swaps_per_advance = 1, neighbor_swap = False):
+        """
+        ## Initialize the lattice
+        ---
+
+        Keyword arguments:
+    
+        n_bubbles        -- array with number of bubbles of varying species (must sum to number of lattice points)
+        size             -- size of lattice (x,y) direction
+        interaction      -- interaction matrix of dimension len(n_bubbles) x  len(n_bubbles)
+
+        ## Example usage (in a notebook):
+        ---
+
+        import bubblebox as bb
+
+        %matplotlib notebook
+
+        system = latticebox(n_bubbles = [500,500], size = (10,10), interactions = np.eye(2)) #initialize 10 by 10 closed box containing 500 bubbles of type A, 500 bubbles of type B
+
+        system.run() #run simulation interactively 
+
+        """
         
-        self.lattice = np.zeros(dim, dtype = int)
+        self.size = size
+        self.lattice = np.zeros(size, dtype = int)
         
         self.z = 2*len(self.lattice.shape) #number of nearest neighbors
         
-        assert(np.sum(number_of_species) == self.lattice.size), "Incorrect number of species"
-        self.number_of_species = number_of_species
+        assert(np.sum(n_bubbles) == self.lattice.size), "Inconsistent number of species and lattice"
+        self.n_bubbles = n_bubbles
         
         
         counter = 0
-        for m in range(len(self.number_of_species)):
-            dcounter = counter + self.number_of_species[m]
+        for m in range(len(self.n_bubbles)):
+            dcounter = counter + self.n_bubbles[m]
             self.lattice.flat[counter:dcounter] = m
             counter = dcounter
             
@@ -466,7 +500,7 @@ class latticebox():
         if randomize:
             self.lattice = self.lattice.ravel()
             np.random.shuffle(self.lattice.ravel())
-            self.lattice = self.lattice.reshape(dim)
+            self.lattice = self.lattice.reshape(size)
             
         self.interaction = interaction
         self.kT = 1*T
@@ -681,6 +715,22 @@ class latticebox():
         self.run_system = animated_system(system = self, n_steps_per_vis=n_steps_per_vis, interval = 1, phase_color = phase_color)
         plt.show()
             
+
+    def view(self):
+        self.pos = np.array(np.meshgrid(*[np.arange(i) for i in self.lattice.shape])).reshape(len(self.lattice.shape),-1)
+        self.pos = self.pos - .5*np.array(self.lattice.shape, dtype = int)[:, None]
+        self.pos += .5
+        
+        # set masses 
+        self.masses = np.ones(len(self.pos))
+        
+        self.mview = ev.LatticeView(self)
+        return self.mview
+    
+    def update_view(self):
+        self.mview.state = self.lattice.ravel().tolist()
+        
+
             
 
 # equilibration routine
@@ -887,3 +937,5 @@ def initialize_lattice(T = .2, w_aa = -.8, w_ab = -.1, w_bb = -.8, chi_b = .5, n
     
     
     return l
+
+    
