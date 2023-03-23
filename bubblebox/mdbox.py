@@ -8,6 +8,7 @@ import time
 from scipy.interpolate import interp1d
 from ipywidgets.embed import embed_minimal_html
 from bubblebox.elements import get_atomic_number
+import copy
 
 # Author: Audun Skau Hansen, January, 2021
 
@@ -140,6 +141,34 @@ def gen_field(b, bins = 10, Z = None, alpha = .9):
 
 #matplotlib.rcParams['figure.figsize'] = (6.4,4.8)
 #matplotlib.rcParams['figure.figsize'] = (4.8,4.8)
+
+def particle_count(b, Nz = 11, col = None):
+    """
+    Create a 2D density array for a set of various bubbles
+    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)
+            Hanan Gharayba
+
+    Keyword arguments:
+    
+    pos              -- array (2,n_particles) containing positions
+    masses           -- array (n_particles) containing masses
+    Lx, Ly           -- box dimensions
+    Nz               -- number of bins in each dimension
+
+    Returns an Nz by Nz by 3 array containing colors according to 
+    bubble density
+    """
+
+    Z = np.zeros((Nz,Nz), dtype = int)
+
+    
+    for i in range(b.pos.shape[1]):
+        ix, iy = int( Nz*(b.pos[0,i] + b.size[0])/(2*b.size[0]) ), int( Nz*(b.pos[1,i] + b.size[1])/(2*b.size[1]) )
+        
+        Z[ix,iy] += 1
+
+    return Z
+
 
 #@nb.jit()
 def pos2heatmap(pos, masses, Lx, Ly, Nz = 11, col = None):
@@ -358,7 +387,7 @@ def hook_force():
 
 @nb.jit(nopython=True)
 def compute_custom_force(eps, sig, rr):
-    return 0
+    return -eps*sig*(1.0 + rr)**-2
 
 def custom_force():
     return 4
@@ -384,7 +413,7 @@ def compute_force(force_id, eps, sig, rr):
                    
         
 @nb.jit(nopython=True)
-def compute_pair_list(coords, r2_cut, size2):
+def compute_pair_list_old(coords, r2_cut, size2):
     xi = np.argsort(coords[0]) #, kind = "heapsort")
     pair_list = np.zeros(( coords.shape[1]**2, 2), dtype = nb.int32)
     size = .5*size2
@@ -402,6 +431,7 @@ def compute_pair_list(coords, r2_cut, size2):
 
             for k in range(size.shape[0]):
                 if size[k]<0:
+                    # periodic
                     if np.abs(dij[k])>size_a[k]:
                         if dij[k]>0:
                             dij[k] += size2[k]
@@ -421,11 +451,53 @@ def compute_pair_list(coords, r2_cut, size2):
                     
     return pair_list[:c]
 
+@nb.jit(nopython=True)
+def compute_pair_list(coords, r2_cut, size2):
+    xi = np.argsort(coords[0]) #, kind = "heapsort")
+    pair_list = np.zeros(( coords.shape[1]**2, 2), dtype = nb.int32)
+    size = .5*size2
+    size_a = np.abs(size)
+    c = 0
+    
+
+    for ni in range( coords.shape[1] ):
+        i = xi[ni]
+        ci = coords[:,i]
+        for nj in range( coords.shape[1] - 1 ):
+            j = xi[(ni + nj + 1)%coords.shape[1]]
+            cj = coords[:, j]
+            dij = cj - ci
+            
+
+
+            for k in range(size.shape[0]):
+                if size[k]<0:
+                    if np.abs(dij[k])>size_a[k]:
+                        if dij[k]>0:
+                            dij[k] += size2[k]
+                        else:
+                            dij[k] -= size2[k]
+
+            dij2 = dij**2 
+            
+            if dij2[0]>r2_cut:
+                
+                break
+            else:
+
+                # Compute distance squared
+                rr = np.sum(dij2)
+                if rr<=r2_cut:
+                    pair_list[c] = [min(i, j), max(i, j)]
+                    c += 1
+                    
+    return pair_list[:c]
+
         
 @nb.jit(nopython=True)
 def forces(coords, size2, interactions, r2_cut, pair_list):
     # 2d force vector
-    d = np.zeros((size2.shape[0], coords.shape[1]), dtype = nb.float64)
+    d = np.zeros((size2.shape[0], coords.shape[1]), dtype = nb.float32)
     #Lx, Ly = -L2x/2.0, -L2y/2.0
     size = .5*size2
     size_a = np.abs(size)
@@ -473,6 +545,73 @@ def forces(coords, size2, interactions, r2_cut, pair_list):
         
     return d
 
+        
+@nb.jit(nopython=True)
+def forces_unsymm(coords, size2, interactions, r2_cut, pair_list):
+    # 2d force vector, unsymmetric
+    d = np.zeros((size2.shape[0], coords.shape[1]), dtype = nb.float32)
+    #Lx, Ly = -L2x/2.0, -L2y/2.0
+    size = .5*size2
+    size_a = np.abs(size)
+    #u = 0 #pot energy
+    
+    #if interactions is None:
+    #    interactions = np.ones((coords.shape[1], coords.shape[1], 3), dtype = nb.float64)
+    
+    for m in range(len(pair_list)):
+        i,j = pair_list[m]
+
+        ci = coords[:, i]
+        cj = coords[:, j]
+        dij = cj - ci
+        for k in range(size.shape[0]):
+            if size[k]<0:
+                if np.abs(dij[k])>size_a[k]:
+                    if dij[k]>0:
+                        dij[k] += size2[k]
+                    else:
+                        dij[k] -= size2[k]
+
+
+        # Compute distance squared
+        rr = np.sum(dij**2)
+
+
+        if rr<r2_cut: # Screen on distance squared
+
+            force_i, eps, sig = interactions[i,j]
+            #if eps>0:
+
+            ljw = compute_force(force_i, eps, sig, rr) 
+
+            #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+
+            ljf = dij*ljw
+
+            #ljf_x = ljw*dx # x-component
+            #ljf_y = ljw*dy # y-component
+
+            # Sum forces
+            d[:,i] += ljf
+
+
+            force_i, eps, sig = interactions[j,i]
+            #if eps>0:
+
+            ljw = compute_force(force_i, eps, sig, rr) 
+
+            #ljw   = -12*eps*(sig**12*rr**-7 - sig**6*rr**-4) # Lennard-Jones weight
+
+            ljf = dij*ljw
+
+            #ljf_x = ljw*dx # x-component
+            #ljf_y = ljw*dy # y-component
+
+            # Sum forces
+            d[:,j] -= ljf
+        
+    return d
+
 @nb.jit(nopython=True)
 def lj_potential(coords, size2, interactions = None, r2_cut = 9.0, pair_list = None):
     # Compute the Lennard-Jones potential energy
@@ -481,7 +620,7 @@ def lj_potential(coords, size2, interactions = None, r2_cut = 9.0, pair_list = N
     #u = 0 #pot energy
     
     if interactions is None:
-        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float64)
+        interactions = np.ones((coords.shape[1], coords.shape[1], 2), dtype = nb.float32)
         
     u = 0
 
@@ -672,6 +811,7 @@ class mdbox():
     radius           -- 
     relax            -- minimize potential energy on initialization using simulated annealing
     grid             -- initial spacing in a grid (default True)
+    target_temperature -- temperature used for themostat (default None)
 
     Example usage (in a notebook):
 
@@ -686,10 +826,13 @@ class mdbox():
 
     """
 
-    def __init__(self, n_bubbles = 100, masses = None, vel = 0.0, size = (0,0), grid = True, pair_list = True, fields = False, sphere_collisions = False):
+    def __init__(self, n_bubbles = 100, masses = None, vel = 0.0, size = (0,0), grid = True, pair_list = True, fields = False, sphere_collisions = False, target_temperature = None, dtype = np.float32):
         # Initialize system
         self.sphere_collisions = sphere_collisions
         
+        self.thermostat_scaling = 0.0001
+        self.target_temperature = target_temperature
+        self.dtype = dtype
 
         # Boundary conditions
         
@@ -705,10 +848,10 @@ class mdbox():
         self.force_stack = (no_force, lj_force)
         
         # array to keep track of forces and interaction parameters
-        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 3), dtype = float)
+        self.interactions = np.ones((self.n_bubbles, self.n_bubbles, 3), dtype = self.dtype)
         
         # array to keep track of the positions of the bubbles
-        self.pos = np.zeros((self.ndim,self.n_bubbles), dtype = float)
+        self.pos = np.zeros((self.ndim,self.n_bubbles), dtype = self.dtype)
         
         # arrange bubbles in grid
         n_bubbles_axis = int(np.ceil(n_bubbles**(1/self.ndim)))
@@ -716,10 +859,13 @@ class mdbox():
         for i in range(self.size.shape[0]):
             grid_axes.append(np.linspace(-self.size[i], self.size[i], n_bubbles_axis+1)[:-1])
             
-        self.pos = np.array(np.meshgrid(*grid_axes)).reshape(self.ndim, int(n_bubbles_axis**self.ndim))[:,:self.n_bubbles]
+        self.pos = np.array(np.meshgrid(*grid_axes), dtype = self.dtype).reshape(self.ndim, int(n_bubbles_axis**self.ndim))[:,:self.n_bubbles]
         
         # move to center
         self.pos = self.pos - np.mean(self.pos, axis = 1)[:, None]
+
+        
+
 
         
         
@@ -727,14 +873,14 @@ class mdbox():
         if masses is None:
             self.masses = np.ones(self.n_bubbles, dtype = int)
             
-            self.masses_inv = np.array(self.masses, dtype = float)**-1
+            self.masses_inv = np.array(self.masses, dtype = self.dtype)**-1
             #self.n_bubbles = n_bubbles
             
         else:
             self.masses = masses
             self.n_bubbles = len(masses)
             self.set_interactions(self.masses)
-            self.masses_inv = np.array(self.masses, dtype = float)**-1
+            self.masses_inv = np.array(self.masses, dtype = self.dtype)**-1
 
         
         
@@ -782,7 +928,11 @@ class mdbox():
         # fields
         self.fields = fields
         if self.fields:
-            self.nbins, self.Z = 20, np.zeros((20,20,2), dtype = float)
+            self.nbins, self.Z = 20, np.zeros((20,20,2), dtype = self.dtype)
+
+        self.pos = np.array(self.pos, dtype = self.dtype)
+        self.vel = np.array(self.vel, dtype = self.dtype)
+        self.vel_ = np.array(self.vel_, dtype = self.dtype)
  
 
 
@@ -800,7 +950,7 @@ class mdbox():
 
     
 
-    
+
     
 
     def advance_vverlet(self):
@@ -851,6 +1001,12 @@ class mdbox():
         # Track time
         self.t += self.dt
         self.iteration += 1
+
+        # adjust temperature
+        if self.target_temperature is not None:
+            dtemp = self.target_temperature-self.compute_kinetic_energy()
+            self.vel_ *= (1.0 + self.thermostat_scaling*dtemp)
+
         
         
     def advance_euler(self):
@@ -922,6 +1078,11 @@ class mdbox():
     Setters
     """
 
+    def set_size(self, size):
+        """
+        Set new size of box / alias for resize
+        """
+        self.resize_box(size)
 
     def set_charges(self, charges):
         """
@@ -951,7 +1112,7 @@ class mdbox():
         else:
             self.masses[bubbles] = masses
         
-        self.masses_inv = np.array(self.masses, dtype = float)**-1
+        self.masses_inv = np.array(self.masses, dtype = self.dtype)**-1
             
         
     def set_forces(self, force,  bubbles_a = None, bubbles_b = None, force_params = np.array([0,0])):
@@ -991,12 +1152,18 @@ class mdbox():
         """
         set manually the velocities of the system
         """
-        assert(np.all(vel.shape==self.vel.shape)), "Wrong shape of velocities"
+        assert(np.all(vel.shape==self.vel.shape)), "incorrect shape of velocities"
         self.vel = vel
         self.vel_ = self.vel # verlet integrator velocity at previous timestep
 
+    def set_pos(self, pos):
+        assert(pos.shape[0] == len(self.size)), "incorrect shape of pos"
+        assert(pos.shape[1] == self.n_bubbles), "incorrect shape of pos"
+        self.pos = pos
+
         
-        
+    def set_temperature(self, target_temperature):
+        self.target_temperature = target_temperature
         
         
 
@@ -1024,6 +1191,8 @@ class mdbox():
 
 
                 self.interactions[i,j] = [1, eps, sig]
+
+
             
             
             
@@ -1080,21 +1249,29 @@ class mdbox():
 
     def view(self, viewer = ev.MDView):
         self.mview = viewer(self)
+        if viewer is not ev.MDView:
+            self.update_view = self.update_evince
         return self.mview
 
-    def evince(self, realism = True, dof = True, sao = True, focus = 10, aperture = 0.0001, max_blur = 0.001):
+    def evince(self, realism = True, dof = True, sao = True, focus = 10, aperture = 0.0001, max_blur = 0.001, transparent_bubbles = False, colors = []):
         """
         Create high-quality 3D view using Evince
         """
         # extract bonds (harmonic oscillator interactions)
         bonds = ev.spotlight.extract_bonds(self)
 
-        self.mview = ev.SpotlightView(self, bonds = bonds, realism = realism, dof = dof, sao = sao, focus = focus, aperture=aperture, max_blur=max_blur)
+        self.mview = ev.SpotlightView(self, bonds = bonds, realism = realism, dof = dof, sao = sao, focus = focus, aperture=aperture, max_blur=max_blur, transparent_bubbles = transparent_bubbles, colors = colors)
+        
+        self.update_view = self.update_evince
+        
         return self.mview
+
+    def update_evince(self):
+        self.mview.pos = self.pos.T.tolist()
 
     
     def update_view(self):
-        self.mview.pos = self.pos.T.tolist()
+        self.mview.pos = self.pos.T.tobytes()
         
 
     def save_view(self, filename, title =""):
@@ -1106,10 +1283,135 @@ class mdbox():
     # "algebra"
 
     def __add__(self, other):
-        ret_n_bubbles = self.n_bubbles + other.n_bubbles
-        ret_pos = np.concatenate(self.pos, other.pos, axis = 1)
-        ret_vel = np.concatenate(self.vel, other.vel, axis = 1)
-        ret_interactions = 0
+        if type(other) in [float, int, np.ndarray]:
+            ret = copy.deepcopy(self)
+            if type(other) is np.ndarray:
+                ret.pos = self.pos + other[:, None]
+            else:
+                ret.pos = self.pos + other
+            return ret
+
+
+        else: 
+                
+
+            #np.concatenate([b.interactions, b.interactions], axis = 3).shape
+
+
+            interactions = np.zeros((self.n_bubbles+other.n_bubbles, self.n_bubbles+other.n_bubbles, 3), dtype = self.dtype )
+            interactions[:self.n_bubbles,:self.n_bubbles,:] = self.interactions
+            interactions[self.n_bubbles:,self.n_bubbles:,:] = other.interactions
+
+
+
+            # determine unique interactions
+            masses = np.concatenate([self.masses, other.masses])
+            ui = np.unique(masses )
+
+            UI = np.zeros((len(ui), len(ui), 3), dtype = self.dtype)
+            #UI = {}
+
+
+            # locate force definitions
+            for i in range(len(ui)):
+                for j in range(1,len(ui)):
+                    for l in range(len(masses)):
+                        if l==i:
+                            for k in range(len(masses)):
+                                if k==j:
+                                    UI[i,j] = interactions[l,k]
+                                    UI[j,i] = interactions[l,k]
+                                    break
+                            break
+
+
+            # set interactions accordingly
+            for i in range(len(self.masses), len(self.masses)+len(other.masses)):
+                for j in range(len(self.masses)):
+                    interactions[i,j] = UI[ui==masses[i], ui==masses[j]]
+
+            # determine size
+            size = []
+            for i in range(len(self.size)):
+                size.append(np.sign(np.sign(self.size[i])+np.sign(other.size[i]))*max(abs(self.size[i]), abs(other.size[i])))
+
+
+
+
+            ret = mdbox(self.n_bubbles+other.n_bubbles, size = size)
+
+            ret.interactions = interactions
+            ret.set_masses(masses)
+            ret.vel_ = np.concatenate([self.vel_, other.vel_], axis = 1)
+            ret.vel = np.concatenate([self.vel, other.vel], axis = 1)
+            ret.pos = np.concatenate([self.pos, other.pos], axis = 1)
+
+            return ret
+
+    def __radd__(self, other):
+        return self.__add__(other)
+
+    def __mul__(self, other):
+        if type(other) is int:
+            return extend_system(self, other)
+        
+        if type(other) is float:
+            ret = copy.deepcopy(self)
+            ret.pos *= other
+        return ret
+
+    def __rmul__(self, other):
+        return self.__mul__(other)
+
+    def __matmul__(self, other):
+        ret = copy.deepcopy(self)
+        ret.pos = self.pos.T.dot(other).T
+        return ret
+
+    def __rmatmul__(self, other):
+        ret = copy.deepcopy(self)
+        ret.pos = other.dot(self.pos)
+        return ret
+
+def extend_system(b, n_layers = 1):
+    """
+    add n_layers extra layers around the simulation cell, cloning content in the reference
+    """
+    
+    lattice_vec = 2*np.abs(np.array(b.size))*np.eye(len(b.size))
+    lattice_coords = np.array(np.meshgrid(*[np.arange(-1,1+1) for i in range(len(b.size))])).reshape( len(b.size), -1)
+    
+    
+    
+    n_cells = 3**len(b.size) 
+    nb = b.n_bubbles*n_cells
+    
+    B = mdbox(nb, size = np.array(b.size)*3)
+    
+    
+    pos = np.zeros((len(b.size), nb ), dtype = float)
+    vel = np.zeros((len(b.size), nb ), dtype = float)
+    vel_ = np.zeros((len(b.size), nb ), dtype = float)
+    masses = np.zeros(nb, dtype = float)
+    
+    
+    for i in range(n_cells):
+        pos[:, i*b.n_bubbles:(i+1)*b.n_bubbles] = b.pos + lattice_coords[:,i].dot(lattice_vec)[:, None] 
+        vel[:, i*b.n_bubbles:(i+1)*b.n_bubbles] = b.vel 
+        vel_[:, i*b.n_bubbles:(i+1)*b.n_bubbles] = b.vel_ 
+        #print("masses:", masses[i*b.n_bubbles:(i+1)*b.n_bubbles])
+        masses[i*b.n_bubbles:(i+1)*b.n_bubbles] = b.masses
+        for j in range(n_cells):
+            B.interactions[i*b.n_bubbles:(i+1)*b.n_bubbles, j*b.n_bubbles:(j+1)*b.n_bubbles] = b.interactions
+        
+    B.pos = pos
+    B.vel = vel
+    B.vel_ = vel_
+    B.set_masses(masses)
+    
+    return B
+
+        
 
 
 class box(mdbox):
@@ -1217,3 +1519,165 @@ class animated_system():
             self.bubbles.set_data(x,y)
             
         return self.bubbles,
+
+
+    
+def hook_all(b, strength = 1.0):
+    """
+    connect all particles closer than distance thresh
+    """
+    d = distance_matrix(b.pos.T)**.5
+    ca = np.arange(b.n_bubbles)
+    d[ca,ca] += 100
+    
+    dt = np.min(d)
+    
+    force_params = np.array([strength, dt*2**(-1/6)])
+    
+    for i in range(b.n_bubbles):
+        bubbles_a = [i]
+        bubbles_b = ca[d[i]<dt*1.01]
+        
+        b.set_forces(hook_force, bubbles_a = bubbles_a, bubbles_b = bubbles_b, force_params =force_params)
+        b.set_forces(hook_force, bubbles_a = bubbles_b, bubbles_b = bubbles_a, force_params =force_params)
+    
+    return b
+
+
+
+def combine_systems(self, other, force = None, force_params = None):
+    """
+    Combine two systems (self and other) 
+    if force and force_params is specified, set interaction between the systems accordingly
+    
+    """
+    interactions = np.zeros((self.n_bubbles+other.n_bubbles, self.n_bubbles+other.n_bubbles, 3), dtype = float )
+    interactions[:self.n_bubbles,:self.n_bubbles,:] = self.interactions
+    interactions[self.n_bubbles:,self.n_bubbles:,:] = other.interactions
+
+
+
+    # determine unique interactions
+    masses = np.concatenate([self.masses, other.masses])
+    
+    if force is None:
+        ui = np.unique(masses )
+
+        UI = np.zeros((len(ui), len(ui), 3), dtype = float)
+        #UI = {}
+
+
+        # locate force definitions
+        for i in range(len(ui)):
+            for j in range(1,len(ui)):
+                for l in range(len(masses)):
+                    if l==i:
+                        for k in range(len(masses)):
+                            if k==j:
+                                UI[i,j] = interactions[l,k]
+                                UI[j,i] = interactions[l,k]
+                                break
+                        break
+
+
+        # set interactions accordingly
+        for i in range(len(self.masses), len(self.masses)+len(other.masses)):
+            for j in range(len(self.masses)):
+                interactions[i,j] = UI[ui==masses[i], ui==masses[j]]
+
+
+    # determine size
+    size = []
+    for i in range(len(self.size)):
+        size.append(np.sign(np.sign(self.size[i])+np.sign(other.size[i]))*max(abs(self.size[i]), abs(other.size[i])))
+
+
+
+
+    ret = mdbox(self.n_bubbles+other.n_bubbles, size = size)
+
+    ret.interactions = interactions
+    ret.set_masses(masses)
+    ret.vel_ = np.concatenate([self.vel_, other.vel_], axis = 1)
+    ret.vel = np.concatenate([self.vel, other.vel], axis = 1)
+    ret.pos = np.concatenate([self.pos, other.pos], axis = 1)
+    
+    if force is not None:
+        bubbles_a = np.arange(self.n_bubbles)
+        bubbles_b = np.arange(self.n_bubbles, ret.n_bubbles)
+        ret.set_forces(force, bubbles_a = bubbles_a, bubbles_b = bubbles_b, force_params = force_params)
+        ret.set_forces(force, bubbles_a = bubbles_b, bubbles_b = bubbles_a, force_params = force_params)
+
+    return ret
+
+
+
+def particle_count(b, Nz = 11, col = None):
+    """
+    Create a ND density array for a set of various bubbles
+    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)
+            Hanan Gharayba
+
+    Keyword arguments:
+    
+    pos              -- array (2,n_particles) containing positions
+    masses           -- array (n_particles) containing masses
+    Lx, Ly           -- box dimensions
+    Nz               -- number of bins in each dimension
+                        (equipartitioned if integer, differentiated if array)
+
+    Returns an Nz by Nz by 3 array containing colors according to 
+    bubble density
+    """
+
+    if type(Nz) in [int, float]:
+        Nz_ = [Nz for i in range(len(b.size))]
+        Nz = np.array(Nz_)
+        
+
+    Z = np.zeros(Nz, dtype = int)
+
+
+    for i in range(b.pos.shape[1]):
+        indx = []
+        for j in range(len(b.size)):
+            indx.append( int( Nz[j]*(b.pos[j,i] + b.size[j])/(2*b.size[j]) ) )
+        
+        Z[tuple(indx)] += 1
+
+    return Z
+
+def visualize_particle_count_2d(Z):
+    """
+    Author: Audun Skau Hansen (a.s.hansen@kjemi.uio.no)
+            Hanan Gharayba        
+    """
+    plt.figure(figsize = (8,8))
+    #for i in range(Nz):
+    #    plt.axhline(b.size[0]/)
+    
+    def vline(i):
+        plt.plot([-.5,Z.shape[0]-.5], [i,i], color = (0,0,0), linewidth = 1.0)
+        
+    def hline(i):
+        plt.plot( [i,i],[-.5,Z.shape[1]-.5], color = (0,0,0), linewidth = 1.0)
+
+
+
+    for i in range(Z.shape[0]):
+        hline(i-.5) #, linewidth = 1, color = (0,0,0))
+        vline(i-.5) #, linewidth = 1, color = (0,0,0))
+        for j in range(Z.shape[1]):
+            t = np.linspace(0,2*np.pi, Z[i,j]+1)[:-1]
+            plt.plot(i+.2*np.cos(t), j+.2*np.sin(t), ".", markersize = 10, color = (.7,0,0))
+            plt.text(i, j, "%i" %Z[i,j], ha = "center", va = "center")
+ 
+    hline(Z.shape[0]-.5) #, linewidth = 1, color = (0,0,0))
+    vline(Z.shape[1]-.5) #, linewidth = 1, color = (0,0,0))
+    
+    
+
+    plt.axis("off")
+    plt.xlim(-1, Z.shape[0])
+    plt.ylim(-1, Z.shape[1])
+    plt.show()

@@ -11,7 +11,7 @@ import bubblebox.flowbox
 import bubblebox.showcase
 
 
-from bubblebox.mdbox import mdbox, box
+from bubblebox.mdbox import mdbox, box, particle_count, visualize_particle_count_2d
 from bubblebox.wavebox import wavebox
 from bubblebox.flowbox import flowbox
 from bubblebox.binding_models import bindingbox

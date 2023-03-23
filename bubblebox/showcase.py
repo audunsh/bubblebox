@@ -6,7 +6,7 @@ import bubblebox.binding_models
 import bubblebox.ising
 import bubblebox.lattice_models
 
-from bubblebox.mdbox import mdbox, box, no_force, hook_force, coulomb_force, lj_force
+from bubblebox.mdbox import mdbox, box, no_force, hook_force, coulomb_force, lj_force, hook_all, combine_systems, forces_unsymm
 from bubblebox.binding_models import bindingbox
 from bubblebox.ising import isingbox
 from bubblebox.lattice_models import latticebox
@@ -386,10 +386,10 @@ def fcc_custom(size=(3,3,3), lattice_parameter = 2.0):
                     coords.append([i+.5,j,k+.5])
                     coords.append([i,j+.5,k+.5])
 
-        coords = np.array(coords)
+        coords = np.array(coords, dtype = np.float32)
 
         coords = (coords+.5)
-        coords = coords*(np.array(size, dtype = float)**-1)[None,:]
+        coords = coords*(np.array(size, dtype = np.float32)**-1)[None,:]
         coords -= np.mean(coords, axis = 0)[None,:]
 
         return coords
@@ -397,7 +397,7 @@ def fcc_custom(size=(3,3,3), lattice_parameter = 2.0):
     pos = fcc(*np.abs(np.array(size))).T
 
     b = mdbox(n_bubbles = pos.shape[1], size = np.array(size)*lattice_parameter, vel = 0)
-    b.pos = lattice_parameter*pos*np.array(size, dtype = float)[:, None]
+    b.pos = lattice_parameter*pos*np.array(size, dtype = np.float32)[:, None]
     
     return b
 
@@ -679,4 +679,141 @@ def double_harmonic_chain(n_bubbles = 200, size = (10,10,10), charge = 20.0, for
     b.r2_cut = 1000
     
         
+    return b
+
+
+
+def closed_system_membrane_2d(size = (-20,-20), n_bubbles = 30, r = 6.5, isolated = False):
+    """
+    A system exchaning volume and energy (but not bubbles) with it's surroundings
+    """
+    b1 = mdbox(n_bubbles, size = size)
+    t = np.linspace(0,2*np.pi, n_bubbles+1)[:-1]
+    b1.pos = np.array([r*np.cos(t), r*np.sin(t)])
+    
+    b1.set_forces(coulomb_force, force_params = np.array([3.0, 3.0]))
+    
+    b1 = hook_all(b1, strength = 10.0)
+    b1.set_masses(b1.masses*3.0)
+    
+    b2 = mdbox(12**2, size = size)
+    
+    masses = b2.masses
+    masses[np.sum(b2.pos**2, axis = 0)**.5>r] *= 2
+    
+    b2.set_masses(masses)
+    
+    b2.set_forces(lj_force, force_params = np.array([5.0, 1.0]))
+    
+    ret = combine_systems(b1, b2, force = coulomb_force, force_params = np.array([6.0,6.0]))
+    if isolated:
+        ret.active[:n_bubbles] = False
+    return ret
+    
+    
+def open_system_membrane_2d():
+    """
+    A system exchanging volume, energy and particles with the surroundings
+    (semi-permeable?)
+    """
+    return closed_system_membrane_2d(n_bubbles = 30, r = 10.0)
+
+
+def two_component_system(n_bubbles = 18**2, size = (-13, -13), mixing_fraction = 0.5, E_aa = 10.0, E_bb = 10.0, E_ab = 1.0, R_ab = 1.0, R_bb = np.sqrt(2), R_aa = np.sqrt(2)):
+    """
+    A two component system with phase separation and mixing at low temperatures
+    """
+    
+    b = mdbox(n_bubbles, size=size)
+
+    # pick a random number and set to different type
+    c = np.random.choice(n_bubbles, int(mixing_fraction*n_bubbles), replace = False)
+    
+    masses = b.masses
+
+    # a bit more heavy
+    masses[c] = 2.0
+
+
+
+    b_a = np.arange(n_bubbles)[c]
+    b_ = np.ones(n_bubbles, dtype = bool)
+    b_[c] = False
+    b_b = np.arange(n_bubbles)[b_]
+
+    b.set_forces(lj_force, bubbles_a = b_a, bubbles_b = b_b, force_params = np.array([E_ab, R_ab*2**(-1/6)]))
+    b.set_forces(lj_force, bubbles_a = b_b, bubbles_b = b_a, force_params = np.array([E_ab, R_ab*2**(-1/6)]))
+    b.set_forces(lj_force, bubbles_a = b_a, bubbles_b = b_a, force_params = np.array([E_aa, R_aa*2**(-1/6)]))
+    b.set_forces(lj_force, bubbles_a = b_b, bubbles_b = b_b, force_params = np.array([E_bb, R_bb*2**(-1/6)]))
+    np.random.seed(25) #ensure color scheme
+    return b
+
+def lifebox(n_bubbles, size, vel = 1.0, force_scale = 15.0):
+    """
+    usage 
+    species = np.array([50,40,60,100,25,10]) # this array may be any length, with the number of each species
+    lifebox(species, size = (-17,-17,-17))
+    
+    """
+    b = mdbox(n_bubbles = np.sum(n_bubbles), size = (-18,-18,-18), vel = vel)
+    #b.set_forces(coulomb_force)
+
+    b.forces = forces_unsymm
+    #b.r2_cut = 10
+    
+    Nb = np.zeros(len(n_bubbles)+1, dtype = int)
+    Nb[1:] = np.cumsum(n_bubbles)
+    
+    #print(Nb)
+    
+    populations = []
+    
+    for i in range(1,len(Nb)):
+        pop_i = np.zeros(b.n_bubbles, dtype = bool)
+        pop_i[np.arange(Nb[i-1], Nb[i])] = True
+        populations.append(pop_i)
+        
+
+    s = force_scale*1
+    
+    for i in range(len(populations)):
+        b.masses[populations[i]] = np.random.uniform(1+i,1+i+.1,sum(populations[i]))
+        for j in range(len(populations)):
+            if i==j:
+                b.interactions[np.ix_(populations[i], populations[j])] =  np.array([1, 2*(i+1)*s, np.random.uniform(.6,1.4)])
+                
+            if j>i:
+                b.interactions[np.ix_(populations[i], populations[j])] =  np.array([4, s, -s])
+                
+            if i>j:
+                b.interactions[np.ix_(populations[i], populations[j])] =  np.array([3, s, s])
+
+
+
+    #b.masses = np.ones(Nb, dtype =float)
+    #b.masses[aa] = np.random.uniform(1,1.1,sum(aa))
+    #b.masses[ab] = np.random.uniform(4,4.1,sum(ab))
+    #b.masses[ac] = np.random.uniform(6,6.1,sum(ac))
+
+    #b.set_masses(masses)
+
+    #print(b.masses)
+    b.pos = b.pos[:, np.random.choice(b.n_bubbles, b.n_bubbles, replace = False)]
+    
+    b.set_temperature(4000)
+    b.evolve((.1))
+
+    #b.advance()
+
+
+    #b.pair_list_update_frequency = 1e10
+    #b.pair_list
+    """
+    pair_list = []
+    for i in range(b.n_bubbles):
+        for j in range(i+1, b.n_bubbles):
+            pair_list.append([i,j])
+
+    b.pair_list = np.array(pair_list, dtype = np.int32)
+    """
     return b
